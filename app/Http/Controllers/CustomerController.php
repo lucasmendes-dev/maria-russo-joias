@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Customer\StoreCustomerRequest;
 use App\Http\Requests\Customer\UpdateCustomerRequest;
 use App\Models\Customer;
+use Inertia\Inertia;
 
 class CustomerController extends Controller
 {
@@ -13,7 +14,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('customers/index');
     }
 
     /**

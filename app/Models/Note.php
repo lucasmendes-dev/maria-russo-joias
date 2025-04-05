@@ -3,17 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Product;
 
-class Detail extends Model
+class Note extends Model
 {
     protected $fillable = [
         'name',
         'description',
+        'date',
     ];
-
-    public function products()
-    {
-        return $this->belongsToMany(Product::class);
-    }
 }

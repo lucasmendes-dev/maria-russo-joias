@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProductToOrder\StoreProductToOrderRequest;
 use App\Http\Requests\ProductToOrder\UpdateProductToOrderRequest;
 use App\Models\ProductToOrder;
+use Inertia\Inertia;
 
 class ProductToOrderController extends Controller
 {
@@ -13,7 +14,7 @@ class ProductToOrderController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('products-to-order/index');
     }
 
     /**

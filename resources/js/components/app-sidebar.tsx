@@ -4,47 +4,47 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { Percent, Folder, LayoutGrid, Gem, Users, Truck, PackageSearch } from 'lucide-react';
+import { Percent, BookOpen, LayoutGrid, Gem, Users, Truck, PackageSearch } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
     {
         title: 'Página Inicial',
-        href: '/dashboard',
+        href: route('dashboard.index'),
         icon: LayoutGrid,
     },
     {
         title: 'Produtos',
-        href: '#',
+        href: route('products.index'),
         icon: Gem,
     },
     {
         title: 'Taxas',
-        href: '#',
+        href: route('taxes.index'),
         icon: Percent,
     },
     {
         title: 'Clientes',
-        href: '#',
+        href: route('customers.index'),
         icon: Users,
     },
     {
         title: 'Fornecedores',
-        href: '#',
+        href: route('suppliers.index'),
         icon: Truck,
     },
     {
         title: 'Produtos por Encomenda',
-        href: '#',
+        href: route('products-to-order.index'),
         icon: PackageSearch,
     },
 ];
 
 const footerNavItems: NavItem[] = [
     {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
+        title: 'Anotações',
+        href: route('notes.index'),
+        icon: BookOpen,
     },
 ];
 

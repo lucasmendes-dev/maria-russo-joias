@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Supplier\StoreSupplierRequest;
-use App\Http\Requests\Supplier\UpdateSupplierRequest;
-use App\Models\Supplier;
+use App\Http\Requests\Note\StoreNoteRequest;
+use App\Http\Requests\Note\UpdateNoteRequest;
+use App\Models\Note;
 use Inertia\Inertia;
 
-class SupplierController extends Controller
+class NoteController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return Inertia::render('suppliers/index');
+        return Inertia::render('notes/index');
     }
 
     /**
@@ -28,7 +28,7 @@ class SupplierController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSupplierRequest $request)
+    public function store(StoreNoteRequest $request)
     {
         //
     }
@@ -36,7 +36,7 @@ class SupplierController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Supplier $supplier)
+    public function show(Note $note)
     {
         //
     }
@@ -44,7 +44,7 @@ class SupplierController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Supplier $supplier)
+    public function edit(Note $note)
     {
         //
     }
@@ -52,7 +52,7 @@ class SupplierController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSupplierRequest $request, Supplier $supplier)
+    public function update(UpdateNoteRequest $request, Note $note)
     {
         //
     }
@@ -60,7 +60,7 @@ class SupplierController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Supplier $supplier)
+    public function destroy(Note $note)
     {
         //
     }
