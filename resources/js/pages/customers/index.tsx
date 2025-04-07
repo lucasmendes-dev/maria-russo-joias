@@ -1,4 +1,3 @@
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
@@ -6,11 +5,11 @@ import { Head } from '@inertiajs/react';
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Clientes',
-        href: route('clients.index'),
+        href: route('customers.index'),
     },
 ];
 
-export default function Product() {
+export default function Customers() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Clientes" />
