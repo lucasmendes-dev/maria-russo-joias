@@ -4,7 +4,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { Percent, BookOpen, LayoutGrid, Gem, Users, Truck, PackageSearch } from 'lucide-react';
+import { Percent, BookOpen, LayoutGrid, Gem, Users, Truck, PackageSearch, Calculator, NotebookPen, Tag, Sparkle } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -24,6 +24,19 @@ const mainNavItems: NavItem[] = [
         icon: Percent,
     },
     {
+        title: 'Produtos por Encomenda',
+        href: route('products-to-order.index'),
+        icon: PackageSearch,
+    },
+    {
+        title: 'Simulação',
+        href: '#',
+        icon: Calculator,
+    },
+];
+
+const otherNavItems: NavItem[] = [
+    {
         title: 'Clientes',
         href: route('customers.index'),
         icon: Users,
@@ -34,16 +47,26 @@ const mainNavItems: NavItem[] = [
         icon: Truck,
     },
     {
-        title: 'Produtos por Encomenda',
-        href: route('products-to-order.index'),
-        icon: PackageSearch,
+        title: 'Categorias',
+        href: '#',
+        icon: Tag,
+    },
+    {
+        title: 'Detalhes',
+        href: '#',
+        icon: Sparkle,
+    },
+    {
+        title: 'Anotações',
+        href: route('notes.index'),
+        icon: NotebookPen,
     },
 ];
 
 const footerNavItems: NavItem[] = [
     {
-        title: 'Anotações',
-        href: route('notes.index'),
+        title: 'Meu Site',
+        href: 'https://google.com',
         icon: BookOpen,
     },
 ];
@@ -64,7 +87,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain items={mainNavItems} otherItems={otherNavItems} />
             </SidebarContent>
 
             <SidebarFooter>
