@@ -2,21 +2,12 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
-import { Pencil, Trash2 } from 'lucide-react';
+import { Pencil } from 'lucide-react';
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowUpDown } from "lucide-react";
 import { router } from "@inertiajs/react";
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import { AlertDialogDelete } from "./alert-dialog-delete";
+
 
 function formatPhoneNumber(phone: string): string {
     const cleaned = phone.replace(/\D/g, "");
@@ -28,7 +19,7 @@ function formatPhoneNumber(phone: string): string {
     return `(${ddd}) ${prefix}-${suffix}`;
 }
 
-const handleDelete = (id: string, name: string) => {
+const handleDelete = (id: string) => {
     router.delete(`/customers/${id}`, {
         preserveScroll: true,
     });
@@ -114,34 +105,13 @@ export const columns: ColumnDef<Customer>[] = [
         id: "actions",
         cell: ({ row }) => {
             const customer = row.original;
-
             return (
                 <div>
                     <Button className="h-8 w-8 bg-blue-400">
                         <Pencil />
                     </Button>
 
-                    <AlertDialog>
-                        <AlertDialogTrigger asChild className="h-7 w-7 ml-2 bg-red-400">
-                            <Button className="h-8 w-8 bg-red-400">
-                                <Trash2 />
-                            </Button>
-                        </AlertDialogTrigger>
-
-                        <AlertDialogContent>
-                            <AlertDialogHeader>
-                                <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                    Esta ação não pode ser desfeita. Isso excluirá permanentemente o cliente.
-                                </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                                <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                                <AlertDialogAction className="bg-red-400" onClick={() => handleDelete(customer.id, customer.name)}>Deletar</AlertDialogAction>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
-                    </AlertDialog>
-
+                    <AlertDialogDelete customer={customer} handleDelete={handleDelete}/>
                 </div>
             );
         },

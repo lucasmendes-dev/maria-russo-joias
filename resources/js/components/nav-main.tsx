@@ -29,7 +29,7 @@ export function NavMain({
                 ))}
             </SidebarMenu>
 
-            <SidebarGroupLabel className="mt-7">Outros</SidebarGroupLabel>
+            <SidebarGroupLabel className="mt-3">Outros</SidebarGroupLabel>
             <SidebarMenu>
                 {otherItems.map((otherItem) => (
                     <SidebarMenuItem key={otherItem.title}>
