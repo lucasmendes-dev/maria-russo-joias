@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowUpDown } from "lucide-react";
 import { AlertDialogDelete } from "./alert-dialog-delete";
-import { UpdateDialog } from "./update-dialog";
+import { UpdateDialog } from "./UpdateDialog";
 import { useState } from "react";
 
 function formatPhoneNumber(phone: string): string {
@@ -103,7 +103,6 @@ export const columns: ColumnDef<Customer>[] = [
                 <div>
                     <UpdateDialog
                         customer={customer}
-                        formatPhoneNumber={formatPhoneNumber}
                         open={isDialogOpen}
                         setOpen={setIsDialogOpen}
                     />

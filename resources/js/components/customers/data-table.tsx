@@ -1,13 +1,12 @@
 "use client"
 
 import { useState } from "react";
-import {ColumnDef, SortingState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable, getSortedRowModel} from "@tanstack/react-table";
-import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "@/components/ui/table";
+import { ColumnDef, SortingState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable, getSortedRowModel } from "@tanstack/react-table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DataTablePagination } from "./data-table-pagination";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Search } from 'lucide-react';
 import { usePage } from "@inertiajs/react";
+import { CreateDialog } from "./CreateDialog";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -48,7 +47,7 @@ export function DataTable<TData, TValue>({columns, data}: DataTableProps<TData, 
 
     return (
         <div className="px-4">
-            <div className="flex items-center py-4">
+            <div className="flex items-center justify-between py-4 ">
                 <Input
                     placeholder="Pesquisar..."
                     value={globalFilter}
@@ -57,7 +56,8 @@ export function DataTable<TData, TValue>({columns, data}: DataTableProps<TData, 
                     }
                     className="max-w-sm"
                 />
-                <Button type="submit" className="ml-3"> <Search /> </Button>
+
+                <CreateDialog />
             </div>
             
             {flash.success && (

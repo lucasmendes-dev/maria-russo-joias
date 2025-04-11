@@ -17,7 +17,7 @@ class CustomerController extends Controller
 
     public function store(StoreCustomerRequest $request)
     {
-        //
+        dd("Construindo");
     }
 
     public function update(UpdateCustomerRequest $request, string $id)

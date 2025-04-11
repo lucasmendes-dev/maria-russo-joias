@@ -1,6 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Pencil } from 'lucide-react';
 import { router } from "@inertiajs/react";
 import { useState } from "react";
@@ -13,6 +11,7 @@ import {
     DialogFooter,
     DialogDescription,
 } from "@/components/ui/dialog";
+import { CustomerForm } from "./CustomerForm";
 
 interface UpdateDialogProps {
     customer: {
@@ -21,12 +20,11 @@ interface UpdateDialogProps {
         phone: string;
         local: string;
     };
-    formatPhoneNumber: (phone: string) => string;
     open: boolean;
     setOpen: (value: boolean) => void;
 }
 
-export function UpdateDialog({ customer, formatPhoneNumber, open, setOpen }: UpdateDialogProps) {
+export function UpdateDialog({ customer, open, setOpen }: UpdateDialogProps) {
     const [name, setName] = useState(customer.name);
     const [phone, setPhone] = useState(customer.phone);
     const [local, setLocal] = useState(customer.local);
@@ -59,22 +57,14 @@ export function UpdateDialog({ customer, formatPhoneNumber, open, setOpen }: Upd
 
                 <DialogDescription>Verifique os dados antes de alterá-los.</DialogDescription>
 
-                <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="name" className="text-right">Nome</Label>
-                        <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="col-span-3" />
-                    </div>
-
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="phone" className="text-right">Telefone</Label>
-                        <Input id="phone" value={formatPhoneNumber(phone)} onChange={(e) => setPhone(e.target.value)} className="col-span-3" />
-                    </div>
-
-                    <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="local" className="text-right">Local</Label>
-                        <Input id="local" value={local} onChange={(e) => setLocal(e.target.value)} className="col-span-3" />
-                    </div>
-                </div>
+                <CustomerForm
+                    name={name}
+                    phone={phone}
+                    local={local}
+                    setName={setName}
+                    setPhone={setPhone}
+                    setLocal={setLocal}
+                />
 
                 <DialogFooter>
                     <Button type="submit" className="cursor-pointer" onClick={handleUpdate}>Salvar Alterações</Button>
