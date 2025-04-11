@@ -2,12 +2,11 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
-import { Pencil } from 'lucide-react';
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowUpDown } from "lucide-react";
-import { router } from "@inertiajs/react";
 import { AlertDialogDelete } from "./alert-dialog-delete";
-
+import { UpdateDialog } from "./update-dialog";
+import { useState } from "react";
 
 function formatPhoneNumber(phone: string): string {
     const cleaned = phone.replace(/\D/g, "");
@@ -17,12 +16,6 @@ function formatPhoneNumber(phone: string): string {
     }
     const [, ddd, prefix, suffix] = match;
     return `(${ddd}) ${prefix}-${suffix}`;
-}
-
-const handleDelete = (id: string) => {
-    router.delete(`/customers/${id}`, {
-        preserveScroll: true,
-    });
 }
 
 export type Customer = {
@@ -105,13 +98,16 @@ export const columns: ColumnDef<Customer>[] = [
         id: "actions",
         cell: ({ row }) => {
             const customer = row.original;
+            const [isDialogOpen, setIsDialogOpen] = useState(false);
             return (
                 <div>
-                    <Button className="h-8 w-8 bg-blue-400">
-                        <Pencil />
-                    </Button>
-
-                    <AlertDialogDelete customer={customer} handleDelete={handleDelete}/>
+                    <UpdateDialog
+                        customer={customer}
+                        formatPhoneNumber={formatPhoneNumber}
+                        open={isDialogOpen}
+                        setOpen={setIsDialogOpen}
+                    />
+                    <AlertDialogDelete customer={customer} />
                 </div>
             );
         },

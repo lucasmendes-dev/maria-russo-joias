@@ -15,35 +15,23 @@ class CustomerController extends Controller
         return Inertia::render('customers/index', ['customers' => $customers]);
     }
 
-    public function create()
-    {
-        //
-    }
-
     public function store(StoreCustomerRequest $request)
     {
         //
     }
 
-    public function show(Customer $customer)
-    {
-        //
-    }
-
-    public function edit(Customer $customer)
-    {
-        //
-    }
-
-    public function update(UpdateCustomerRequest $request, Customer $customer)
-    {
-        //
-    }
-
-    public function destroy($id)
+    public function update(UpdateCustomerRequest $request, string $id)
     {
         $customer = Customer::findOrFail($id);
+        $customer->update($request->validated());
+        return redirect()->back()->with('success', 'Os dados do(a) cliente "' . $customer->name . '" foram atualizados!');
+    }
+
+    public function destroy(string $id)
+    {
+        $customer = Customer::findOrFail($id);
+        $customerName = $customer->name;
         $customer->delete();
-        return redirect()->back()->with('success', 'Cliente deletado com sucesso!');
+        return redirect()->back()->with('success', 'Cliente "' . $customerName . '" deletado(a) com sucesso!');
     }
 }

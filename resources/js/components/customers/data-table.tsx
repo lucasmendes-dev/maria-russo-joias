@@ -1,28 +1,13 @@
 "use client"
 
-import * as React from "react";
-import {
-    ColumnDef,
-    SortingState,
-    flexRender,
-    getCoreRowModel,
-    getFilteredRowModel,
-    getPaginationRowModel,
-    useReactTable,
-    getSortedRowModel,
-} from "@tanstack/react-table";
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table";
+import { useState } from "react";
+import {ColumnDef, SortingState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable, getSortedRowModel} from "@tanstack/react-table";
+import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow,} from "@/components/ui/table";
 import { DataTablePagination } from "./data-table-pagination";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search } from 'lucide-react';
+import { usePage } from "@inertiajs/react";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -30,9 +15,11 @@ interface DataTableProps<TData, TValue> {
 }
 
 export function DataTable<TData, TValue>({columns, data}: DataTableProps<TData, TValue>) {
-    const [sorting, setSorting] = React.useState<SortingState>([]);
-    const [rowSelection, setRowSelection] = React.useState({});
-    const [globalFilter, setGlobalFilter] = React.useState("");
+    const [sorting, setSorting] = useState<SortingState>([]);
+    const [rowSelection, setRowSelection] = useState({});
+    const [globalFilter, setGlobalFilter] = useState("");
+
+    const flash = usePage().props.flash as { success?: string; error?: string };
 
     const table = useReactTable({
         data,
@@ -72,6 +59,12 @@ export function DataTable<TData, TValue>({columns, data}: DataTableProps<TData, 
                 />
                 <Button type="submit" className="ml-3"> <Search /> </Button>
             </div>
+            
+            {flash.success && (
+                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 w-1/3 mx-auto text-center">
+                    {flash.success}
+                </div>
+            )}
 
             <div className="rounded-md border">
                 <Table>
