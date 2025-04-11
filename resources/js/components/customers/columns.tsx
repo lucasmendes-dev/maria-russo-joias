@@ -7,16 +7,7 @@ import { ArrowUpDown } from "lucide-react";
 import { AlertDialogDelete } from "./alert-dialog-delete";
 import { UpdateDialog } from "./UpdateDialog";
 import { useState } from "react";
-
-function formatPhoneNumber(phone: string): string {
-    const cleaned = phone.replace(/\D/g, "");
-    const match = cleaned.match(/^(\d{2})(\d{5})(\d{4})$/);
-    if (!match) {
-        throw new Error("Invalid phone number");
-    }
-    const [, ddd, prefix, suffix] = match;
-    return `(${ddd}) ${prefix}-${suffix}`;
-}
+import { formatPhoneNumber } from "@/utils/phoneFormatter";
 
 export type Customer = {
     id: string

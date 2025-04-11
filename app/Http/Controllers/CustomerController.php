@@ -17,13 +17,22 @@ class CustomerController extends Controller
 
     public function store(StoreCustomerRequest $request)
     {
-        dd("Construindo");
+        $data = $request->validated();
+        $data['phone'] = $this->cleanPhoneNumber($data['phone']);
+
+        Customer::create($data);
+
+        return redirect()->back()->with('success', 'Cliente "' . $data['name'] . '" cadastrado!');
     }
 
     public function update(UpdateCustomerRequest $request, string $id)
     {
         $customer = Customer::findOrFail($id);
-        $customer->update($request->validated());
+        $data = $request->validated();
+        $data['phone'] = $this->cleanPhoneNumber($data['phone']);
+
+        $customer->update($data);
+
         return redirect()->back()->with('success', 'Os dados do(a) cliente "' . $customer->name . '" foram atualizados!');
     }
 
@@ -31,7 +40,14 @@ class CustomerController extends Controller
     {
         $customer = Customer::findOrFail($id);
         $customerName = $customer->name;
+
         $customer->delete();
+
         return redirect()->back()->with('success', 'Cliente "' . $customerName . '" deletado(a) com sucesso!');
+    }
+
+    private function cleanPhoneNumber(string $phone): string
+    {
+        return preg_replace('/\D/', '', $phone);
     }
 }

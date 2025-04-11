@@ -11,6 +11,10 @@ export function CreateDialog() {
     const [local, setLocal] = useState("");
 
     const handleCreate = () => {
+        if (!name || !phone || !local) {
+            alert("Todos os campos são obrigatórios!");
+            return;
+        }
         router.post("/customers", {
             name,
             phone,

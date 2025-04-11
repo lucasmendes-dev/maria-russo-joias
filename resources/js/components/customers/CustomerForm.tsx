@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState, useEffect, use } from "react";
+import { useState, useEffect } from "react";
+import { formatPhoneNumber } from "@/utils/phoneFormatter";
 
 interface CustomerFormProps {
     name: string;
@@ -20,37 +21,16 @@ export function CustomerForm({
     setLocal,
 }: CustomerFormProps) {
     const [formattedPhone, setFormattedPhone] = useState('');
-    const formatPhoneNumber = (value: string) => {
-        if (!value) {
-            return '';
-        }
 
-        const cleaned = ('' + value).replace(/\D/g, '');
-        const match = cleaned.match(/^(\d{2})(\d{0,5})(\d{0,4})$/);
-
-        if (match) {
-            const ddd = match[1];
-            const part1 = match[2];
-            const part2 = match[3];
-
-            let formatted = `(${ddd})`;
-            if (part1) {
-                formatted += ` ${part1}`;
-            }
-            if (part2) {
-                formatted += `-${part2}`;
-            }        console.log(formatted);
-            return formatted;
-        }
-
-        return value;
-    };
+    useEffect(() => {
+        setFormattedPhone(formatPhoneNumber(phone));
+    }, [phone]);
 
     const handlePhoneChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const rawValue = event.target.value;
         const formattedValue = formatPhoneNumber(rawValue);
         setFormattedPhone(formattedValue);
-
+        setPhone(rawValue);
     };
 
     return (
@@ -64,7 +44,7 @@ export function CustomerForm({
                 <Label htmlFor="phone" className="text-right">Telefone <span className="text-red-400">*</span></Label>
                 <Input
                     id="phone"
-                    type="number"
+                    type="text"
                     value={formattedPhone}
                     onChange={handlePhoneChange}
                     className="col-span-3"
@@ -77,7 +57,9 @@ export function CustomerForm({
                 <Label htmlFor="local" className="text-right">Local <span className="text-red-400">*</span></Label>
                 <Input id="local" value={local} onChange={(e) => setLocal(e.target.value)} className="col-span-3" required />
             </div>
-            <p className="text-sm text-gray-600 flex justify-end"><span className="text-red-400">*</span>campo obrigatório</p>
+            <p className="text-sm text-gray-600 flex justify-end">
+                <span className="text-red-400">*</span> campo obrigatório
+            </p>
         </div>
     );
 }

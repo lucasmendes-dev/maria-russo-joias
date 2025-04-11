@@ -7,6 +7,7 @@ import { DataTablePagination } from "./data-table-pagination";
 import { Input } from "@/components/ui/input";
 import { usePage } from "@inertiajs/react";
 import { CreateDialog } from "./CreateDialog";
+import { Toaster, toast } from "sonner";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
@@ -20,6 +21,13 @@ export function DataTable<TData, TValue>({columns, data}: DataTableProps<TData, 
 
     const flash = usePage().props.flash as { success?: string; error?: string };
 
+    if (flash.success) {
+        toast.success("Aviso:", {
+            description: flash.success,
+        });
+        flash.success = undefined;
+    }
+
     const table = useReactTable({
         data,
         columns,
@@ -32,9 +40,11 @@ export function DataTable<TData, TValue>({columns, data}: DataTableProps<TData, 
         onGlobalFilterChange: setGlobalFilter,
         globalFilterFn: (row, columnId, filterValue) => {
             const name = row.getValue("name") as string;
+            const phone = row.getValue("phone") as string;
             const local = row.getValue("local") as string;
             return (
                 name.toLowerCase().includes(filterValue.toLowerCase()) ||
+                phone.toLowerCase().includes(filterValue.toLowerCase()) ||
                 local.toLowerCase().includes(filterValue.toLowerCase())
             );
         },
@@ -59,12 +69,8 @@ export function DataTable<TData, TValue>({columns, data}: DataTableProps<TData, 
 
                 <CreateDialog />
             </div>
-            
-            {flash.success && (
-                <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4 w-1/3 mx-auto text-center">
-                    {flash.success}
-                </div>
-            )}
+
+            <Toaster richColors/>
 
             <div className="rounded-md border">
                 <Table>
