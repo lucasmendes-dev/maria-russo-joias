@@ -2,7 +2,7 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
 import { Customer, columns } from '@/components/customers/columns';
-import { DataTable } from '@/components/customers/data-table';
+import { DataTable } from '@/components/data-table';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {

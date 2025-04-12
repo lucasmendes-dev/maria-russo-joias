@@ -15,20 +15,13 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 
-interface AlertDialogDeleteProps {
-    customer: {
-        id: string;
-        name: string;
-    };
-}
-
 const handleDelete = (id: string) => {
     router.delete(`/customers/${id}`, {
         preserveScroll: true,
     });
 }
 
-export function AlertDialogDelete({ customer }: AlertDialogDeleteProps) {
+export function AlertDialogDelete({ objectName }: any) {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild >
@@ -41,12 +34,12 @@ export function AlertDialogDelete({ customer }: AlertDialogDeleteProps) {
                 <AlertDialogHeader>
                     <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
                     <AlertDialogDescription>
-                        Esta ação não pode ser desfeita. Isso excluirá permanentemente o(a) cliente "{customer.name}".
+                        Esta ação não pode ser desfeita. Isso excluirá permanentemente o registro "{objectName.name}".
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel className="cursor-pointer">Cancelar</AlertDialogCancel>
-                    <AlertDialogAction className="bg-red-400 cursor-pointer" onClick={() => handleDelete(customer.id)}>Deletar</AlertDialogAction>
+                    <AlertDialogAction className="bg-red-400 cursor-pointer" onClick={() => handleDelete(objectName.id)}>Deletar</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

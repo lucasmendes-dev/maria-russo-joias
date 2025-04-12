@@ -6,7 +6,8 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { DataTablePagination } from "./data-table-pagination";
 import { Input } from "@/components/ui/input";
 import { usePage } from "@inertiajs/react";
-import { CreateDialog } from "./CreateDialog";
+import { CustomerCreateDialog } from "./customers/CustomerCreateDialog";
+import { SupplierCreateDialog } from "./suppliers/SupplierCreateDialog";
 import { Toaster, toast } from "sonner";
 
 interface DataTableProps<TData, TValue> {
@@ -67,7 +68,7 @@ export function DataTable<TData, TValue>({columns, data}: DataTableProps<TData, 
                     className="max-w-sm"
                 />
 
-                <CreateDialog />
+                <SupplierCreateDialog />
             </div>
 
             <Toaster richColors/>

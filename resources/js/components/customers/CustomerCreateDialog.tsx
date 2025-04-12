@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { CustomerForm } from "./CustomerForm";
 import { router } from "@inertiajs/react";
 
-export function CreateDialog() {
+export function CustomerCreateDialog() {
     const [open, setOpen] = useState(false);
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
