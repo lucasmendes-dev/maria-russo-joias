@@ -5,62 +5,38 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Detail\StoreDetailRequest;
 use App\Http\Requests\Detail\UpdateDetailRequest;
 use App\Models\Detail;
+use Inertia\Inertia;
 
 class DetailController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $details = Detail::all();
+        return Inertia::render('details/index', ['details' => $details]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreDetailRequest $request)
     {
-        //
+        Detail::create($request->validated());
+
+        return redirect()->back()->with('success', 'Detalhe "' . $request->name . '" cadastrado!');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Detail $detail)
+    public function update(UpdateDetailRequest $request, string $id)
     {
-        //
+        $detail = Detail::findOrFail($id);
+        $detail->update($request->validated());
+
+        return redirect()->back()->with('success', 'Os dados do detalhe "' . $detail->name . '" foram atualizados!');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Detail $detail)
+    public function destroy(string $id)
     {
-        //
-    }
+        $detail = Detail::findOrFail($id);
+        $detailName = $detail->name;
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateDetailRequest $request, Detail $detail)
-    {
-        //
-    }
+        $detail->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Detail $detail)
-    {
-        //
+        return redirect()->back()->with('success', 'Detalhe "' . $detailName . '" deletado com sucesso!');
     }
 }
