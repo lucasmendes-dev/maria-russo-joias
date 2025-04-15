@@ -17,12 +17,23 @@ class SupplierController extends Controller
 
     public function store(StoreSupplierRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['phone'] = cleanPhoneNumber($data['phone']);
+
+        Supplier::create($data);
+
+        return redirect()->back()->with('success', 'Fornecedor "' . $data['name'] . '" cadastrado!');
     }
 
-    public function update(UpdateSupplierRequest $request, Supplier $supplier)
+    public function update(UpdateSupplierRequest $request, string $id)
     {
-        //
+        $supplier = Supplier::findOrFail($id);
+        $data = $request->validated();
+        $data['phone'] = cleanPhoneNumber($data['phone']);
+
+        $supplier->update($data);
+
+        return redirect()->back()->with('success', 'Os dados do(a) cliente "' . $supplier->name . '" foram atualizados!');
     }
 
     public function destroy(string $id)

@@ -128,8 +128,8 @@ export const columns: ColumnDef<Supplier>[] = [
                         open={isDialogOpen}
                         setOpen={setIsDialogOpen}
                     />
-                        
-                    <AlertDialogDelete objectName={supplier} />
+
+                    <AlertDialogDelete objectName={supplier} deleteRoute="suppliers"/>
                 </div>
             );
         },

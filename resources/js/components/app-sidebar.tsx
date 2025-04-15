@@ -47,12 +47,12 @@ const otherNavItems: NavItem[] = [
     },
     {
         title: 'Categorias',
-        href: '#',
+        href: route('categories.index'),
         icon: Tag,
     },
     {
         title: 'Detalhes',
-        href: '#',
+        href: route('details.index'),
         icon: Sparkle,
     },
     {

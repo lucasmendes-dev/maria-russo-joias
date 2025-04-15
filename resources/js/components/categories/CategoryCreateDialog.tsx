@@ -1,29 +1,24 @@
 import { useState } from "react";
 import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
- import { SupplierForm } from "./SupplierForm";
+import { CategoryForm } from "./CategoryForm";
 import { router } from "@inertiajs/react";
 
-export function SupplierCreateDialog() {
+export function CategoryCreateDialog() {
     const [open, setOpen] = useState(false);
     const [name, setName] = useState("");
     const [phone, setPhone] = useState("");
-    const [socialMedia, setSocialMedia] = useState("");
     const [local, setLocal] = useState("");
-    const [sallerName, setsallerName] = useState("");
 
     const handleCreate = () => {
-
         if (!name || !phone || !local) {
             alert("Todos os campos são obrigatórios!");
             return;
         }
-        router.post("/suppliers", {
+        router.post("/categories", {
             name,
             phone,
-            social_media: socialMedia,
             local,
-            saller_name: sallerName,
         }, {
             onSuccess: () => setOpen(false),
             preserveScroll: true,
@@ -33,29 +28,25 @@ export function SupplierCreateDialog() {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button className="cursor-pointer">Cadastrar Fornecedor</Button>
+                <Button className="cursor-pointer">Cadastrar Categoria</Button>
             </DialogTrigger>
 
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Adicionar novo fornecedor</DialogTitle>
+                    <DialogTitle>Adicionar nova Categoria</DialogTitle>
                 </DialogHeader>
 
-                <SupplierForm
+                <CategoryForm
                     name={name}
                     phone={phone}
-                    socialMedia={socialMedia}
                     local={local}
-                    sallerName={sallerName}
                     setName={setName}
                     setPhone={setPhone}
-                    setSocialMedia={setSocialMedia}
                     setLocal={setLocal}
-                    setSallerName={setsallerName}
                 />
 
                 <DialogFooter>
-                    <Button onClick={handleCreate} className="cursor-pointer">Cadastar Fornecedor</Button>
+                    <Button onClick={handleCreate} className="cursor-pointer">Cadastar Categoria</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

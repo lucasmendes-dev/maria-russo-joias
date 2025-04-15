@@ -37,7 +37,9 @@ export function UpdateDialog({ supplier, open, setOpen }: UpdateDialogProps) {
         router.put(`/suppliers/${supplier.id}`, {
             name,
             phone,
-            local
+            social_media: socialMedia,
+            local,
+            saller_name: sallerName,
         }, {
             preserveScroll: true,
             preserveState: true,

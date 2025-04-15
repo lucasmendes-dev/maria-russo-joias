@@ -6,16 +6,16 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { DataTablePagination } from "./data-table-pagination";
 import { Input } from "@/components/ui/input";
 import { usePage } from "@inertiajs/react";
-import { CustomerCreateDialog } from "./customers/CustomerCreateDialog";
-import { SupplierCreateDialog } from "./suppliers/SupplierCreateDialog";
 import { Toaster, toast } from "sonner";
 
 interface DataTableProps<TData, TValue> {
-    columns: ColumnDef<TData, TValue>[]
-    data: TData[]
+    columns: ColumnDef<TData, TValue>[],
+    data: TData[],
+    createButton: React.ReactNode,
+    filters: string[];
 }
 
-export function DataTable<TData, TValue>({columns, data}: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({ columns, data, createButton, filters }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [rowSelection, setRowSelection] = useState({});
     const [globalFilter, setGlobalFilter] = useState("");
@@ -40,14 +40,13 @@ export function DataTable<TData, TValue>({columns, data}: DataTableProps<TData, 
         onRowSelectionChange: setRowSelection,
         onGlobalFilterChange: setGlobalFilter,
         globalFilterFn: (row, columnId, filterValue) => {
-            const name = row.getValue("name") as string;
-            const phone = row.getValue("phone") as string;
-            const local = row.getValue("local") as string;
-            return (
-                name.toLowerCase().includes(filterValue.toLowerCase()) ||
-                phone.toLowerCase().includes(filterValue.toLowerCase()) ||
-                local.toLowerCase().includes(filterValue.toLowerCase())
-            );
+            return filters?.some((filterKey) => {
+                const cellValue = row.getValue(filterKey);
+                return (
+                    typeof cellValue === 'string' &&
+                    cellValue?.toLowerCase().includes(filterValue.toLowerCase())
+                );
+            });
         },
         state: {
             sorting,
@@ -68,7 +67,7 @@ export function DataTable<TData, TValue>({columns, data}: DataTableProps<TData, 
                     className="max-w-sm"
                 />
 
-                <SupplierCreateDialog />
+                {createButton && createButton}
             </div>
 
             <Toaster richColors/>

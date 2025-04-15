@@ -18,7 +18,7 @@ class CustomerController extends Controller
     public function store(StoreCustomerRequest $request)
     {
         $data = $request->validated();
-        $data['phone'] = $this->cleanPhoneNumber($data['phone']);
+        $data['phone'] = cleanPhoneNumber($data['phone']);
 
         Customer::create($data);
 
@@ -29,7 +29,7 @@ class CustomerController extends Controller
     {
         $customer = Customer::findOrFail($id);
         $data = $request->validated();
-        $data['phone'] = $this->cleanPhoneNumber($data['phone']);
+        $data['phone'] = cleanPhoneNumber($data['phone']);
 
         $customer->update($data);
 
@@ -44,10 +44,5 @@ class CustomerController extends Controller
         $customer->delete();
 
         return redirect()->back()->with('success', 'Cliente "' . $customerName . '" deletado(a) com sucesso!');
-    }
-
-    private function cleanPhoneNumber(string $phone): string
-    {
-        return preg_replace('/\D/', '', $phone);
     }
 }

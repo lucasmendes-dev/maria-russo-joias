@@ -22,7 +22,11 @@ class StoreSupplierRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string'],
+            'phone' => ['string'],
+            'social_media' => ['string'],
+            'local' => ['string'],
+            'saller_name' => ['required', 'string'],
         ];
     }
 }

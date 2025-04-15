@@ -45,7 +45,7 @@ export function SupplierForm({
         <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="name" className="text-right">Nome <span className="text-red-400">*</span></Label>
-                <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="col-span-3" required />
+                <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="col-span-3" required placeholder="Ex: Maria"/>
             </div>
 
             <div className="grid grid-cols-4 items-center gap-4">
@@ -62,17 +62,17 @@ export function SupplierForm({
 
             <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="social_media" className="text-right">Rede Social</Label>
-                <Input id="social_media" value={socialMedia} onChange={(e) => setSocialMedia(e.target.value)} className="col-span-3" />
+                <Input id="social_media" value={socialMedia} onChange={(e) => setSocialMedia(e.target.value)} className="col-span-3" placeholder="@name / www.seusite.com"/>
             </div>
 
             <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="saller_name" className="text-right">Vendedor <span className="text-red-400">*</span></Label>
-                <Input id="saller_name" value={sallerName} onChange={(e) => setName(e.target.value)} className="col-span-3" required />
+                <Input id="saller_name" value={sallerName} onChange={(e) => setSallerName(e.target.value)} className="col-span-3" required placeholder="Vendedor(a)"/>
             </div>
 
             <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="local" className="text-right">Local</Label>
-                <Input id="local" value={local} onChange={(e) => setLocal(e.target.value)} className="col-span-3" />
+                <Input id="local" value={local} onChange={(e) => setLocal(e.target.value)} className="col-span-3" placeholder="Ex: Monsur"/>
             </div>
             <p className="text-sm text-gray-600 flex justify-end">
                 <span className="text-red-400">*</span> campo obrigatório

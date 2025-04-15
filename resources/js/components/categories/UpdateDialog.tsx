@@ -3,10 +3,10 @@ import { Pencil } from 'lucide-react';
 import { router } from "@inertiajs/react";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription} from "@/components/ui/dialog";
-import { CustomerForm } from "./CustomerForm";
+import { CategoryForm } from "./CategoryForm";
 
 interface UpdateDialogProps {
-    customer: {
+    category: {
         id: string;
         name: string;
         phone: string;
@@ -16,13 +16,13 @@ interface UpdateDialogProps {
     setOpen: (value: boolean) => void;
 }
 
-export function UpdateDialog({ customer, open, setOpen }: UpdateDialogProps) {
-    const [name, setName] = useState(customer.name);
-    const [phone, setPhone] = useState(customer.phone);
-    const [local, setLocal] = useState(customer.local);
+export function UpdateDialog({ category, open, setOpen }: UpdateDialogProps) {
+    const [name, setName] = useState(category.name);
+    const [phone, setPhone] = useState(category.phone);
+    const [local, setLocal] = useState(category.local);
 
     const handleUpdate = () => {
-        router.put(`/customers/${customer.id}`, {
+        router.put(`/categories/${category.id}`, {
             name,
             phone,
             local
@@ -44,12 +44,12 @@ export function UpdateDialog({ customer, open, setOpen }: UpdateDialogProps) {
 
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Editar cliente: <span className="text-blue-400">{ customer.name }</span></DialogTitle>
+                    <DialogTitle>Editar cliente: <span className="text-blue-400">{ category.name }</span></DialogTitle>
                 </DialogHeader>
 
                 <DialogDescription>Verifique os dados antes de alterá-los.</DialogDescription>
 
-                <CustomerForm
+                <CategoryForm
                     name={name}
                     phone={phone}
                     local={local}

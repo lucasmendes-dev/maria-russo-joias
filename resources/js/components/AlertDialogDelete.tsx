@@ -3,25 +3,17 @@
 import { Button } from "@/components/ui/button";
 import { Trash2 } from 'lucide-react';
 import { router } from "@inertiajs/react";
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger} from "@/components/ui/alert-dialog";
 
-const handleDelete = (id: string) => {
-    router.delete(`/customers/${id}`, {
+const handleDelete = (id: string, deleteRoute: string) => {
+    console.log(deleteRoute);
+    router.delete(`/${deleteRoute}/${id}`, {
         preserveScroll: true,
     });
 }
 
-export function AlertDialogDelete({ objectName }: any) {
+export function AlertDialogDelete({ objectName, deleteRoute }: {objectName: any, deleteRoute: string}) {
+
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild >
@@ -34,12 +26,12 @@ export function AlertDialogDelete({ objectName }: any) {
                 <AlertDialogHeader>
                     <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
                     <AlertDialogDescription>
-                        Esta ação não pode ser desfeita. Isso excluirá permanentemente o registro "{objectName.name}".
+                        Esta ação não pode ser desfeita. Isso excluirá permanentemente o registro <strong className="text-red-400">"{objectName.name}</strong>".
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel className="cursor-pointer">Cancelar</AlertDialogCancel>
-                    <AlertDialogAction className="bg-red-400 cursor-pointer" onClick={() => handleDelete(objectName.id)}>Deletar</AlertDialogAction>
+                    <AlertDialogAction className="bg-red-400 cursor-pointer" onClick={() => handleDelete(objectName.id, deleteRoute)}>Deletar</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

@@ -9,14 +9,14 @@ import { UpdateDialog } from "./UpdateDialog";
 import { useState } from "react";
 import { formatPhoneNumber } from "@/utils/phoneFormatter";
 
-export type Customer = {
+export type Category = {
     id: string
     name: string
     phone: string
     local: string
 }
 
-export const columns: ColumnDef<Customer>[] = [
+export const columns: ColumnDef<Category>[] = [
     {
         id: "select",
         header: ({ table }) => (
@@ -54,50 +54,33 @@ export const columns: ColumnDef<Customer>[] = [
         },
     },
     {
-        accessorKey: "phone",
+        accessorKey: "description",
         header: ({ column }) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Telefone
+                    Descrição
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
-        },
-        cell: ({row}) => {
-            return formatPhoneNumber(row.getValue("phone"));
-        },
-    },
-    {
-        accessorKey: "local",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Local
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            )
-        },
+        }
     },
     {
         header: "Ações",
         id: "actions",
         cell: ({ row }) => {
-            const customer = row.original;
+            const category = row.original;
             const [isDialogOpen, setIsDialogOpen] = useState(false);
             return (
                 <div>
                     <UpdateDialog
-                        customer={customer}
+                        category={category}
                         open={isDialogOpen}
                         setOpen={setIsDialogOpen}
                     />
-                    <AlertDialogDelete objectName={customer} deleteRoute="customers"/>
+                    <AlertDialogDelete objectName={category} deleteRoute="categories"/>
                 </div>
             );
         },

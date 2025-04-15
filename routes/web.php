@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DetailController;
 use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductToOrderController;
@@ -30,6 +32,12 @@ Route::middleware('auth')->group(function () {
 
     // Taxes
     Route::get('/taxes', [TaxController::class, 'index'])->name('taxes.index');
+    
+    // Products to Order
+    Route::get('/products-to-order', [ProductToOrderController::class, 'index'])->name('products-to-order.index');
+
+    // Simulation ??
+    //Route::get('/simulation', [SimulationController::class, 'index'])->name('simulation.index');
 
     // Customers
     Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');
@@ -39,9 +47,15 @@ Route::middleware('auth')->group(function () {
 
     // Suppliers
     Route::get('/suppliers', [SupplierController::class, 'index'])->name('suppliers.index');
+    Route::delete('/suppliers/{id}', [SupplierController::class, 'destroy'])->name('suppliers.destroy');
+    Route::put('/suppliers/{id}', [SupplierController::class, 'update'])->name('suppliers.update');
+    Route::post('/suppliers', [SupplierController::class, 'store'])->name('suppliers.store');
 
-    // Products to Order
-    Route::get('/products-to-order', [ProductToOrderController::class, 'index'])->name('products-to-order.index');
+    // Categories
+    Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+
+    // Details
+    Route::get('/details', [DetailController::class, 'index'])->name('details.index');
 
     // Notes
     Route::get('/notes', [NoteController::class, 'index'])->name('notes.index');
