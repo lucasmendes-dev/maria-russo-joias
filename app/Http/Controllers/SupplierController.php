@@ -33,7 +33,7 @@ class SupplierController extends Controller
 
         $supplier->update($data);
 
-        return redirect()->back()->with('success', 'Os dados do(a) cliente "' . $supplier->name . '" foram atualizados!');
+        return redirect()->back()->with('success', 'Os dados do fornecedor "' . $supplier->name . '" foram atualizados!');
     }
 
     public function destroy(string $id)

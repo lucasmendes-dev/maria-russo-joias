@@ -9,8 +9,7 @@ interface UpdateDialogProps {
     category: {
         id: string;
         name: string;
-        phone: string;
-        local: string;
+        description: string;
     };
     open: boolean;
     setOpen: (value: boolean) => void;
@@ -18,14 +17,12 @@ interface UpdateDialogProps {
 
 export function UpdateDialog({ category, open, setOpen }: UpdateDialogProps) {
     const [name, setName] = useState(category.name);
-    const [phone, setPhone] = useState(category.phone);
-    const [local, setLocal] = useState(category.local);
+    const [description, setDescription] = useState(category.description);
 
     const handleUpdate = () => {
         router.put(`/categories/${category.id}`, {
             name,
-            phone,
-            local
+            description,
         }, {
             preserveScroll: true,
             preserveState: true,
@@ -51,11 +48,9 @@ export function UpdateDialog({ category, open, setOpen }: UpdateDialogProps) {
 
                 <CategoryForm
                     name={name}
-                    phone={phone}
-                    local={local}
+                    description={description}
                     setName={setName}
-                    setPhone={setPhone}
-                    setLocal={setLocal}
+                    setDescription={setDescription}
                 />
 
                 <DialogFooter>

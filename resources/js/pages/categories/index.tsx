@@ -7,15 +7,14 @@ import { CategoryCreateDialog } from '@/components/categories/CategoryCreateDial
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
-        title: 'Clientes',
+        title: 'Categorias',
         href: route('categories.index'),
     },
 ];
 
 const filters: string[] = [
     'name',
-    'phone',
-    'local',
+    'description',
 ];
 
 export default function Categories({categories}: {categories: Category[]}) {

@@ -7,13 +7,11 @@ import { ArrowUpDown } from "lucide-react";
 import { AlertDialogDelete } from "../AlertDialogDelete";
 import { UpdateDialog } from "./UpdateDialog";
 import { useState } from "react";
-import { formatPhoneNumber } from "@/utils/phoneFormatter";
 
 export type Category = {
     id: string
     name: string
-    phone: string
-    local: string
+    description: string
 }
 
 export const columns: ColumnDef<Category>[] = [

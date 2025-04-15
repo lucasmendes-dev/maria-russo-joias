@@ -1,32 +1,20 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState, useEffect } from "react";
-import { formatPhoneNumber } from "@/utils/phoneFormatter";
 import { Textarea } from "@/components/ui/textarea"
 
 interface CategoryFormProps {
     name: string;
-    phone: string;
-    local: string;
+    description: string;
     setName: (value: string) => void;
-    setPhone: (value: string) => void;
-    setLocal: (value: string) => void;
+    setDescription: (value: string) => void;
 }
 
 export function CategoryForm({
     name,
-    phone,
-    local,
+    description,
     setName,
-    setPhone,
-    setLocal,
+    setDescription,
 }: CategoryFormProps) {
-    const [formattedPhone, setFormattedPhone] = useState('');
-
-    useEffect(() => {
-        setFormattedPhone(formatPhoneNumber(phone));
-    }, [phone]);
-
     return (
         <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
@@ -38,6 +26,8 @@ export function CategoryForm({
                 <Label htmlFor="local" className="text-right">Descrição</Label>
                 <Textarea
                     className="col-span-3"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
                 />
             </div>
             <p className="text-sm text-gray-600 flex justify-end">

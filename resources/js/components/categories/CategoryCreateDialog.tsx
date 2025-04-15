@@ -7,18 +7,16 @@ import { router } from "@inertiajs/react";
 export function CategoryCreateDialog() {
     const [open, setOpen] = useState(false);
     const [name, setName] = useState("");
-    const [phone, setPhone] = useState("");
-    const [local, setLocal] = useState("");
+    const [description, setDescription] = useState("");
 
     const handleCreate = () => {
-        if (!name || !phone || !local) {
+        if (!name) {
             alert("Todos os campos são obrigatórios!");
             return;
         }
         router.post("/categories", {
             name,
-            phone,
-            local,
+            description,
         }, {
             onSuccess: () => setOpen(false),
             preserveScroll: true,
@@ -38,11 +36,9 @@ export function CategoryCreateDialog() {
 
                 <CategoryForm
                     name={name}
-                    phone={phone}
-                    local={local}
+                    description={description}
                     setName={setName}
-                    setPhone={setPhone}
-                    setLocal={setLocal}
+                    setDescription={setDescription}
                 />
 
                 <DialogFooter>
