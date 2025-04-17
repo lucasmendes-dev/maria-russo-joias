@@ -29,6 +29,9 @@ require __DIR__.'/auth.php';
 Route::middleware('auth')->group(function () {
     // Products
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+    Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
+    Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
+    Route::post('/products', [ProductController::class, 'store'])->name('products.store');
 
     // Taxes
     Route::get('/taxes', [TaxController::class, 'index'])->name('taxes.index');
