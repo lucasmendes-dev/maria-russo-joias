@@ -7,13 +7,13 @@ import { router } from "@inertiajs/react";
 export function ProductCreateDialog() {
     const [open, setOpen] = useState(false);
     const [name, setName] = useState("");
-    const [quantity, setQuantity] = useState(0);
-    const [price, setPrice] = useState(0);
-    const [category_id, setCategoryId] = useState(0);
+    const [quantity, setQuantity] = useState("0");
+    const [price, setPrice] = useState("0");
+    const [category_id, setCategoryId] = useState("0");
     const [description, setDescription] = useState("");
     const [color, setColor] = useState("");
-    const [purchase_date, setPurchaseDate] = useState(new Date());
-    const [supplier_id, setSupplierId] = useState(0);
+    const [purchase_date, setPurchaseDate] = useState("");
+    const [supplier_id, setSupplierId] = useState("0");
     const [image, setImage] = useState("");
     const [status, setStatus] = useState("");
 

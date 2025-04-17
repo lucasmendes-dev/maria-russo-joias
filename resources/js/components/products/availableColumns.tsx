@@ -12,17 +12,17 @@ import { SalesDialog } from "./SalesDialog";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 
 export type Product = {
-    id: number,
+    id: string,
     name: string,
-    quantity: number,
-    price: number,
-    category_id: number,
+    quantity: string,
+    price: string,
+    category_id: string,
     description: string,
     color: string,
-    purchase_date: Date,
-    supplier_id: number,
+    purchase_date: string,
+    supplier_id: string,
     image: string,
-    status: 'available' | 'pending' | 'sold';
+    status: string;
 }
 
 export const availableColumns: ColumnDef<Product>[] = [
@@ -148,6 +148,7 @@ export const availableColumns: ColumnDef<Product>[] = [
         cell: ({ row }) => {
             const product = row.original;
             const [isDialogOpen, setIsDialogOpen] = useState(false);
+            const [salesOpen, setSalesOpen] = useState(false);
             return (
                 <div className="flex">
                     <UpdateDialog
@@ -160,8 +161,8 @@ export const availableColumns: ColumnDef<Product>[] = [
 
                     <SalesDialog 
                         product={product}
-                        open={isDialogOpen}
-                        setOpen={setIsDialogOpen}
+                        salesOpen={salesOpen}
+                        setSalesOpen={setSalesOpen}
                     />
                 </div>
             );

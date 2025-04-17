@@ -1,26 +1,33 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState, useEffect } from "react";
+import { Textarea } from "@/components/ui/textarea"
+import React, { useState, useEffect } from "react";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 interface ProductFormProps {
     name: string,
-    quantity: number,
-    price: number,
-    category_id: number,
+    quantity: string,
+    price: string,
+    category_id: string,
     description: string,
     color: string,
-    purchase_date: Date,
-    supplier_id: number,
+    purchase_date: string,
+    supplier_id: string,
     image: string,
     status: string;
     setName: (value: string) => void;
-    setQuantity: (value: number) => void;
-    setPrice: (value: number) => void;
-    setCategoryId: (value: number) => void;
+    setQuantity: (value: string) => void;
+    setPrice: (value: string) => void;
+    setCategoryId: (value: string) => void;
     setDescription: (value: string) => void;
     setColor: (value: string) => void;
-    setPurchaseDate: (value: Date) => void;
-    setSupplierId: (value: number) => void;
+    setPurchaseDate: (value: string) => void;
+    setSupplierId: (value: string) => void;
     setImage: (value: string) => void;
     setStatus: (value: string) => void;
 }
@@ -47,56 +54,91 @@ export function ProductForm({
     setImage,
     setStatus
 }: ProductFormProps) {
+    const [date, setDate] = React.useState<Date>();
+
     return (
-        <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="name" className="text-right">Nome <span className="text-red-400">*</span></Label>
-                <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="col-span-3" required placeholder="Ex: Maria" />
+        <form className="w-full max-w-lg mt-3">
+            <div className="flex flex-wrap -mx-3 mb-4">
+                <div className="w-full md:w-2/3 px-3 mb-4 md:mb-0">
+                    <Label htmlFor="name" className="block mb-2">Nome <span className="text-red-400">*</span></Label>
+                    <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="appearance-none block w-full rounded py-3 px-4 mb-3" required placeholder="Ex: Maria" />
+                </div>
+
+                <div className="w-full md:w-1/3 px-3">
+                    <Label htmlFor="quantity" className="block mb-2">Quantidade <span className="text-red-400">*</span></Label>
+                    <Input id="quantity" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} className="appearance-none block w-full rounded py-3 px-4 mb-3" required placeholder="Ex: Maria" />
+                </div>
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="quantity" className="text-right">Quantidade <span className="text-red-400">*</span></Label>
-                <Input id="quantity" value={quantity} onChange={(e) => setName(e.target.value)} className="col-span-3" required placeholder="Ex: Maria" />
+            <div className="flex flex-wrap -mx-3 mb-4">
+                <div className="w-full md:w-1/3 px-3 mb-4 md:mb-0">
+                    <Label htmlFor="price" className="block mb-2">Preço <span className="text-red-400">*</span></Label>
+                    <Input id="price" type="number" value={price} onChange={(e) => setPrice(e.target.value)} className="appearance-none block w-full rounded py-3 px-4 mb-3" required placeholder="Ex: R$60.90" />
+                </div>
+
+                <div className="w-full md:w-1/3 px-3 mb-4 md:mb-0">
+                    <Label htmlFor="color" className="block mb-2">Cor</Label>
+                    <Input id="color" type="text" value={color} onChange={(e) => setColor(e.target.value)} className="appearance-none block w-full rounded py-3 px-4 mb-3" required placeholder="Ex: azul" />
+                </div>
+
+                <div className="w-full md:w-1/3 px-3 mb-4 md:mb-0">
+                    <Label htmlFor="category_id" className="block mb-2">Categoria</Label>
+                    <Input id="category_id" value={category_id} onChange={(e) => setCategoryId(e.target.value)} className="appearance-none block w-full rounded py-3 px-4 mb-3" required placeholder="Ex: Colar" />
+                </div>
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="quantity" className="text-right">Preço <span className="text-red-400">*</span></Label>
-                <Input id="quantity" value={price} onChange={(e) => setName(e.target.value)} className="col-span-3" required placeholder="Ex: Maria" />
+            <div className="flex flex-wrap -mx-3 mb-4">
+                <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
+                    <Label htmlFor="supplier_id" className="block mb-2">Fornecedor <span className="text-red-400">*</span></Label>
+                    <Input id="supplier_id" value={supplier_id} onChange={(e) => setSupplierId(e.target.value)} className="appearance-none block w-full rounded py-3 px-4 mb-3" required placeholder="Ex: Monsur" />
+                </div>
+
+                <div className="w-full md:w-1/2 px-3">
+                    <Label htmlFor="purchase_date" className="block mb-2">Data de Compra <span className="text-red-400">*</span></Label>
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <Button
+                                variant={"outline"}
+                                className={cn(
+                                    "appearance-none w-full rounded py-3 px-4 mb-3 cursor-pointer",
+                                    !date && "text-muted-foreground"
+                                )}
+                            >
+                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                {date ? format(date, "PPP") : <span>Escolha uma Data</span>}
+                            </Button>
+                        </PopoverTrigger>
+
+                        <PopoverContent className="w-auto p-0">
+                            <Calendar
+                                mode="single"
+                                selected={date}
+                                onSelect={setDate}
+                                initialFocus
+                            />
+                        </PopoverContent>
+                    </Popover>
+                </div>
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="quantity" className="text-right">Categoria</Label>
-                <Input id="quantity" value={category_id} onChange={(e) => setName(e.target.value)} className="col-span-3" required placeholder="Ex: Maria" />
+            <div className="flex flex-wrap -mx-3 mb-4">
+                <div className="w-full md:w-full px-3 mb-4 md:mb-0">
+                    <Label htmlFor="supplier_id" className="block mb-2">Descrição</Label>
+                    <Textarea
+                        className="col-span-3"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                    />
+                </div>
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="quantity" className="text-right">Descrição</Label>
-                <Input id="quantity" value={description} onChange={(e) => setName(e.target.value)} className="col-span-3" required placeholder="Ex: Maria" />
+            <div className="flex flex-wrap -mx-3 mb-4 justify-center">
+                <div className="w-full md:w-2/3 px-3 mb-4 md:mb-0">
+                    <Label htmlFor="supplier_id" className="block mb-2">Imagem</Label>
+                    <Input id="picture" type="file" className="cursor-pointer"/>
+                </div>
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="quantity" className="text-right">Cor</Label>
-                <Input id="quantity" value={color} onChange={(e) => setName(e.target.value)} className="col-span-3" required placeholder="Ex: Maria" />
-            </div>
-
-            <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="quantity" className="text-right">Data de Compra</Label>
-                <Input id="quantity" value={purchase_date} onChange={(e) => setName(e.target.value)} className="col-span-3" required placeholder="Ex: Maria" />
-            </div>
-
-            <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="quantity" className="text-right">Fornecedor</Label>
-                <Input id="quantity" value={supplier_id} onChange={(e) => setName(e.target.value)} className="col-span-3" required placeholder="Ex: Maria" />
-            </div>
-
-            <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="quantity" className="text-right">Imagem</Label>
-                <Input id="quantity" value={image} onChange={(e) => setName(e.target.value)} className="col-span-3" required placeholder="Ex: Maria" />
-            </div>
-
-            <p className="text-sm text-gray-600 flex justify-end">
-                <span className="text-red-400">*</span> campo obrigatório
-            </p>
-        </div>
+        </form>
     );
 }

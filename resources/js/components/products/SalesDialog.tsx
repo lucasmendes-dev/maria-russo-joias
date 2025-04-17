@@ -7,23 +7,23 @@ import { ProductForm } from "./ProductForm";
 
 interface SalesDialogProps {
     product: {
-        id: number,
+        id: string,
         name: string,
-        quantity: number,
-        price: number,
-        category_id: number,
+        quantity: string,
+        price: string,
+        category_id: string,
         description: string,
         color: string,
-        purchase_date: Date,
-        supplier_id: number,
+        purchase_date: string,
+        supplier_id: string,
         image: string,
         status: string;
     };
-    open: boolean;
-    setOpen: (value: boolean) => void;
+    salesOpen: boolean;
+    setSalesOpen: (value: boolean) => void;
 }
 
-export function SalesDialog({ product, open, setOpen }: SalesDialogProps) {
+export function SalesDialog({ product, salesOpen, setSalesOpen }: SalesDialogProps) {
     const [name, setName] = useState(product.name);
     const [quantity, setQuantity] = useState(product.quantity);
     const [price, setPrice] = useState(product.price);
@@ -42,12 +42,12 @@ export function SalesDialog({ product, open, setOpen }: SalesDialogProps) {
             preserveScroll: true,
             preserveState: true,
             onSuccess: () => {
-                setOpen(false);
+                setSalesOpen(false);
             }
         });
     }
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={salesOpen} onOpenChange={setSalesOpen}>
             <DialogTrigger asChild>
                 <Button className="h-8 w-8 bg-green-400 ml-2 cursor-pointer">
                     <ShoppingBag />
@@ -56,10 +56,10 @@ export function SalesDialog({ product, open, setOpen }: SalesDialogProps) {
 
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Editar produto: <span className="text-blue-400">{ product.name }</span></DialogTitle>
+                    <DialogTitle>Vender produto: <span className="text-green-400">{ product.name }</span></DialogTitle>
                 </DialogHeader>
 
-                <DialogDescription>Verifique os dados antes de alterá-los.</DialogDescription>
+                <DialogDescription>Preencha os dados de venda do produto.</DialogDescription>
 
                 <ProductForm
                     name={name}

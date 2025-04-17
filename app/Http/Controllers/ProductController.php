@@ -14,7 +14,7 @@ class ProductController extends Controller
         $availableProducts = Product::where('status', 'available')->get();
         $pendingProducts = Product::where('status', 'pending')->get();
         $soldProducts = Product::where('status', 'sold')->get();
-
+        
         return Inertia::render('products/index', [
             'availableProducts' => $availableProducts,
             'pendingProducts' => $pendingProducts,

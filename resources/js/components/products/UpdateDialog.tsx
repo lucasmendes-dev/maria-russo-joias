@@ -7,15 +7,15 @@ import { ProductForm } from "./ProductForm";
 
 interface UpdateDialogProps {
     product: {
-        id: number,
+        id: string,
         name: string,
-        quantity: number,
-        price: number,
-        category_id: number,
+        quantity: string,
+        price: string,
+        category_id: string,
         description: string,
         color: string,
-        purchase_date: Date,
-        supplier_id: number,
+        purchase_date: string,
+        supplier_id: string,
         image: string,
         status: string;
     };
