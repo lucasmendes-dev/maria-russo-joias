@@ -7,7 +7,9 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
+import { ptBR } from "date-fns/locale";
 import { cn } from "@/lib/utils";
+import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface ProductFormProps {
     name: string,
@@ -54,7 +56,12 @@ export function ProductForm({
     setImage,
     setStatus
 }: ProductFormProps) {
-    const [date, setDate] = React.useState<Date>();
+    const parsedDate = purchase_date
+        ? (() => {
+            const [year, month, day] = purchase_date.split("-");
+            return new Date(Number(year), Number(month) - 1, Number(day));
+        })()
+        : undefined;
 
     return (
         <form className="w-full max-w-lg mt-3">
@@ -64,33 +71,21 @@ export function ProductForm({
                     <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="appearance-none block w-full rounded py-3 px-4 mb-3" required placeholder="Ex: Maria" />
                 </div>
 
-                <div className="w-full md:w-1/3 px-3">
-                    <Label htmlFor="quantity" className="block mb-2">Quantidade <span className="text-red-400">*</span></Label>
-                    <Input id="quantity" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} className="appearance-none block w-full rounded py-3 px-4 mb-3" required placeholder="Ex: Maria" />
-                </div>
-            </div>
-
-            <div className="flex flex-wrap -mx-3 mb-4">
                 <div className="w-full md:w-1/3 px-3 mb-4 md:mb-0">
                     <Label htmlFor="price" className="block mb-2">Preço <span className="text-red-400">*</span></Label>
                     <Input id="price" type="number" value={price} onChange={(e) => setPrice(e.target.value)} className="appearance-none block w-full rounded py-3 px-4 mb-3" required placeholder="Ex: R$60.90" />
                 </div>
-
-                <div className="w-full md:w-1/3 px-3 mb-4 md:mb-0">
-                    <Label htmlFor="color" className="block mb-2">Cor</Label>
-                    <Input id="color" type="text" value={color} onChange={(e) => setColor(e.target.value)} className="appearance-none block w-full rounded py-3 px-4 mb-3" required placeholder="Ex: azul" />
-                </div>
-
-                <div className="w-full md:w-1/3 px-3 mb-4 md:mb-0">
-                    <Label htmlFor="category_id" className="block mb-2">Categoria</Label>
-                    <Input id="category_id" value={category_id} onChange={(e) => setCategoryId(e.target.value)} className="appearance-none block w-full rounded py-3 px-4 mb-3" required placeholder="Ex: Colar" />
-                </div>
             </div>
 
             <div className="flex flex-wrap -mx-3 mb-4">
-                <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
-                    <Label htmlFor="supplier_id" className="block mb-2">Fornecedor <span className="text-red-400">*</span></Label>
-                    <Input id="supplier_id" value={supplier_id} onChange={(e) => setSupplierId(e.target.value)} className="appearance-none block w-full rounded py-3 px-4 mb-3" required placeholder="Ex: Monsur" />
+                <div className="w-full md:w-1/4 px-3">
+                    <Label htmlFor="quantity" className="block mb-2">Quantidade <span className="text-red-400">*</span></Label>
+                    <Input id="quantity" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} className="appearance-none block w-full rounded py-3 px-4 mb-3" required placeholder="Ex: Maria" />
+                </div>
+
+                <div className="w-full md:w-1/4 px-3 mb-4 md:mb-0">
+                    <Label htmlFor="color" className="block mb-2">Cor</Label>
+                    <Input id="color" type="text" value={color} onChange={(e) => setColor(e.target.value)} className="appearance-none block w-full rounded py-3 px-4 mb-3" required placeholder="Ex: azul" />
                 </div>
 
                 <div className="w-full md:w-1/2 px-3">
@@ -100,20 +95,25 @@ export function ProductForm({
                             <Button
                                 variant={"outline"}
                                 className={cn(
-                                    "appearance-none w-full rounded py-3 px-4 mb-3 cursor-pointer",
-                                    !date && "text-muted-foreground"
+                                    "w-full justify-start text-left font-normal cursor-pointer",
+                                    !parsedDate && "text-muted-foreground"
                                 )}
                             >
                                 <CalendarIcon className="mr-2 h-4 w-4" />
-                                {date ? format(date, "PPP") : <span>Escolha uma Data</span>}
+                                {parsedDate ? format(parsedDate, "PPP", {locale: ptBR}) : <span>Escolha uma Data</span>}
                             </Button>
                         </PopoverTrigger>
 
                         <PopoverContent className="w-auto p-0">
                             <Calendar
                                 mode="single"
-                                selected={date}
-                                onSelect={setDate}
+                                selected={parsedDate}
+                                onSelect={(date) => {
+                                    if (date) {
+                                        const formatted = format(date, "yyyy-MM-dd");
+                                        setPurchaseDate(formatted);
+                                    }
+                                }}
                                 initialFocus
                             />
                         </PopoverContent>
@@ -122,8 +122,50 @@ export function ProductForm({
             </div>
 
             <div className="flex flex-wrap -mx-3 mb-4">
+                <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
+                    <Label htmlFor="supplier_id" className="block mb-2">Fornecedor <span className="text-red-400">*</span></Label>
+                    <Select>
+                        <SelectTrigger >
+                            <SelectValue placeholder="Fornecedor" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectLabel>Fornecedores</SelectLabel>
+                                {/* {suppliers.map((supplier) => (
+                                    <SelectItem key={supplier_id} value={String(supplier.id)}>
+                                        {supplier.name}
+                                    </SelectItem>
+                                ))} */}
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                </div>
+
+                <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
+                    <Label htmlFor="category_id" className="block mb-2">Categoria</Label>
+                    <Select>
+                        <SelectTrigger >
+                            <SelectValue placeholder="Categoria" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectLabel>Categorias</SelectLabel>
+                                {/* {categories.map((category) => (
+                                    <SelectItem key={category_id} value={String(category.id)}>
+                                        {category.name}
+                                    </SelectItem>
+                                ))} */}
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                </div>
+            </div>
+
+            <div className="flex flex-wrap -mx-3 mb-4">
                 <div className="w-full md:w-full px-3 mb-4 md:mb-0">
-                    <Label htmlFor="supplier_id" className="block mb-2">Descrição</Label>
+                    <Label htmlFor="description" className="block mb-2">Descrição</Label>
                     <Textarea
                         className="col-span-3"
                         value={description}
@@ -134,8 +176,8 @@ export function ProductForm({
 
             <div className="flex flex-wrap -mx-3 mb-4 justify-center">
                 <div className="w-full md:w-2/3 px-3 mb-4 md:mb-0">
-                    <Label htmlFor="supplier_id" className="block mb-2">Imagem</Label>
-                    <Input id="picture" type="file" className="cursor-pointer"/>
+                    <Label htmlFor="image" className="block mb-2">Imagem</Label>
+                    <Input id="image" type="file" className="cursor-pointer"/>
                 </div>
             </div>
 

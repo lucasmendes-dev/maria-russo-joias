@@ -61,28 +61,7 @@ export function SalesDialog({ product, salesOpen, setSalesOpen }: SalesDialogPro
 
                 <DialogDescription>Preencha os dados de venda do produto.</DialogDescription>
 
-                <ProductForm
-                    name={name}
-                    quantity={quantity}
-                    price={price}
-                    category_id={category_id}
-                    description={description}
-                    color={color}
-                    purchase_date={purchase_date}
-                    supplier_id={supplier_id}
-                    image={image}
-                    status={status}
-                    setName={setName}
-                    setQuantity={setQuantity}
-                    setPrice={setPrice}
-                    setCategoryId={setCategoryId}
-                    setDescription={setDescription}
-                    setColor={setColor}
-                    setPurchaseDate={setPurchaseDate}
-                    setSupplierId={setSupplierId}
-                    setImage={setImage}
-                    setStatus={setStatus}
-                />
+
 
                 <DialogFooter>
                     <Button type="submit" className="cursor-pointer" onClick={handleUpdate}>Salvar Alterações</Button>

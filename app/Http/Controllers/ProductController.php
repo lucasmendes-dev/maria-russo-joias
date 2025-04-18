@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
+use App\Models\Category;
 use App\Models\Product;
+use App\Models\Supplier;
 use Inertia\Inertia;
 
 class ProductController extends Controller
@@ -14,11 +16,16 @@ class ProductController extends Controller
         $availableProducts = Product::where('status', 'available')->get();
         $pendingProducts = Product::where('status', 'pending')->get();
         $soldProducts = Product::where('status', 'sold')->get();
-        
+
+        $categories = Category::all(['id', 'name']);
+        $suppliers = Supplier::all(['id', 'name']);
+
         return Inertia::render('products/index', [
             'availableProducts' => $availableProducts,
             'pendingProducts' => $pendingProducts,
             'soldProducts' => $soldProducts,
+            'categories' => $categories,
+            'suppliers' => $suppliers,
         ]);
     }
 
