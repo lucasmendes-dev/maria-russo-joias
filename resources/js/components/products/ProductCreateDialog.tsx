@@ -3,8 +3,15 @@ import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, Dialog
 import { Button } from "@/components/ui/button";
 import { ProductForm } from "./ProductForm";
 import { router } from "@inertiajs/react";
+import { Category, Supplier } from "@/types";
 
-export function ProductCreateDialog() {
+export function ProductCreateDialog({
+    categories,
+    suppliers
+}: {
+    categories: Category[],
+    suppliers: Supplier[]
+}) {
     const [open, setOpen] = useState(false);
     const [name, setName] = useState("");
     const [quantity, setQuantity] = useState("0");
@@ -24,6 +31,15 @@ export function ProductCreateDialog() {
         }
         router.post("/products", {
             name,
+            quantity,
+            price,
+            category_id,
+            description,
+            color,
+            purchase_date,
+            supplier_id,
+            image,
+            status,
         }, {
             onSuccess: () => setOpen(false),
             preserveScroll: true,
@@ -62,6 +78,8 @@ export function ProductCreateDialog() {
                     setSupplierId={setSupplierId}
                     setImage={setImage}
                     setStatus={setStatus}
+                    categories={categories}
+                    suppliers={suppliers}
                 />
 
                 <DialogFooter>

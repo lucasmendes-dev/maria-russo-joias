@@ -4,26 +4,15 @@ import { router } from "@inertiajs/react";
 import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription} from "@/components/ui/dialog";
 import { ProductForm } from "./ProductForm";
+import { UpdateDialogProps } from "@/types";
 
-interface UpdateDialogProps {
-    product: {
-        id: string,
-        name: string,
-        quantity: string,
-        price: string,
-        category_id: string,
-        description: string,
-        color: string,
-        purchase_date: string,
-        supplier_id: string,
-        image: string,
-        status: string;
-    };
-    open: boolean;
-    setOpen: (value: boolean) => void;
-}
-
-export function UpdateDialog({ product, open, setOpen }: UpdateDialogProps) {
+export function UpdateDialog({
+    product,
+    open,
+    setOpen,
+    categories,
+    suppliers
+}: UpdateDialogProps) {
     const [name, setName] = useState(product.name);
     const [quantity, setQuantity] = useState(product.quantity);
     const [price, setPrice] = useState(product.price);
@@ -38,6 +27,15 @@ export function UpdateDialog({ product, open, setOpen }: UpdateDialogProps) {
     const handleUpdate = () => {
         router.put(`/products/${product.id}`, {
             name,
+            quantity,
+            price,
+            category_id,
+            description,
+            color,
+            purchase_date,
+            supplier_id,
+            image,
+            status,
         }, {
             preserveScroll: true,
             preserveState: true,
@@ -82,6 +80,8 @@ export function UpdateDialog({ product, open, setOpen }: UpdateDialogProps) {
                     setSupplierId={setSupplierId}
                     setImage={setImage}
                     setStatus={setStatus}
+                    categories={categories}
+                    suppliers={suppliers}
                 />
 
                 <DialogFooter>

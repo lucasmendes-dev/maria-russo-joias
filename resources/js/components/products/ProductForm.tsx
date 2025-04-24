@@ -1,7 +1,6 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea"
-import React, { useState, useEffect } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -10,29 +9,8 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ProductFormProps } from "@/types";
 
-interface ProductFormProps {
-    name: string,
-    quantity: string,
-    price: string,
-    category_id: string,
-    description: string,
-    color: string,
-    purchase_date: string,
-    supplier_id: string,
-    image: string,
-    status: string;
-    setName: (value: string) => void;
-    setQuantity: (value: string) => void;
-    setPrice: (value: string) => void;
-    setCategoryId: (value: string) => void;
-    setDescription: (value: string) => void;
-    setColor: (value: string) => void;
-    setPurchaseDate: (value: string) => void;
-    setSupplierId: (value: string) => void;
-    setImage: (value: string) => void;
-    setStatus: (value: string) => void;
-}
 
 export function ProductForm({
     name,
@@ -54,7 +32,9 @@ export function ProductForm({
     setPurchaseDate,
     setSupplierId,
     setImage,
-    setStatus
+    setStatus,
+    categories,
+    suppliers
 }: ProductFormProps) {
     const parsedDate = purchase_date
         ? (() => {
@@ -104,7 +84,7 @@ export function ProductForm({
                             </Button>
                         </PopoverTrigger>
 
-                        <PopoverContent className="w-auto p-0">
+                        <PopoverContent className="w-auto p-0 pointer-events-auto">
                             <Calendar
                                 mode="single"
                                 selected={parsedDate}
@@ -115,6 +95,7 @@ export function ProductForm({
                                     }
                                 }}
                                 initialFocus
+                                defaultMonth={parsedDate}
                             />
                         </PopoverContent>
                     </Popover>
@@ -124,19 +105,22 @@ export function ProductForm({
             <div className="flex flex-wrap -mx-3 mb-4">
                 <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
                     <Label htmlFor="supplier_id" className="block mb-2">Fornecedor <span className="text-red-400">*</span></Label>
-                    <Select>
+                    <Select
+                        value={String(supplier_id)}
+                        onValueChange={(value) => setSupplierId(value)}
+                    >
                         <SelectTrigger >
                             <SelectValue placeholder="Fornecedor" />
                         </SelectTrigger>
 
                         <SelectContent>
                             <SelectGroup>
-                                <SelectLabel>Fornecedores</SelectLabel>
-                                {/* {suppliers.map((supplier) => (
-                                    <SelectItem key={supplier_id} value={String(supplier.id)}>
+                                <SelectLabel>Selecione um Fornecedor</SelectLabel>
+                                {suppliers.map((supplier) => (
+                                    <SelectItem key={supplier.id} value={String(supplier.id)}>
                                         {supplier.name}
                                     </SelectItem>
-                                ))} */}
+                                ))}
                             </SelectGroup>
                         </SelectContent>
                     </Select>
@@ -144,19 +128,22 @@ export function ProductForm({
 
                 <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
                     <Label htmlFor="category_id" className="block mb-2">Categoria</Label>
-                    <Select>
+                    <Select
+                        value={String(category_id)}
+                        onValueChange={(value) => setCategoryId(value)}
+                    >
                         <SelectTrigger >
                             <SelectValue placeholder="Categoria" />
                         </SelectTrigger>
 
                         <SelectContent>
                             <SelectGroup>
-                                <SelectLabel>Categorias</SelectLabel>
-                                {/* {categories.map((category) => (
-                                    <SelectItem key={category_id} value={String(category.id)}>
+                                <SelectLabel>Selecione uma Categoria</SelectLabel>
+                                {categories.map((category) => (
+                                    <SelectItem key={category.id} value={String(category.id)}>
                                         {category.name}
                                     </SelectItem>
-                                ))} */}
+                                ))}
                             </SelectGroup>
                         </SelectContent>
                     </Select>
@@ -177,7 +164,7 @@ export function ProductForm({
             <div className="flex flex-wrap -mx-3 mb-4 justify-center">
                 <div className="w-full md:w-2/3 px-3 mb-4 md:mb-0">
                     <Label htmlFor="image" className="block mb-2">Imagem</Label>
-                    <Input id="image" type="file" className="cursor-pointer"/>
+                    <Input id="image" type="file" className="cursor-pointer" onChange={(e) => setImage(e.target.value)}/>
                 </div>
             </div>
 

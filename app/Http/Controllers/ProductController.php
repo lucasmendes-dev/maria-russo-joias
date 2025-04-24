@@ -31,7 +31,9 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request)
     {
-        Product::create($request->validated());
+        $data = $request->validated();
+        $data['status'] = 'available';
+        Product::create($data);
 
         return redirect()->back()->with('success', 'Produto "' . $request->name . '" cadastrado!');
     }

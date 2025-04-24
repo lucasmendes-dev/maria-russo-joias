@@ -1,10 +1,10 @@
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
+import { type BreadcrumbItem, ProductProps } from '@/types';
 import { Head } from '@inertiajs/react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { DataTable } from '@/components/data-table';
 import { ProductCreateDialog } from '@/components/products/ProductCreateDialog';
-import { Product, availableColumns } from '@/components/products/availableColumns';
+import { getAvailableColumns} from '@/components/products/availableColumns';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -12,12 +12,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: route('products.index'),
     },
 ];
-
-type ProductProps = {
-    availableProducts: Product[];
-    pendingProducts: Product[];
-    soldProducts: Product[];
-}
 
 const filters: string[] = [
     'name',
@@ -31,8 +25,15 @@ const filters: string[] = [
     'status',
 ];
 
+export default function Products({
+    availableProducts,
+    pendingProducts,
+    soldProducts,
+    categories,
+    suppliers
+ }: ProductProps) {
+    const availableColumns = getAvailableColumns(categories, suppliers);
 
-export default function Products({ availableProducts, pendingProducts, soldProducts }: ProductProps) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Produtos" />
@@ -46,15 +47,15 @@ export default function Products({ availableProducts, pendingProducts, soldProdu
                         </TabsList>
 
                         <TabsContent value="available">
-                            <DataTable columns={availableColumns} data={availableProducts} createButton={<ProductCreateDialog />} filters={filters}/>
+                            <DataTable columns={availableColumns} data={availableProducts} createButton={<ProductCreateDialog categories={categories} suppliers={suppliers}/>} filters={filters}/>
                         </TabsContent>
 
                         <TabsContent value="pending">
-                            <DataTable columns={availableColumns} data={pendingProducts} createButton={<ProductCreateDialog />} filters={filters}/>
+                            <DataTable columns={availableColumns} data={pendingProducts} filters={filters}/>
                         </TabsContent>
 
                         <TabsContent value="sold">
-                            <DataTable columns={availableColumns} data={soldProducts} createButton={<ProductCreateDialog />} filters={filters}/>
+                            <DataTable columns={availableColumns} data={soldProducts} filters={filters}/>
                         </TabsContent>
                     </Tabs>
                 </div>

@@ -11,7 +11,7 @@ import { Toaster, toast } from "sonner";
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[],
     data: TData[],
-    createButton: React.ReactNode,
+    createButton?: React.ReactNode,
     filters: string[];
 }
 
