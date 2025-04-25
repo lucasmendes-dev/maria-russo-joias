@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
 import { SalesDialog } from "./SalesDialog";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { Product, Category, Supplier } from "@/types";
+import { formatToBRCurrency } from "@/utils/functions-lib";
 
 export const getAvailableColumns = (
     categories: Category[],
@@ -111,10 +112,7 @@ export const getAvailableColumns = (
             },
             cell: ({ row }) => {
                 const price = parseFloat(row.getValue("price"));
-                const formatted = new Intl.NumberFormat("pt-BR", {
-                    style: "currency",
-                    currency: "BRL"
-                }).format(price);
+                const formatted = formatToBRCurrency(price);
         
                 return <div className="font-medium">{formatted}</div>
             }

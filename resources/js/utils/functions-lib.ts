@@ -21,3 +21,10 @@ export function formatPhoneNumber(value: string): string {
     }
     return value;
 }
+
+export function formatToBRCurrency(price: number) {
+    return new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    }).format(price);
+}

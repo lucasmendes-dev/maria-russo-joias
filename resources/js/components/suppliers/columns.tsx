@@ -7,7 +7,7 @@ import { ArrowUpDown } from "lucide-react";
  import { AlertDialogDelete } from "../AlertDialogDelete";
 import { UpdateDialog } from "./UpdateDialog";
 import { useState } from "react";
-import { formatPhoneNumber } from "@/utils/phoneFormatter";
+import { formatPhoneNumber } from "@/utils/functions-lib";
 
 export type Supplier = {
     id: string
