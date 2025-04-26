@@ -127,7 +127,7 @@ export function ProductForm({
                 </div>
 
                 <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
-                    <Label htmlFor="category_id" className="block mb-2">Categoria</Label>
+                    <Label htmlFor="category_id" className="block mb-2">Categoria <span className="text-red-400">*</span></Label>
                     <Select
                         value={String(category_id)}
                         onValueChange={(value) => setCategoryId(value)}
@@ -164,7 +164,7 @@ export function ProductForm({
             <div className="flex flex-wrap -mx-3 mb-4 justify-center">
                 <div className="w-full md:w-2/3 px-3 mb-4 md:mb-0">
                     <Label htmlFor="image" className="block mb-2">Imagem</Label>
-                    <Input id="image" type="file" className="cursor-pointer" onChange={(e) => setImage(e.target.value)}/>
+                    <Input id="image" type="file" className="cursor-pointer" onChange={(e) => setImage(e.target.files?.[0] || null)}/>
                 </div>
             </div>
 

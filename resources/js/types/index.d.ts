@@ -72,7 +72,7 @@ export interface ProductFormProps {
     color: string,
     purchase_date: string,
     supplier_id: string,
-    image: string,
+    image: File | null,
     status: string;
     setName: (value: string) => void;
     setQuantity: (value: string) => void;
@@ -82,7 +82,7 @@ export interface ProductFormProps {
     setColor: (value: string) => void;
     setPurchaseDate: (value: string) => void;
     setSupplierId: (value: string) => void;
-    setImage: (value: string) => void;
+    setImage: (value: File | null) => void;
     setStatus: (value: string) => void;
     categories: Category[];
     suppliers: Supplier[];

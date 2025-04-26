@@ -51,14 +51,14 @@ export const getAvailableColumns = (
                 <HoverCard>
                     <HoverCardTrigger>
                         <Avatar>
-                            <AvatarImage src={`/images/${row.getValue("image")}`} className="w-10 h-10 rounded-full"/>
+                            <AvatarImage src={`/storage/images/${row.getValue("image")}`} className="w-10 h-10 rounded-full"/>
                         </Avatar>
                     </HoverCardTrigger>
 
                     <HoverCardContent className="w-90">
                         <div className="flex justify-between space-x-4">
                             <Avatar>
-                                <AvatarImage src={`/images/${row.getValue("image")}`} className="rounded-lg" />
+                                <AvatarImage src={`/storage/images/${row.getValue("image")}`} className="rounded-lg" />
                                 <AvatarFallback>VC</AvatarFallback>
                             </Avatar>
                         </div>

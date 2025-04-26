@@ -23,15 +23,15 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'quantity' => ['required', 'string'],
-            'price' => ['required', 'string'],
-            'category_id' => ['string'],
-            'description' => ['string'],
-            'color' => ['string'],
-            'purchase_date' => ['required', 'string'],
-            'supplier_id' => ['required', 'string'],
-            'image' => ['string'],
-            'status' => ['string', 'nullable']
+            'quantity' => ['required', 'integer'],
+            'price' => ['required', 'numeric'],   
+            'category_id' => ['nullable', 'integer'],
+            'description' => ['nullable', 'string'],
+            'color' => ['nullable', 'string'],
+            'purchase_date' => ['required', 'date'],
+            'supplier_id' => ['required', 'integer'],
+            'image' => ['nullable', 'image', 'mimes:png,jpg,jpeg,gif'],
+            'status' => ['nullable', 'string']
         ];
     }
 }

@@ -21,29 +21,35 @@ export function UpdateDialog({
     const [color, setColor] = useState(product.color);
     const [purchase_date, setPurchaseDate] = useState(product.purchase_date);
     const [supplier_id, setSupplierId] = useState(product.supplier_id);
-    const [image, setImage] = useState(product.image);
+    const [image, setImage] = useState<File|null>(null);
     const [status, setStatus] = useState(product.status);
 
     const handleUpdate = () => {
-        router.put(`/products/${product.id}`, {
-            name,
-            quantity,
-            price,
-            category_id,
-            description,
-            color,
-            purchase_date,
-            supplier_id,
-            image,
-            status,
-        }, {
+        const formData = new FormData();
+        
+        formData.append('_method', 'PUT'); // setting PUT method
+
+        formData.append('name', name);
+        formData.append('quantity', String(quantity));
+        formData.append('price', String(price));
+        formData.append('color', color);
+        formData.append('purchase_date', purchase_date);
+        formData.append('supplier_id', String(supplier_id));
+        formData.append('category_id', String(category_id));
+        formData.append('description', description);
+        formData.append('status', status);
+
+        if (image) {
+            formData.append('image', image);
+        }
+        router.post(`/products/${product.id}`, formData, {
             preserveScroll: true,
             preserveState: true,
-            onSuccess: () => {
-                setOpen(false);
-            }
+            forceFormData: true,
+            onSuccess: () => setOpen(false),
         });
     }
+
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>

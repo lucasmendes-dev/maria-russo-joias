@@ -33,6 +33,12 @@ class ProductController extends Controller
     {
         $data = $request->validated();
         $data['status'] = 'available';
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images/products');
+            $data['image'] = str_replace('images/' , '', $imagePath);
+        }
+
         Product::create($data);
 
         return redirect()->back()->with('success', 'Produto "' . $request->name . '" cadastrado!');
@@ -41,7 +47,16 @@ class ProductController extends Controller
     public function update(UpdateProductRequest $request, string $id)
     {
         $product = Product::findOrFail($id);
-        $product->update($request->validated());
+
+        $data = $request->validated();
+        unset($data['image']);
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images/products');
+            $data['image'] = str_replace('images/' , '', $imagePath);
+        }
+
+        $product->update($data);
 
         return redirect()->back()->with('success', 'Os dados do produto "' . $product->name . '" foram atualizados!');
     }

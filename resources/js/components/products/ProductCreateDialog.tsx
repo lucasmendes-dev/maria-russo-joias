@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ProductForm } from "./ProductForm";
 import { router } from "@inertiajs/react";
@@ -21,28 +21,34 @@ export function ProductCreateDialog({
     const [color, setColor] = useState("");
     const [purchase_date, setPurchaseDate] = useState("");
     const [supplier_id, setSupplierId] = useState("0");
-    const [image, setImage] = useState("");
+    const [image, setImage] = useState<File|null>(null);
     const [status, setStatus] = useState("");
 
     const handleCreate = () => {
-        if (!name) {
-            alert("Todos os campos são obrigatórios!");
+        if (!name || !price || !quantity || !purchase_date || !supplier_id) {
+            alert("Os campos com * são obrigatórios!");
             return;
         }
-        router.post("/products", {
-            name,
-            quantity,
-            price,
-            category_id,
-            description,
-            color,
-            purchase_date,
-            supplier_id,
-            image,
-            status,
-        }, {
+
+        const formData = new FormData();
+        formData.append('name', name);
+        formData.append('quantity', quantity);
+        formData.append('price', price);
+        formData.append('color', color);
+        formData.append('purchase_date', purchase_date);
+        formData.append('supplier_id', supplier_id);
+        formData.append('category_id', category_id);
+        formData.append('description', description);
+        formData.append('status', status);
+
+        if (image) {
+            formData.append('image', image);
+        }
+
+        router.post("/products", formData, {
             onSuccess: () => setOpen(false),
             preserveScroll: true,
+            forceFormData: true,
         });
     };
 
@@ -56,6 +62,8 @@ export function ProductCreateDialog({
                 <DialogHeader>
                     <DialogTitle>Adicionar novo produto</DialogTitle>
                 </DialogHeader>
+
+                <DialogDescription>Insira os dados para cadastrar o produto.</DialogDescription>
 
                 <ProductForm
                     name={name}
