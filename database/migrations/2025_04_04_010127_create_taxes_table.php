@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->tinyInteger('spread_tax');
+            $table->tinyInteger('tax_activated');
             $table->timestamps();
         });
     }

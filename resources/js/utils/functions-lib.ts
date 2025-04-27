@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 export function formatPhoneNumber(value: string): string {
     if (!value) {
         return "";
@@ -27,4 +29,37 @@ export function formatToBRCurrency(price: number) {
         style: "currency",
         currency: "BRL"
     }).format(price);
+}
+
+export async function sendTaxActivatedPatchRequest(rowId: string, checked: boolean): Promise<void> {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+    const response = await fetch(`/updateActivatedStatus/${rowId}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-type': 'application/json',
+            'X-CSRF-TOKEN': csrfToken ?? '',
+        },
+        body: JSON.stringify({
+            tax_activated: checked ? 1 : 0
+        }),
+    });
+
+    if (!response.ok) {
+        throw new Error('Erro na requisição');
+    }
+
+    showToast(response);
+}
+
+async function showToast(response: Response) {
+    const data = await response.json();
+    if (data.success) {
+        toast.success("Aviso:", {
+            description: data.message,
+        });
+    } else {
+        toast.error("Erro:", {
+            description: "Erro ao atualizar status da taxa.",
+        });
+    }
 }

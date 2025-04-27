@@ -16,6 +16,7 @@ class Tax extends Model
         'start_date',
         'end_date',
         'spread_tax',
+        'tax_activated'
     ];
 
     public function category()

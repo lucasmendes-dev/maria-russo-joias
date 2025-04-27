@@ -42,7 +42,7 @@ export function UpdateDialog({
         if (image) {
             formData.append('image', image);
         }
-        router.post(`/products/${product.id}`, formData, {
+        router.post(`/products/${product.id}`, formData, {  //using 'post' instead of 'put' to send image to laravel
             preserveScroll: true,
             preserveState: true,
             forceFormData: true,

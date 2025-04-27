@@ -107,3 +107,15 @@ export type Supplier = {
     name: string,
 }
 
+export type Tax = {
+    id: string,
+    name: string,
+    percentage: number,
+    price: number,
+    category_id: string,
+    description: string,
+    start_date: string,
+    end_date: string,
+    spread_tax: boolean,
+    tax_activated: boolean,
+}

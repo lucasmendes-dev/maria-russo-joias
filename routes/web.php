@@ -35,6 +35,11 @@ Route::middleware('auth')->group(function () {
 
     // Taxes
     Route::get('/taxes', [TaxController::class, 'index'])->name('taxes.index');
+    Route::get('/taxes', [TaxController::class, 'index'])->name('taxes.index');
+    Route::delete('/taxes/{id}', [TaxController::class, 'destroy'])->name('taxes.destroy');
+    Route::put('/taxes/{id}', [TaxController::class, 'update'])->name('taxes.update');
+    Route::post('/taxes', [TaxController::class, 'store'])->name('taxes.store');
+    Route::patch('/updateActivatedStatus/{id}', [TaxController::class, 'updateActivatedStatus'])->name('taxes.updateActivatedStatus');
     
     // Products to Order
     Route::get('/products-to-order', [ProductToOrderController::class, 'index'])->name('products-to-order.index');
