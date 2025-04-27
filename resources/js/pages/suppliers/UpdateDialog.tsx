@@ -2,30 +2,36 @@ import { Button } from "@/components/ui/button";
 import { Pencil } from 'lucide-react';
 import { router } from "@inertiajs/react";
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription} from "@/components/ui/dialog";
-import { CustomerForm } from "./CustomerForm";
+import { SupplierForm } from "./SupplierForm";
+import { UpdateSupplierDialogProps } from "@/types";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+    DialogFooter,
+    DialogDescription,
+} from "@/components/ui/dialog";
 
-interface UpdateDialogProps {
-    customer: {
-        id: string;
-        name: string;
-        phone: string;
-        local: string;
-    };
-    open: boolean;
-    setOpen: (value: boolean) => void;
-}
-
-export function UpdateDialog({ customer, open, setOpen }: UpdateDialogProps) {
-    const [name, setName] = useState(customer.name);
-    const [phone, setPhone] = useState(customer.phone);
-    const [local, setLocal] = useState(customer.local);
+export function UpdateDialog({
+    supplier,
+    open,
+    setOpen
+}: UpdateSupplierDialogProps) {
+    const [name, setName] = useState(supplier.name);
+    const [phone, setPhone] = useState(supplier.phone);
+    const [socialMedia, setSocialMedia] = useState(supplier.social_media);
+    const [local, setLocal] = useState(supplier.local);
+    const [sallerName, setSallerName] = useState(supplier.saller_name);
 
     const handleUpdate = () => {
-        router.put(`/customers/${customer.id}`, {
+        router.put(`/suppliers/${supplier.id}`, {
             name,
             phone,
-            local
+            social_media: socialMedia,
+            local,
+            saller_name: sallerName,
         }, {
             preserveScroll: true,
             preserveState: true,
@@ -44,18 +50,22 @@ export function UpdateDialog({ customer, open, setOpen }: UpdateDialogProps) {
 
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Editar cliente: <span className="text-blue-400">{ customer.name }</span></DialogTitle>
+                    <DialogTitle>Editar fornecedor: <span className="text-blue-400">{ supplier.name }</span></DialogTitle>
                 </DialogHeader>
 
                 <DialogDescription>Verifique os dados antes de alterá-los.</DialogDescription>
 
-                <CustomerForm
+                <SupplierForm
                     name={name}
                     phone={phone}
+                    socialMedia={socialMedia}
                     local={local}
+                    sallerName={sallerName}
                     setName={setName}
                     setPhone={setPhone}
+                    setSocialMedia={setSocialMedia}
                     setLocal={setLocal}
+                    setSallerName={setSallerName}
                 />
 
                 <DialogFooter>

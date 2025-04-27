@@ -2,9 +2,17 @@ import { Button } from "@/components/ui/button";
 import { Pencil } from 'lucide-react';
 import { router } from "@inertiajs/react";
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription} from "@/components/ui/dialog";
 import { ProductForm } from "./ProductForm";
-import { UpdateDialogProps } from "@/types";
+import { UpdateProductDialogProps } from "@/types";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+    DialogFooter,
+    DialogDescription
+} from "@/components/ui/dialog";
 
 export function UpdateDialog({
     product,
@@ -12,7 +20,7 @@ export function UpdateDialog({
     setOpen,
     categories,
     suppliers
-}: UpdateDialogProps) {
+}: UpdateProductDialogProps) {
     const [name, setName] = useState(product.name);
     const [quantity, setQuantity] = useState(product.quantity);
     const [price, setPrice] = useState(product.price);

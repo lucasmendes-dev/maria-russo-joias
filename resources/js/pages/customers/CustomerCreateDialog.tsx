@@ -1,8 +1,15 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { CustomerForm } from "./CustomerForm";
 import { router } from "@inertiajs/react";
+import {
+    Dialog,
+    DialogContent,
+    DialogTrigger,
+    DialogHeader,
+    DialogTitle,
+    DialogFooter
+} from "@/components/ui/dialog";
 
 export function CustomerCreateDialog() {
     const [open, setOpen] = useState(false);

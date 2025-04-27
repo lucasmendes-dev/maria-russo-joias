@@ -1,10 +1,17 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { CategoryForm } from "./CategoryForm";
+import { DetailForm } from "./DetailForm";
 import { router } from "@inertiajs/react";
+import {
+    Dialog,
+    DialogContent,
+    DialogTrigger,
+    DialogHeader,
+    DialogTitle,
+    DialogFooter
+} from "@/components/ui/dialog";
 
-export function CategoryCreateDialog() {
+export function DetailCreateDialog() {
     const [open, setOpen] = useState(false);
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -14,7 +21,7 @@ export function CategoryCreateDialog() {
             alert("Todos os campos são obrigatórios!");
             return;
         }
-        router.post("/categories", {
+        router.post("/details", {
             name,
             description,
         }, {
@@ -26,15 +33,15 @@ export function CategoryCreateDialog() {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button className="cursor-pointer">Cadastrar Categoria</Button>
+                <Button className="cursor-pointer">Cadastrar Detalhe</Button>
             </DialogTrigger>
 
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Adicionar nova Categoria</DialogTitle>
+                    <DialogTitle>Adicionar nova Detalhe</DialogTitle>
                 </DialogHeader>
 
-                <CategoryForm
+                <DetailForm
                     name={name}
                     description={description}
                     setName={setName}
@@ -42,7 +49,7 @@ export function CategoryCreateDialog() {
                 />
 
                 <DialogFooter>
-                    <Button onClick={handleCreate} className="cursor-pointer">Cadastar Categoria</Button>
+                    <Button onClick={handleCreate} className="cursor-pointer">Cadastar Detalhe</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

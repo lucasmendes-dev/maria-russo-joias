@@ -1,10 +1,15 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem, ProductProps } from '@/types';
 import { Head } from '@inertiajs/react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { DataTable } from '@/components/data-table';
-import { ProductCreateDialog } from '@/components/products/ProductCreateDialog';
-import { getAvailableColumns} from '@/components/products/availableColumns';
+import { ProductCreateDialog } from './ProductCreateDialog';
+import { getAvailableColumns} from './availableColumns';
+import {
+    Tabs,
+    TabsContent,
+    TabsList,
+    TabsTrigger
+} from "@/components/ui/tabs";
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -31,7 +36,7 @@ export default function Products({
     soldProducts,
     categories,
     suppliers
- }: ProductProps) {
+}: ProductProps) {
     const availableColumns = getAvailableColumns(categories, suppliers);
 
     return (
@@ -47,7 +52,11 @@ export default function Products({
                         </TabsList>
 
                         <TabsContent value="available">
-                            <DataTable columns={availableColumns} data={availableProducts} createButton={<ProductCreateDialog categories={categories} suppliers={suppliers}/>} filters={filters}/>
+                            <DataTable
+                            columns={availableColumns}
+                            data={availableProducts}
+                            createButton={<ProductCreateDialog categories={categories} suppliers={suppliers}/>}
+                            filters={filters}/>
                         </TabsContent>
 
                         <TabsContent value="pending">

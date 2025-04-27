@@ -2,27 +2,32 @@ import { Button } from "@/components/ui/button";
 import { Pencil } from 'lucide-react';
 import { router } from "@inertiajs/react";
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription} from "@/components/ui/dialog";
-import { DetailForm } from "./DetailForm";
+import { CustomerForm } from "./CustomerForm";
+import { UpdateCustomerDialogProps } from "@/types";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+    DialogFooter,
+    DialogDescription
+} from "@/components/ui/dialog";
 
-interface UpdateDialogProps {
-    detail: {
-        id: string;
-        name: string;
-        description: string;
-    };
-    open: boolean;
-    setOpen: (value: boolean) => void;
-}
-
-export function UpdateDialog({ detail, open, setOpen }: UpdateDialogProps) {
-    const [name, setName] = useState(detail.name);
-    const [description, setDescription] = useState(detail.description);
+export function UpdateDialog({
+    customer,
+    open,
+    setOpen
+}: UpdateCustomerDialogProps) {
+    const [name, setName] = useState(customer.name);
+    const [phone, setPhone] = useState(customer.phone);
+    const [local, setLocal] = useState(customer.local);
 
     const handleUpdate = () => {
-        router.put(`/details/${detail.id}`, {
+        router.put(`/customers/${customer.id}`, {
             name,
-            description,
+            phone,
+            local
         }, {
             preserveScroll: true,
             preserveState: true,
@@ -41,16 +46,18 @@ export function UpdateDialog({ detail, open, setOpen }: UpdateDialogProps) {
 
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Editar cliente: <span className="text-blue-400">{ detail.name }</span></DialogTitle>
+                    <DialogTitle>Editar cliente: <span className="text-blue-400">{ customer.name }</span></DialogTitle>
                 </DialogHeader>
 
                 <DialogDescription>Verifique os dados antes de alterá-los.</DialogDescription>
 
-                <DetailForm
+                <CustomerForm
                     name={name}
-                    description={description}
+                    phone={phone}
+                    local={local}
                     setName={setName}
-                    setDescription={setDescription}
+                    setPhone={setPhone}
+                    setLocal={setLocal}
                 />
 
                 <DialogFooter>

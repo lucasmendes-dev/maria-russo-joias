@@ -1,9 +1,10 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
-import { Category, columns } from '@/components/categories/columns';
+import { columns } from './columns';
 import { DataTable } from '@/components/data-table';
-import { CategoryCreateDialog } from '@/components/categories/CategoryCreateDialog';
+import { CategoryCreateDialog } from './CategoryCreateDialog';
+import { Category } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {

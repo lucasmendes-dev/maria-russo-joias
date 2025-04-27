@@ -1,16 +1,27 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea"
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { cn } from "@/lib/utils";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ProductFormProps } from "@/types";
-
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger
+} from "@/components/ui/popover";
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue
+} from "@/components/ui/select";
 
 export function ProductForm({
     name,
@@ -167,7 +178,6 @@ export function ProductForm({
                     <Input id="image" type="file" className="cursor-pointer" onChange={(e) => setImage(e.target.files?.[0] || null)}/>
                 </div>
             </div>
-
         </form>
     );
 }

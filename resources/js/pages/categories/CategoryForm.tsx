@@ -1,13 +1,7 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea"
-
-interface CategoryFormProps {
-    name: string;
-    description: string;
-    setName: (value: string) => void;
-    setDescription: (value: string) => void;
-}
+import { CategoryFormProps } from "@/types";
 
 export function CategoryForm({
     name,

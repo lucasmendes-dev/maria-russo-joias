@@ -1,9 +1,17 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { ProductForm } from "./ProductForm";
 import { router } from "@inertiajs/react";
 import { Category, Supplier } from "@/types";
+import {
+    Dialog,
+    DialogContent,
+    DialogTrigger,
+    DialogHeader,
+    DialogTitle,
+    DialogFooter,
+    DialogDescription
+} from "@/components/ui/dialog";
 
 export function ProductCreateDialog({
     categories,

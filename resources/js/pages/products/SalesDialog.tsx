@@ -2,8 +2,16 @@ import { Button } from "@/components/ui/button";
 import { ShoppingBag } from 'lucide-react';
 import { router } from "@inertiajs/react";
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription} from "@/components/ui/dialog";
 import { ProductForm } from "./ProductForm";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+    DialogFooter,
+    DialogDescription
+} from "@/components/ui/dialog";
 
 interface SalesDialogProps {
     product: {

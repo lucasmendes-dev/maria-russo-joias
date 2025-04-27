@@ -4,21 +4,13 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowUpDown } from "lucide-react";
- import { AlertDialogDelete } from "../AlertDialogDelete";
+import { AlertDialogDelete } from "@/components/AlertDialogDelete";
 import { UpdateDialog } from "./UpdateDialog";
 import { useState } from "react";
 import { formatPhoneNumber } from "@/utils/functions-lib";
+import { Customer } from "@/types";
 
-export type Supplier = {
-    id: string
-    name: string
-    phone: string
-    social_media: string
-    local: string
-    saller_name: string
-}
-
-export const columns: ColumnDef<Supplier>[] = [
+export const columns: ColumnDef<Customer>[] = [
     {
         id: "select",
         header: ({ table }) => (
@@ -73,34 +65,6 @@ export const columns: ColumnDef<Supplier>[] = [
         },
     },
     {
-        accessorKey: "social_media",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Rede Social
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            )
-        },
-    },
-    {
-        accessorKey: "saller_name",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Vendedor
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            )
-        },
-    },
-    {
         accessorKey: "local",
         header: ({ column }) => {
             return (
@@ -118,18 +82,16 @@ export const columns: ColumnDef<Supplier>[] = [
         header: "Ações",
         id: "actions",
         cell: ({ row }) => {
-            const supplier = row.original;
+            const customer = row.original;
             const [isDialogOpen, setIsDialogOpen] = useState(false);
-
             return (
                 <div>
                     <UpdateDialog
-                        supplier={supplier}
+                        customer={customer}
                         open={isDialogOpen}
                         setOpen={setIsDialogOpen}
                     />
-
-                    <AlertDialogDelete objectName={supplier} deleteRoute="suppliers"/>
+                    <AlertDialogDelete objectName={customer} deleteRoute="customers"/>
                 </div>
             );
         },

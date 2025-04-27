@@ -2,25 +2,28 @@ import { Button } from "@/components/ui/button";
 import { Pencil } from 'lucide-react';
 import { router } from "@inertiajs/react";
 import { useState } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger, DialogFooter, DialogDescription} from "@/components/ui/dialog";
-import { CategoryForm } from "./CategoryForm";
+import { DetailForm } from "./DetailForm";
+import { UpdateDetailDialogProps } from "@/types";
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+    DialogFooter,
+    DialogDescription
+} from "@/components/ui/dialog";
 
-interface UpdateDialogProps {
-    category: {
-        id: string;
-        name: string;
-        description: string;
-    };
-    open: boolean;
-    setOpen: (value: boolean) => void;
-}
-
-export function UpdateDialog({ category, open, setOpen }: UpdateDialogProps) {
-    const [name, setName] = useState(category.name);
-    const [description, setDescription] = useState(category.description);
+export function UpdateDialog({
+    detail,
+    open,
+    setOpen
+}: UpdateDetailDialogProps) {
+    const [name, setName] = useState(detail.name);
+    const [description, setDescription] = useState(detail.description);
 
     const handleUpdate = () => {
-        router.put(`/categories/${category.id}`, {
+        router.put(`/details/${detail.id}`, {
             name,
             description,
         }, {
@@ -41,12 +44,12 @@ export function UpdateDialog({ category, open, setOpen }: UpdateDialogProps) {
 
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Editar cliente: <span className="text-blue-400">{ category.name }</span></DialogTitle>
+                    <DialogTitle>Editar cliente: <span className="text-blue-400">{ detail.name }</span></DialogTitle>
                 </DialogHeader>
 
                 <DialogDescription>Verifique os dados antes de alterá-los.</DialogDescription>
 
-                <CategoryForm
+                <DetailForm
                     name={name}
                     description={description}
                     setName={setName}

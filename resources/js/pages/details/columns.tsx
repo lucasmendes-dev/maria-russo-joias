@@ -4,19 +4,12 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowUpDown } from "lucide-react";
-import { AlertDialogDelete } from "../AlertDialogDelete";
+import { AlertDialogDelete } from "@/components/AlertDialogDelete";
 import { UpdateDialog } from "./UpdateDialog";
 import { useState } from "react";
-import { formatPhoneNumber } from "@/utils/functions-lib";
+import { Detail } from "@/types";
 
-export type Customer = {
-    id: string
-    name: string
-    phone: string
-    local: string
-}
-
-export const columns: ColumnDef<Customer>[] = [
+export const columns: ColumnDef<Detail>[] = [
     {
         id: "select",
         header: ({ table }) => (
@@ -54,50 +47,33 @@ export const columns: ColumnDef<Customer>[] = [
         },
     },
     {
-        accessorKey: "phone",
+        accessorKey: "description",
         header: ({ column }) => {
             return (
                 <Button
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Telefone
+                    Descrição
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
-        },
-        cell: ({row}) => {
-            return formatPhoneNumber(row.getValue("phone"));
-        },
-    },
-    {
-        accessorKey: "local",
-        header: ({ column }) => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                >
-                    Local
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            )
-        },
+        }
     },
     {
         header: "Ações",
         id: "actions",
         cell: ({ row }) => {
-            const customer = row.original;
+            const detail = row.original;
             const [isDialogOpen, setIsDialogOpen] = useState(false);
             return (
                 <div>
                     <UpdateDialog
-                        customer={customer}
+                        detail={detail}
                         open={isDialogOpen}
                         setOpen={setIsDialogOpen}
                     />
-                    <AlertDialogDelete objectName={customer} deleteRoute="customers"/>
+                    <AlertDialogDelete objectName={detail} deleteRoute="details"/>
                 </div>
             );
         },

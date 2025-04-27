@@ -4,15 +4,10 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowUpDown } from "lucide-react";
-import { AlertDialogDelete } from "../AlertDialogDelete";
+import { AlertDialogDelete } from "@/components/AlertDialogDelete";
 import { UpdateDialog } from "./UpdateDialog";
 import { useState } from "react";
-
-export type Category = {
-    id: string
-    name: string
-    description: string
-}
+import { Category } from "@/types";
 
 export const columns: ColumnDef<Category>[] = [
     {

@@ -41,6 +41,7 @@ export interface User {
     [key: string]: unknown; // This allows for additional properties...
 }
 
+////////////////////////////////// Products //////////////////////////////////
 export type Product = {
     id: string,
     name: string,
@@ -53,14 +54,6 @@ export type Product = {
     supplier_id: string,
     image: string,
     status: string;
-}
-
-export type ProductProps = {
-    availableProducts: Product[],
-    pendingProducts: Product[],
-    soldProducts: Product[],
-    categories: Category[],
-    suppliers: Supplier[]
 }
 
 export interface ProductFormProps {
@@ -88,7 +81,7 @@ export interface ProductFormProps {
     suppliers: Supplier[];
 }
 
-export interface UpdateDialogProps {
+export interface UpdateProductDialogProps {
     product: Product;
     open: boolean;
     setOpen: (value: boolean) => void;
@@ -96,17 +89,16 @@ export interface UpdateDialogProps {
     suppliers: Supplier[];
 }
 
-
-export type Category = {
-    id: string,
-    name: string,
+export type ProductProps = {
+    availableProducts: Product[],
+    pendingProducts: Product[],
+    soldProducts: Product[],
+    categories: Category[],
+    suppliers: Supplier[]
 }
 
-export type Supplier = {
-    id: string,
-    name: string,
-}
 
+////////////////////////////////// Taxes //////////////////////////////////
 export type Tax = {
     id: string,
     name: string,
@@ -118,4 +110,97 @@ export type Tax = {
     end_date: string,
     spread_tax: boolean,
     tax_activated: boolean,
+}
+
+////////////////////////////////// Customers //////////////////////////////////
+export type Customer = {
+    id: string
+    name: string
+    phone: string
+    local: string
+}
+
+export interface CustomerFormProps {
+    name: string;
+    phone: string;
+    local: string;
+    setName: (value: string) => void;
+    setPhone: (value: string) => void;
+    setLocal: (value: string) => void;
+}
+
+export interface UpdateCustomerDialogProps {
+    customer: Customer;
+    open: boolean;
+    setOpen: (value: boolean) => void;
+}
+
+////////////////////////////////// Suppliers //////////////////////////////////
+
+export type Supplier = {
+    id: string
+    name: string
+    phone: string
+    social_media: string
+    local: string
+    saller_name: string
+}
+
+export interface SupplierFormProps {
+    name: string;
+    phone: string;
+    socialMedia: string;
+    local: string;
+    sallerName: string;
+    setName: (value: string) => void;
+    setPhone: (value: string) => void;
+    setSocialMedia: (value: string) => void;
+    setLocal: (value: string) => void;
+    setSallerName: (value: string) => void;
+}
+
+interface UpdateSupplierDialogProps {
+    supplier: Supplier;
+    open: boolean;
+    setOpen: (value: boolean) => void;
+}
+
+////////////////////////////////// Categories //////////////////////////////////
+export type Category = {
+    id: string,
+    name: string,
+    description: string,
+}
+
+export interface CategoryFormProps {
+    name: string;
+    description: string;
+    setName: (value: string) => void;
+    setDescription: (value: string) => void;
+}
+
+export interface UpdateCategoryDialogProps {
+    category: Category;
+    open: boolean;
+    setOpen: (value: boolean) => void;
+}
+
+////////////////////////////////// Details //////////////////////////////////
+export type Detail = {
+    id: string
+    name: string
+    description: string
+}
+
+export interface DetailFormProps {
+    name: string;
+    description: string;
+    setName: (value: string) => void;
+    setDescription: (value: string) => void;
+}
+
+export interface UpdateDetailDialogProps {
+    detail: Detail;
+    open: boolean;
+    setOpen: (value: boolean) => void;
 }

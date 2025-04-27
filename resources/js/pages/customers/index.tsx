@@ -1,9 +1,9 @@
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
+import { type BreadcrumbItem, Customer } from '@/types';
 import { Head } from '@inertiajs/react';
-import { Customer, columns } from '@/components/customers/columns';
+import { columns } from './columns';
 import { DataTable } from '@/components/data-table';
-import { CustomerCreateDialog } from '@/components/customers/CustomerCreateDialog';
+import { CustomerCreateDialog } from './CustomerCreateDialog'
 
 const breadcrumbs: BreadcrumbItem[] = [
     {

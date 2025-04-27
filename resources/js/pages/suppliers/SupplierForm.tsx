@@ -2,19 +2,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState, useEffect } from "react";
 import { formatPhoneNumber } from "@/utils/functions-lib";
-
-interface SupplierFormProps {
-    name: string;
-    phone: string;
-    socialMedia: string;
-    local: string;
-    sallerName: string;
-    setName: (value: string) => void;
-    setPhone: (value: string) => void;
-    setSocialMedia: (value: string) => void;
-    setLocal: (value: string) => void;
-    setSallerName: (value: string) => void;
-}
+import { SupplierFormProps } from "@/types";
 
 export function SupplierForm({
     name,
