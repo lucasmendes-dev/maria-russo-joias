@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Tax\StoreTaxRequest;
 use App\Http\Requests\Tax\UpdateTaxRequest;
+use App\Models\Category;
 use App\Models\Tax;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -13,7 +14,11 @@ class TaxController extends Controller
     public function index()
     {
         $taxes = Tax::all();
-        return Inertia::render('taxes/index', ['taxes' => $taxes]);
+        $categories = Category::all(['id', 'name']);
+        return Inertia::render('taxes/index', [
+            'taxes' => $taxes,
+            'categories' => $categories
+        ]);
     }
 
     public function store(StoreTaxRequest $request)
@@ -44,7 +49,7 @@ class TaxController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => "A taxa " . $tax->name . " foi '" . $taxToastStatus . "'"
+            'message' => "A taxa '" . $tax->name . "' foi '" . $taxToastStatus . "'"
         ]);
     }
 

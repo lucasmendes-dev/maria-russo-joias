@@ -11,7 +11,7 @@ class UpdateTaxRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,15 @@ class UpdateTaxRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['required', 'string'],
+            'percentage' => ['numeric', 'nullable'],
+            'price' => ['numeric', 'nullable'],
+            'category_id' => ['required'],
+            'description' => ['string', 'nullable'],
+            'start_date' => ['string', 'nullable'],
+            'end_date' => ['string', 'nullable'],
+            'spread_tax' => ['required', 'boolean'],
+            'tax_activated' => ['required', 'boolean'],
         ];
     }
 }

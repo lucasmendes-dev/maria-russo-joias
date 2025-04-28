@@ -41,6 +41,13 @@ export interface User {
     [key: string]: unknown; // This allows for additional properties...
 }
 
+export interface DateRangePickerProps {
+    startDate: string,
+    endDate: string,
+    setStartDate: (value: string) => void;
+    setEndDate: (value: string) => void;
+}
+
 ////////////////////////////////// Products //////////////////////////////////
 export type Product = {
     id: string,
@@ -110,6 +117,35 @@ export type Tax = {
     end_date: string,
     spread_tax: boolean,
     tax_activated: boolean,
+}
+
+export interface TaxFormProps {
+    name: string;
+    percentage: number,
+    price: number,
+    category_id: string,
+    description: string,
+    start_date: string,
+    end_date: string,
+    spread_tax: boolean,
+    tax_activated: boolean,
+    setName: (value: string) => void;
+    setPercentage: (value: number) => void;
+    setPrice: (value: number) => void;
+    setCategoryId: (value: string) => void;
+    setDescription: (value: string) => void;
+    setStartDate: (value: string) => void;
+    setEndDate: (value: string) => void;
+    setSpreadTax: (value: boolean) => void;
+    setTaxActivated: (value: boolean) => void;
+    categories: Category[];
+}
+
+export interface UpdateTaxDialogProps {
+    tax: Tax;
+    open: boolean;
+    setOpen: (value: boolean) => void;
+    categories: Category[];
 }
 
 ////////////////////////////////// Customers //////////////////////////////////

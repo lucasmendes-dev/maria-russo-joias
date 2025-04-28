@@ -63,3 +63,17 @@ async function showToast(response: Response) {
         });
     }
 }
+
+export const parseDateString = (dateString: string | undefined): Date | undefined => {
+    if (!dateString) {
+        return undefined;
+    }
+    const parts = dateString.split('-');
+    if (parts.length === 3) {
+        const year = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10) - 1;
+        const day = parseInt(parts[2], 10);
+        return new Date(year, month, day);
+    }
+    return undefined;
+};
