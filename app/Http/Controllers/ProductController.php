@@ -4,26 +4,30 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
-use App\Models\Category;
 use App\Models\Product;
-use App\Models\Supplier;
+use App\Services\CategoryService;
+use App\Services\ProductService;
+use App\Services\SupplierService;
 use Inertia\Inertia;
 
 class ProductController extends Controller
 {
+    public function __construct(
+        private ProductService $productService,
+        private CategoryService $categoryService,
+        private SupplierService $supplierService
+    ) {}
+
     public function index()
     {
-        $availableProducts = Product::where('status', 'available')->get();
-        $pendingProducts = Product::where('status', 'pending')->get();
-        $soldProducts = Product::where('status', 'sold')->get();
-
-        $categories = Category::all(['id', 'name']);
-        $suppliers = Supplier::all(['id', 'name']);
+        $products = $this->productService->getAllProducts();
+        $categories = $this->categoryService->getIdAndNameFromAllCategories();
+        $suppliers = $this->supplierService->getIdAndNameFromAllSuppliers();
 
         return Inertia::render('products/index', [
-            'availableProducts' => $availableProducts,
-            'pendingProducts' => $pendingProducts,
-            'soldProducts' => $soldProducts,
+            'availableProducts' => $products['available'],
+            'pendingProducts' => $products['pending'],
+            'soldProducts' => $products['sold'],
             'categories' => $categories,
             'suppliers' => $suppliers,
         ]);

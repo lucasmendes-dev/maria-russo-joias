@@ -66,7 +66,7 @@ export const getColumns = (categories: Category[]): ColumnDef<Tax>[] => {
                 )
             },
             cell: ({ row }) => {
-                return row.getValue('percentage') ? <div className="ml-4">{row.getValue("percentage")} %</div> : '';
+                return row.getValue('percentage') ? <div className="ml-4">{row.getValue("percentage")}%</div> : '';
             }
         },
         {

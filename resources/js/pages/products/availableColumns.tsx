@@ -138,6 +138,12 @@ export const getAvailableColumns = (
                     </Button>
                 )
             },
+            cell: ({ row }) => {
+                const sellingPrice = parseFloat(row.getValue("selling_price"));
+                const formatted = formatToBRCurrency(sellingPrice);
+        
+                return <div className="font-medium text-green-400">{formatted}</div>
+            }
         },
         {
             header: "Ações",

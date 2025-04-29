@@ -54,7 +54,7 @@ export function TaxForm({
 
                         <SelectContent>
                             <SelectGroup>
-                                <SelectLabel>Selecione uma Categoria</SelectLabel>
+                                <SelectLabel>Taxa será aplicada para:</SelectLabel>
                                 {categories.map((category) => (
                                     <SelectItem key={category.id} value={String(category.id)}>
                                         {category.name}
