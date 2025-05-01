@@ -151,7 +151,8 @@ export function ProductForm({
                         <SelectContent>
                             <SelectGroup>
                                 <SelectLabel>Selecione uma Categoria</SelectLabel>
-                                {categories.map((category) => (
+                                {categories.filter((category) => category.name !== "Todos")
+                                .map((category) => (
                                     <SelectItem key={category.id} value={String(category.id)}>
                                         {category.name}
                                     </SelectItem>

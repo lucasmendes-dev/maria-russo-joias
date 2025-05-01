@@ -28,21 +28,19 @@ class ProductService
     private function addSellingPriceToAvailableProducts(Collection &$products): void
     {
         $products['available']->each(function ($product) {
-            $product->selling_price = $this->calculateFinalSellingPrice($product); // CHECAR SE PASSA POR REFERÊNCIA
+            $product->selling_price = $this->calculateFinalSellingPrice($product);
         });
     }
 
     private function calculateFinalSellingPrice(Product $product): float
     {
         $activatedTaxes = $this->taxService->getAllActivatedTaxes();
-        if ($activatedTaxes) { // PROBLEMA DOS LOOPS
+        if ($activatedTaxes) {
             foreach ($activatedTaxes as $activatedTax) {
                 if ($this->isTaxAppliedForAllProducts($activatedTax)) {
-                    return $this->applyTaxForAllProducts($product, $activatedTax); // TALVEZ RETORNAR VOID E ALTERAR POR REFERÊNCIA
+                    return $this->applyTaxForAllProducts($product, $activatedTax);
                 } else {
-                    if ($this->hasProductAndTaxSameCategory($product, $activatedTax)) {
-                        return $this->applyTaxForAllProducts($product, $activatedTax);
-                    }
+                    return $this->applyTaxForSpecificCategories($product, $activatedTax);
                 }
             }
         }
@@ -55,25 +53,54 @@ class ProductService
         return $categoryName === 'Todos';
     }
 
+    private function applyTaxForAllProducts(Product $product, Tax $tax): float
+    {
+        if ($this->doesTaxHaveATimePeriod($tax)) {
+            if ($this->isProductPurchaseDateBetweenTaxTimePeriod($product->purchase_date, $tax->start_date, $tax->end_date)) {
+                return $this->applyTax($product, $tax);
+            }
+            return $product->price;
+        } else {
+            return $this->applyTax($product, $tax);
+        }
+    }
+
+    private function doesTaxHaveATimePeriod(Tax $tax): bool
+    {
+        return $tax->start_date && $tax->end_date;
+    }
+
+    private function isProductPurchaseDateBetweenTaxTimePeriod(string $purchaseDate, string $taxStartDate, string $taxEndDate): bool
+    {
+        return $purchaseDate >= $taxStartDate && $purchaseDate <= $taxEndDate;
+    }
+
+    private function applyTax(Product $product, Tax $tax): float
+    {
+        if ($tax->percentage) {
+            return $product->price + ($product->price * ($tax->percentage / 100));
+        }
+        if ($tax->spread_tax) { // trocar pra split
+            return $this->applyTaxSplit($product, $tax);
+        }
+        return $product->price + $tax->price; // INCOMPLETO AINDA
+    }
+
+    private function applyTaxForSpecificCategories(Product $product, Tax $tax): float
+    {
+        if ($this->hasProductAndTaxSameCategory($product, $tax)) {
+            return $this->applyTax($product, $tax);
+        }
+        return $product->price;
+    }
+
     private function hasProductAndTaxSameCategory(Product $product, Tax $tax): bool
     {
         return $product->category_id === $tax->category_id;
     }
 
-    private function applyTaxForAllProducts(Product $product, Tax $tax): float
+    private function applyTaxSplit(Product $product, Tax $tax): float
     {
-        if ($tax->percentage) {
-            return $product->price + ($product->price * ($tax->percentage / 100));
-        }
-        if ($tax->price) {
-            return $product->price + $tax->price; // INCOMPLETO AINDA
-        }
-        return $product->price;
+        return 0.0; // continuar daqui
     }
-
-    private function applyTaxForCategoryProducts(Product $product, Tax $tax): float
-    {
-
-    }
-
 }

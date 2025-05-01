@@ -8,6 +8,10 @@ test('login screen can be rendered', function () {
     $response->assertStatus(200);
 });
 
+test('guests see login page when try to access "/"', function () {
+    $this->get('/')->assertRedirect('/login');
+});
+
 test('users can authenticate using the login screen', function () {
     $user = User::factory()->create();
 
