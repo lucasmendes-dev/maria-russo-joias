@@ -36,13 +36,15 @@ class ProductService
     {
         $activatedTaxes = $this->taxService->getAllActivatedTaxes();
         if ($activatedTaxes) {
+            $taxValue = 0;
             foreach ($activatedTaxes as $activatedTax) {
                 if ($this->isTaxAppliedForAllProducts($activatedTax)) {
-                    return $this->applyTaxForAllProducts($product, $activatedTax);
+                    $taxValue += $this->applyTaxForAllProducts($product, $activatedTax);
                 } else {
                     return $this->applyTaxForSpecificCategories($product, $activatedTax);
                 }
             }
+            return $product->price + $taxValue;
         }
         return $product->price;
     }
@@ -59,8 +61,8 @@ class ProductService
             if ($this->isProductPurchaseDateBetweenTaxTimePeriod($product->purchase_date, $tax->start_date, $tax->end_date)) {
                 return $this->applyTax($product, $tax);
             }
-            return $product->price;
-        } else {
+            return 0;
+        } else { 
             return $this->applyTax($product, $tax);
         }
     }
@@ -78,12 +80,12 @@ class ProductService
     private function applyTax(Product $product, Tax $tax): float
     {
         if ($tax->percentage) {
-            return $product->price + ($product->price * ($tax->percentage / 100));
+            return $product->price * ($tax->percentage / 100);
         }
         if ($tax->spread_tax) { // trocar pra split
             return $this->applyTaxSplit($product, $tax);
         }
-        return $product->price + $tax->price; // INCOMPLETO AINDA
+        return $tax->price; // INCOMPLETO AINDA
     }
 
     private function applyTaxForSpecificCategories(Product $product, Tax $tax): float
@@ -91,7 +93,7 @@ class ProductService
         if ($this->hasProductAndTaxSameCategory($product, $tax)) {
             return $this->applyTax($product, $tax);
         }
-        return $product->price;
+        return $tax->price;
     }
 
     private function hasProductAndTaxSameCategory(Product $product, Tax $tax): bool
@@ -101,6 +103,28 @@ class ProductService
 
     private function applyTaxSplit(Product $product, Tax $tax): float
     {
-        return 0.0; // continuar daqui
+        $splitNumber = $this->getSplitNumber($tax);
+        $splitAmount = $tax->price / $splitNumber;
+        return $splitAmount;
+    }
+
+    private function getSplitNumber(Tax $tax): int
+    {
+        $products = $this->doesTaxHaveATimePeriod($tax) ? $this->getProductsByPurchaseDateRange($tax) : $this->getAvailableProducts();
+        $splitNumber = 0;
+        foreach ($products as $product) {
+            $splitNumber += $product->quantity * 1;
+        }
+        return $splitNumber;
+    }
+
+    private function getAvailableProducts(): Collection
+    {
+        return Product::where('status', 'available')->get();
+    }
+
+    private function getProductsByPurchaseDateRange(Tax $tax): Collection
+    {
+        return Product::where('status', 'available')->whereBetween('purchase_date', [$tax->start_date, $tax->end_date])->get();
     }
 }

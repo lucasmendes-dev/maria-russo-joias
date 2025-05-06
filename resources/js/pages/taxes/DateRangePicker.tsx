@@ -35,6 +35,9 @@ export function DatePickerWithRange({
         if (date) {
             setStartDate(date.from ? format(date.from, 'yyyy-MM-dd') : '');
             setEndDate(date.to ? format(date.to, 'yyyy-MM-dd') : '');
+        } else {
+            setStartDate('');
+            setEndDate('');
         }
     }, [date, setStartDate, setEndDate]);
 

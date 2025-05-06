@@ -142,7 +142,7 @@ export const getAvailableColumns = (
                 const sellingPrice = parseFloat(row.getValue("selling_price"));
                 const formatted = formatToBRCurrency(sellingPrice);
         
-                return <div className="font-medium text-green-400">{formatted}</div>
+                return <div className="font-medium text-green-400 ml-7">{formatted}</div>
             }
         },
         {
