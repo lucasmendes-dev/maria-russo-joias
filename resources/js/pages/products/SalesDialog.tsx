@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ShoppingBag } from 'lucide-react';
 import { router } from "@inertiajs/react";
 import { useState } from "react";
-import { ProductForm } from "./ProductForm";
+import { SalesDialogProps } from "@/types";
 import {
     Dialog,
     DialogContent,
@@ -13,35 +13,9 @@ import {
     DialogDescription
 } from "@/components/ui/dialog";
 
-interface SalesDialogProps {
-    product: {
-        id: string,
-        name: string,
-        quantity: string,
-        price: string,
-        category_id: string,
-        description: string,
-        color: string,
-        purchase_date: string,
-        supplier_id: string,
-        image: string,
-        status: string;
-    };
-    salesOpen: boolean;
-    setSalesOpen: (value: boolean) => void;
-}
 
 export function SalesDialog({ product, salesOpen, setSalesOpen }: SalesDialogProps) {
     const [name, setName] = useState(product.name);
-    const [quantity, setQuantity] = useState(product.quantity);
-    const [price, setPrice] = useState(product.price);
-    const [category_id, setCategoryId] = useState(product.category_id);
-    const [description, setDescription] = useState(product.description);
-    const [color, setColor] = useState(product.color);
-    const [purchase_date, setPurchaseDate] = useState(product.purchase_date);
-    const [supplier_id, setSupplierId] = useState(product.supplier_id);
-    const [image, setImage] = useState(product.image);
-    const [status, setStatus] = useState(product.status);
 
     const handleUpdate = () => {
         router.put(`/products/${product.id}`, {

@@ -1,0 +1,1 @@
+import { SalesDialogProps } from "@/types";

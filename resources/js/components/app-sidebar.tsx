@@ -14,12 +14,12 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Produtos',
-        href: route('products.index'),
+        href: '/products',
         icon: Gem,
     },
     {
         title: 'Taxas',
-        href: route('taxes.index'),
+        href: '/taxes',
         icon: Percent,
     },
     {
@@ -54,11 +54,6 @@ const otherNavItems: NavItem[] = [
         title: 'Detalhes',
         href: route('details.index'),
         icon: Sparkle,
-    },
-    {
-        title: 'Anotações',
-        href: route('notes.index'),
-        icon: NotebookPen,
     },
 ];
 

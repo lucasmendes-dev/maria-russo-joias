@@ -104,6 +104,16 @@ export type ProductProps = {
     suppliers: Supplier[]
 }
 
+////////////////////////////////// Sales //////////////////////////////////
+export interface SalesDialogProps {
+    product: {
+        id: string,
+        name: string,
+    };
+    salesOpen: boolean;
+    setSalesOpen: (value: boolean) => void;
+}
+
 
 ////////////////////////////////// Taxes //////////////////////////////////
 export type Tax = {

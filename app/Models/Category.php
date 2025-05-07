@@ -8,6 +8,8 @@ use App\Models\Tax;
 
 class Category extends Model
 {
+    public const ALL_CATEGORIES_STRING_VALUE = 'Todos';
+
     protected $fillable = [
         'name',
         'description',
