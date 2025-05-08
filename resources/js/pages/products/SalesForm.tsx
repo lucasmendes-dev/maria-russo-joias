@@ -28,29 +28,35 @@ export function SalesForm({
     name,
     sellingPrice,
     quantity,
+    paymentMethod,
     setName,
     setSellingPrice,
     setQuantity,
+    setPaymentMethod,
+    customers,
+    setCustomer,
 }: SalesFormProps) {
     const [date, setDate] = useState<Date | undefined>(new Date());
-    const [paymentMethod, setPaymentMethod] = useState('');
+    const [registeredClient, setRegisteredClient] = useState('yes');
+    const [discount, setDiscount] = useState('no');
+    const [installment, setInstallment] = useState('no');
 
     return (
         <form className="w-full max-w-lg mt-3">
             <div className="flex flex-wrap -mx-3 mb-4">
                 <div className="w-full md:w-2/4 px-3 mb-4 md:mb-0">
                     <Label htmlFor="name" className="block mb-2">Nome <span className="text-red-400">*</span></Label>
-                    <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="appearance-none block w-full rounded py-3 px-4 mb-3" required placeholder="Ex: Maria" />
+                    <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required placeholder="Ex: Maria" />
                 </div>
 
                 <div className="w-full md:w-1/4 px-3">
                     <Label htmlFor="quantity" className="block mb-2">Quantidade <span className="text-red-400">*</span></Label>
-                    <Input id="quantity" type="number" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} className="appearance-none block w-full rounded py-3 px-4 mb-3" />
+                    <Input id="quantity" type="number" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" />
                 </div>
 
                 <div className="w-full md:w-1/4 px-3 mb-4 md:mb-0">
                     <Label htmlFor="selling_price" className="block mb-2">Preço (R$) <span className="text-red-400">*</span></Label>
-                    <Input id="selling_price" type="number" value={sellingPrice.toFixed(2)} onChange={(e) => setSellingPrice(Number(e.target.value))} className="appearance-none block w-full rounded py-3 px-4 mb-3" required placeholder="Ex: R$60.90" />
+                    <Input id="selling_price" type="number" value={sellingPrice.toFixed(2)} onChange={(e) => setSellingPrice(Number(e.target.value))} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required placeholder="Ex: R$60.90" />
                 </div>
             </div>
 
@@ -111,31 +117,106 @@ export function SalesForm({
 
             <div className="flex flex-wrap -mx-3 mb-4">
                 <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
-                    <RadioGroup defaultValue="option-one">
-                        <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="registered_client" id="registered_client" />
-                            <Label htmlFor="registered_client">Cliente já Cadastrado</Label>
-                        </div>
-                        <div className="flex items-center space-x-2">
-                            <RadioGroupItem value="new_client" id="new_client" />
-                            <Label htmlFor="new_client">Novo Cliente</Label>
+                    <Label htmlFor="discount">Cliente já Cadastrado?</Label>
+                    <RadioGroup
+                        defaultValue="yes"
+                        onValueChange={(value) => setRegisteredClient(value)}
+                    >
+                        <div className="flex mb-2 border rounded-lg">
+                            <div className="flex items-center space-x-2 mt-2 mb-2 ml-2">
+                                <RadioGroupItem value="yes" id="yes" />
+                                <Label htmlFor="yes">Sim</Label>
+                            </div>
+                            <div className="flex items-center space-x-2 mt-2 mb-2 ml-3">
+                                <RadioGroupItem value="no" id="no" />
+                                <Label htmlFor="no">Não</Label>
+                            </div>
                         </div>
                     </RadioGroup>
                 </div>
 
-                {/* <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
-                    
-                </div> */}
+                <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
+                {registeredClient === "yes" ? (
+                    <>
+                        <Label htmlFor="customer" className="block mb-2">Cliente <span className="text-red-400">*</span></Label>
+                        <Select
+                            onValueChange={(value) => setCustomer(value)}
+                        >
+                            <SelectTrigger >
+                                <SelectValue className="mb-3" placeholder="Selecione um cliente" />
+                            </SelectTrigger>
+
+                            <SelectContent>
+                                <SelectGroup>
+                                    {customers.map((customer) => (
+                                        <SelectItem key={customer.id} value={String(customer.id)}>
+                                            {customer.name}
+                                        </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                    </>
+                ) : (
+                    <>
+                        <Label htmlFor="customerName" className="block mb-2">Nome do Cliente <span className="text-red-400">*</span></Label>
+                        <Input id="customerName" type="text" className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required placeholder="Ex: Maria"/>
+                    </>
+                )}
+                </div>
             </div>
 
+            {registeredClient === "no" && (
+                <div className="flex flex-wrap -mx-3 mb-4">
+                    <div className="w-full md:w-1/2 px-3">
+                        <Label htmlFor="customerPhone" className="block mb-2">Telefone <span className="text-red-400">*</span></Label>
+                        <Input id="customerPhone" type="text" className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" placeholder="(XX) XXXX-XXXX"/>
+                    </div>
+
+                    <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
+                        <Label htmlFor="customerLocal" className="block mb-2">Local <span className="text-red-400">*</span></Label>
+                        <Input id="customerLocal" type="text" className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required placeholder="Ex: Ouro Preto"/>
+                    </div>
+                </div>
+            )}
+
             <div className="flex flex-wrap -mx-3 mb-4">
-                <div className="w-full md:w-full px-3 mb-4 md:mb-0">
-                    <Label htmlFor="description" className="block mb-2">Descrição</Label>
-                    <Textarea
-                        className="col-span-3"
-                        // value={description}
-                        // onChange={(e) => setDescription(e.target.value)}
-                    />
+                <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
+                    <Label htmlFor="discount">Houve Desconto?</Label>
+                    <RadioGroup
+                        defaultValue="no"
+                        onValueChange={(value) => setDiscount(value)}
+                    >
+                        <div className="flex mb-2 border rounded-lg">
+                            <div className="flex items-center space-x-2 mt-2 mb-2 ml-2">
+                                <RadioGroupItem value="yes" id="yes" />
+                                <Label htmlFor="yes">Sim</Label>
+                            </div>
+                            <div className="flex items-center space-x-2 mt-2 mb-2 ml-3">
+                                <RadioGroupItem value="no" id="no" />
+                                <Label htmlFor="no">Não</Label>
+                            </div>
+                        </div>
+                    </RadioGroup>
+                </div>
+
+                <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
+                    <Label htmlFor="installment">Será Parcelado?</Label>
+                    <RadioGroup
+                        defaultValue="no"
+                        onValueChange={(value) => setInstallment(value)}
+                    >
+                        <div className="flex mb-2 border rounded-lg">
+                            <div className="flex items-center space-x-2 mt-2 mb-2 ml-2">
+                                <RadioGroupItem value="yes" id="yes" />
+                                <Label htmlFor="yes">Sim</Label>
+                            </div>
+                            <div className="flex items-center space-x-2 mt-2 mb-2 ml-3">
+                                <RadioGroupItem value="no" id="no" />
+                                <Label htmlFor="no">Não</Label>
+                            </div>
+                        </div>
+                    </RadioGroup>
                 </div>
             </div>
         </form>

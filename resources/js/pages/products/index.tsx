@@ -35,9 +35,10 @@ export default function Products({
     pendingProducts,
     soldProducts,
     categories,
-    suppliers
+    suppliers,
+    customers,
 }: ProductProps) {
-    const availableColumns = getAvailableColumns(categories, suppliers);
+    const availableColumns = getAvailableColumns(categories, suppliers, customers);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

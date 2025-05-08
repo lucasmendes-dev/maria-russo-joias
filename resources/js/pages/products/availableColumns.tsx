@@ -8,7 +8,7 @@ import { AlertDialogDelete } from "@/components/AlertDialogDelete";
 import { UpdateDialog } from "./UpdateDialog";
 import { useState } from "react";
 import { SalesDialog } from "./SalesDialog";
-import { Product, Category, Supplier } from "@/types";
+import { Product, Category, Supplier, Customer } from "@/types";
 import { formatToBRCurrency } from "@/utils/functions-lib";
 import {
     Avatar,
@@ -24,6 +24,7 @@ import {
 export const getAvailableColumns = (
     categories: Category[],
     suppliers: Supplier[],
+    customers: Customer[],
 ): ColumnDef<Product>[] => {
     return [
         {
@@ -166,6 +167,7 @@ export const getAvailableColumns = (
 
                         <SalesDialog 
                             product={product}
+                            customers={customers}
                             salesOpen={salesOpen}
                             setSalesOpen={setSalesOpen}
                         />

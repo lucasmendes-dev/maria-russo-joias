@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Services\CategoryService;
 use App\Services\ProductService;
 use App\Services\SupplierService;
+use App\Services\CustomerService;
 use Inertia\Inertia;
 
 class ProductController extends Controller
@@ -15,7 +16,8 @@ class ProductController extends Controller
     public function __construct(
         private ProductService $productService,
         private CategoryService $categoryService,
-        private SupplierService $supplierService
+        private SupplierService $supplierService,
+        private CustomerService $customerService,
     ) {}
 
     public function index()
@@ -23,6 +25,7 @@ class ProductController extends Controller
         $products = $this->productService->getAllProducts();
         $categories = $this->categoryService->getIdAndNameFromAllCategories();
         $suppliers = $this->supplierService->getIdAndNameFromAllSuppliers();
+        $customers = $this->customerService->getAllCustomersSortedByName();
 
         return Inertia::render('products/index', [
             'availableProducts' => $products['available'],
@@ -30,6 +33,7 @@ class ProductController extends Controller
             'soldProducts' => $products['sold'],
             'categories' => $categories,
             'suppliers' => $suppliers,
+            'customers' => $customers,
         ]);
     }
 

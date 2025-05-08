@@ -3,12 +3,13 @@
 namespace App\Services;
 
 use App\Models\Category;
+use Illuminate\Database\Eloquent\Collection;
 
 class CategoryService 
 {
     public function __construct() {}
 
-    public function getIdAndNameFromAllCategories()
+    public function getIdAndNameFromAllCategories(): Collection
     {
         return Category::all(['id', 'name']);
     }

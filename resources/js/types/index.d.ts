@@ -102,7 +102,8 @@ export type ProductProps = {
     pendingProducts: Product[],
     soldProducts: Product[],
     categories: Category[],
-    suppliers: Supplier[]
+    suppliers: Supplier[],
+    customers: Customer[],
 }
 
 ////////////////////////////////// Sales //////////////////////////////////
@@ -121,6 +122,7 @@ export interface SalesDialogProps {
         status: string,
         selling_price: number,
     };
+    customers: Customer[];
     salesOpen: boolean;
     setSalesOpen: (value: boolean) => void;
 }
@@ -129,9 +131,13 @@ export interface SalesFormProps {
     name: string,
     sellingPrice: number,
     quantity: number,
+    paymentMethod: string,
     setName: (value: string) => void,
     setSellingPrice: (value: number) => void,
     setQuantity: (value: number) => void,
+    setPaymentMethod: (value: string) => void,
+    customers: Customer[],
+    setCustomer: (value: string) => void,
 }
 
 

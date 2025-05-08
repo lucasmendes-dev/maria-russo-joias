@@ -16,15 +16,18 @@ import {
 
 export function SalesDialog({
     product,
+    customers,
     salesOpen,
     setSalesOpen
 }: SalesDialogProps) {
     const [name, setName] = useState(product.name);
     const [sellingPrice, setSellingPrice] = useState(product.selling_price);
     const [quantity, setQuantity] = useState(Number(product.quantity));
+    const [paymentMethod, setPaymentMethod] = useState('');
+    const [customer, setCustomer] = useState('');
 
     const handleSale = () => {
-        router.put(`/products/${product.id}`, {
+        router.post('/saleProduct', { // need to create route, controller & service
             name,
         }, {
             preserveScroll: true,
@@ -53,13 +56,17 @@ export function SalesDialog({
                     name={name}
                     sellingPrice={sellingPrice}
                     quantity={quantity}
+                    paymentMethod={paymentMethod}
                     setName={setName}
                     setSellingPrice={setSellingPrice}
                     setQuantity={setQuantity}
+                    setPaymentMethod={setPaymentMethod}
+                    customers={customers}
+                    setCustomer={setCustomer}
                 />
 
                 <DialogFooter>
-                    <Button type="submit" className="cursor-pointer" onClick={handleSale}>Vender Produto</Button>
+                    <Button type="submit" className="cursor-pointer bg-green-400" onClick={handleSale}>Vender Produto</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>
