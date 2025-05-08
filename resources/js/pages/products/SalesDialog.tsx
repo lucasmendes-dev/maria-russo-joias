@@ -20,15 +20,25 @@ export function SalesDialog({
     salesOpen,
     setSalesOpen
 }: SalesDialogProps) {
+    const [productId] = useState(product.id);
     const [name, setName] = useState(product.name);
     const [sellingPrice, setSellingPrice] = useState(product.selling_price);
     const [quantity, setQuantity] = useState(Number(product.quantity));
     const [paymentMethod, setPaymentMethod] = useState('');
     const [customer, setCustomer] = useState('');
+    const [discountValue, setDiscountValue] = useState('');
+    const [installmentValue, setInstallmentValue] = useState('');
 
     const handleSale = () => {
-        router.post('/saleProduct', { // need to create route, controller & service
+        router.post('/saleProduct', {
+            productId,
             name,
+            sellingPrice,
+            quantity,
+            paymentMethod,
+            customer,
+            discountValue,
+            installmentValue,
         }, {
             preserveScroll: true,
             preserveState: true,
@@ -57,12 +67,16 @@ export function SalesDialog({
                     sellingPrice={sellingPrice}
                     quantity={quantity}
                     paymentMethod={paymentMethod}
+                    discountValue={discountValue}
+                    installmentValue={installmentValue}
                     setName={setName}
                     setSellingPrice={setSellingPrice}
                     setQuantity={setQuantity}
                     setPaymentMethod={setPaymentMethod}
                     customers={customers}
                     setCustomer={setCustomer}
+                    setDiscountValue={setDiscountValue}
+                    setInstallmentValue={setInstallmentValue}
                 />
 
                 <DialogFooter>

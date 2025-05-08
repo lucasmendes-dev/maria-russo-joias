@@ -33,6 +33,8 @@ export function SalesForm({
     setSellingPrice,
     setQuantity,
     setPaymentMethod,
+    setDiscountValue,
+    setInstallmentValue,
     customers,
     setCustomer,
 }: SalesFormProps) {
@@ -46,7 +48,7 @@ export function SalesForm({
             <div className="flex flex-wrap -mx-3 mb-4">
                 <div className="w-full md:w-2/4 px-3 mb-4 md:mb-0">
                     <Label htmlFor="name" className="block mb-2">Nome <span className="text-red-400">*</span></Label>
-                    <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required placeholder="Ex: Maria" />
+                    <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required readOnly/>
                 </div>
 
                 <div className="w-full md:w-1/4 px-3">
@@ -56,7 +58,7 @@ export function SalesForm({
 
                 <div className="w-full md:w-1/4 px-3 mb-4 md:mb-0">
                     <Label htmlFor="selling_price" className="block mb-2">Preço (R$) <span className="text-red-400">*</span></Label>
-                    <Input id="selling_price" type="number" value={sellingPrice.toFixed(2)} onChange={(e) => setSellingPrice(Number(e.target.value))} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required placeholder="Ex: R$60.90" />
+                    <Input id="selling_price" type="number" value={sellingPrice.toFixed(2)} onChange={(e) => setSellingPrice(Number(e.target.value))} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required  />
                 </div>
             </div>
 
@@ -182,7 +184,7 @@ export function SalesForm({
 
             <div className="flex flex-wrap -mx-3 mb-4">
                 <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
-                    <Label htmlFor="discount">Houve Desconto?</Label>
+                    <Label htmlFor="discount">Haverá Desconto?</Label>
                     <RadioGroup
                         defaultValue="no"
                         onValueChange={(value) => setDiscount(value)}
@@ -218,6 +220,43 @@ export function SalesForm({
                         </div>
                     </RadioGroup>
                 </div>
+            </div>
+
+            <div className="flex flex-wrap -mx-3 mb-4">
+                {discount === "yes" && (
+                    <div className="w-full md:w-1/2 px-3 flex">
+                        <Label htmlFor="discount" className="block mt-3">Desconto(R$) </Label>
+                        <Input id="discount" type="number" onChange={(e) => setDiscountValue(e.target.value)} className="appearance-none block w-full rounded-lg py-3 px-4 ml-3"/>
+                    </div>
+                )}
+
+                {installment === "yes" && (
+                    <div className="w-full md:w-1/3 px-3 flex">
+                        <Label htmlFor="discount" className="block mt-3">Parcelas:</Label>
+                        <Select
+                        onValueChange={(value) => setInstallmentValue(value)}
+                    >
+                        <SelectTrigger className="ml-3">
+                            <SelectValue placeholder="" />
+                        </SelectTrigger>
+
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectItem value="1">x1</SelectItem>
+                                <SelectItem value="2">x2</SelectItem>
+                                <SelectItem value="3">x3</SelectItem>
+                                <SelectItem value="4">x4</SelectItem>
+                                <SelectItem value="5">x5</SelectItem>
+                                <SelectItem value="6">x6</SelectItem>
+                                <SelectItem value="7">x7</SelectItem>
+                                <SelectItem value="8">x8</SelectItem>
+                                <SelectItem value="9">x9</SelectItem>
+                                <SelectItem value="10">x10</SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                    </div>
+                )}
             </div>
         </form>
     );

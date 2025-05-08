@@ -4,9 +4,9 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DetailController;
-use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductToOrderController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TaxController;
 use Illuminate\Support\Facades\Auth;
@@ -32,6 +32,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/products/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
     Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
+
+    // Sales
+    Route::post('/saleProduct', [SaleController::class, 'store'])->name('sales.store');
 
     // Taxes
     Route::get('/taxes', [TaxController::class, 'index'])->name('taxes.index');
