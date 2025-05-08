@@ -3,7 +3,17 @@
 import { Button } from "@/components/ui/button";
 import { Trash2 } from 'lucide-react';
 import { router } from "@inertiajs/react";
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger} from "@/components/ui/alert-dialog";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger
+} from "@/components/ui/alert-dialog";
 
 const handleDelete = (id: string, deleteRoute: string) => {
     console.log(deleteRoute);
@@ -12,8 +22,11 @@ const handleDelete = (id: string, deleteRoute: string) => {
     });
 }
 
-export function AlertDialogDelete({ objectName, deleteRoute }: {objectName: any, deleteRoute: string}) {
-
+export function AlertDialogDelete({
+    objectName, deleteRoute
+}: {
+    objectName: any, deleteRoute: string
+}) {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild >

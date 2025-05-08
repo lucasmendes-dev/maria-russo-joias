@@ -60,7 +60,8 @@ export type Product = {
     purchase_date: string,
     supplier_id: string,
     image: string,
-    status: string;
+    status: string,
+    selling_price,
 }
 
 export interface ProductFormProps {
@@ -109,9 +110,28 @@ export interface SalesDialogProps {
     product: {
         id: string,
         name: string,
+        quantity: string,
+        price: string,
+        category_id: string,
+        description: string,
+        color: string,
+        purchase_date: string,
+        supplier_id: string,
+        image: string,
+        status: string,
+        selling_price: number,
     };
     salesOpen: boolean;
     setSalesOpen: (value: boolean) => void;
+}
+
+export interface SalesFormProps {
+    name: string,
+    sellingPrice: number,
+    quantity: number,
+    setName: (value: string) => void,
+    setSellingPrice: (value: number) => void,
+    setQuantity: (value: number) => void,
 }
 
 

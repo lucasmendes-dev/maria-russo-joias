@@ -3,6 +3,7 @@ import { ShoppingBag } from 'lucide-react';
 import { router } from "@inertiajs/react";
 import { useState } from "react";
 import { SalesDialogProps } from "@/types";
+import { SalesForm } from "./SalesForm";
 import {
     Dialog,
     DialogContent,
@@ -13,11 +14,16 @@ import {
     DialogDescription
 } from "@/components/ui/dialog";
 
-
-export function SalesDialog({ product, salesOpen, setSalesOpen }: SalesDialogProps) {
+export function SalesDialog({
+    product,
+    salesOpen,
+    setSalesOpen
+}: SalesDialogProps) {
     const [name, setName] = useState(product.name);
+    const [sellingPrice, setSellingPrice] = useState(product.selling_price);
+    const [quantity, setQuantity] = useState(Number(product.quantity));
 
-    const handleUpdate = () => {
+    const handleSale = () => {
         router.put(`/products/${product.id}`, {
             name,
         }, {
@@ -43,10 +49,17 @@ export function SalesDialog({ product, salesOpen, setSalesOpen }: SalesDialogPro
 
                 <DialogDescription>Preencha os dados de venda do produto.</DialogDescription>
 
-
+                <SalesForm
+                    name={name}
+                    sellingPrice={sellingPrice}
+                    quantity={quantity}
+                    setName={setName}
+                    setSellingPrice={setSellingPrice}
+                    setQuantity={setQuantity}
+                />
 
                 <DialogFooter>
-                    <Button type="submit" className="cursor-pointer" onClick={handleUpdate}>Salvar Alterações</Button>
+                    <Button type="submit" className="cursor-pointer" onClick={handleSale}>Vender Produto</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

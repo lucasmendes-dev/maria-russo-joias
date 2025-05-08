@@ -32,8 +32,6 @@ export function ProductForm({
     color,
     purchase_date,
     supplier_id,
-    image,
-    status,
     setName,
     setQuantity,
     setPrice,
@@ -43,7 +41,6 @@ export function ProductForm({
     setPurchaseDate,
     setSupplierId,
     setImage,
-    setStatus,
     categories,
     suppliers
 }: ProductFormProps) {
@@ -63,7 +60,7 @@ export function ProductForm({
                 </div>
 
                 <div className="w-full md:w-1/3 px-3 mb-4 md:mb-0">
-                    <Label htmlFor="price" className="block mb-2">Preço <span className="text-red-400">*</span></Label>
+                    <Label htmlFor="price" className="block mb-2">Preço (R$) <span className="text-red-400">*</span></Label>
                     <Input id="price" type="number" value={price} onChange={(e) => setPrice(e.target.value)} className="appearance-none block w-full rounded py-3 px-4 mb-3" required placeholder="Ex: R$60.90" />
                 </div>
             </div>

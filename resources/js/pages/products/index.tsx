@@ -53,10 +53,11 @@ export default function Products({
 
                         <TabsContent value="available">
                             <DataTable
-                            columns={availableColumns}
-                            data={availableProducts}
-                            createButton={<ProductCreateDialog categories={categories} suppliers={suppliers}/>}
-                            filters={filters}/>
+                                columns={availableColumns}
+                                data={availableProducts}
+                                createButton={<ProductCreateDialog categories={categories} suppliers={suppliers}/>}
+                                filters={filters}
+                            />
                         </TabsContent>
 
                         <TabsContent value="pending">
