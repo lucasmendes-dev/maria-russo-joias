@@ -134,12 +134,14 @@ export interface SalesFormProps {
     paymentMethod: string,
     discountValue: string,
     installmentValue: string,
+    date: Date|undefined,
     setName: (value: string) => void,
     setSellingPrice: (value: number) => void,
     setQuantity: (value: number) => void,
     setPaymentMethod: (value: string) => void,
     setDiscountValue: (value: string) => void,
     setInstallmentValue: (value: string) => void,
+    setDate: (value: Date|undefined) => void;
     customers: Customer[],
     setCustomer: (value: string) => void,
 }

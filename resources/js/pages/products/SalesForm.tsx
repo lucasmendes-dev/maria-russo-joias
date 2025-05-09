@@ -29,16 +29,17 @@ export function SalesForm({
     sellingPrice,
     quantity,
     paymentMethod,
+    date,
     setName,
     setSellingPrice,
     setQuantity,
     setPaymentMethod,
     setDiscountValue,
     setInstallmentValue,
+    setDate,
     customers,
     setCustomer,
 }: SalesFormProps) {
-    const [date, setDate] = useState<Date | undefined>(new Date());
     const [registeredClient, setRegisteredClient] = useState('yes');
     const [discount, setDiscount] = useState('no');
     const [installment, setInstallment] = useState('no');

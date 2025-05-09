@@ -28,17 +28,19 @@ export function SalesDialog({
     const [customer, setCustomer] = useState('');
     const [discountValue, setDiscountValue] = useState('');
     const [installmentValue, setInstallmentValue] = useState('');
+    const [date, setDate] = useState<Date | undefined>(new Date());
 
     const handleSale = () => {
-        router.post('/saleProduct', {
-            productId,
+        router.post('/revenueTransaction', {
+            product_id: productId,
             name,
-            sellingPrice,
+            price: sellingPrice,
             quantity,
-            paymentMethod,
-            customer,
-            discountValue,
-            installmentValue,
+            payment_method: paymentMethod,
+            customer_id: customer,
+            discount: discountValue,
+            installments: installmentValue,
+            date,
         }, {
             preserveScroll: true,
             preserveState: true,
@@ -69,6 +71,7 @@ export function SalesDialog({
                     paymentMethod={paymentMethod}
                     discountValue={discountValue}
                     installmentValue={installmentValue}
+                    date={date}
                     setName={setName}
                     setSellingPrice={setSellingPrice}
                     setQuantity={setQuantity}
@@ -77,6 +80,7 @@ export function SalesDialog({
                     setCustomer={setCustomer}
                     setDiscountValue={setDiscountValue}
                     setInstallmentValue={setInstallmentValue}
+                    setDate={setDate}
                 />
 
                 <DialogFooter>

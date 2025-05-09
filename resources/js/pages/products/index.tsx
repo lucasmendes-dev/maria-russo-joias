@@ -10,6 +10,7 @@ import {
     TabsList,
     TabsTrigger
 } from "@/components/ui/tabs";
+import { getSoldColumns } from './soldColumns';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -39,6 +40,7 @@ export default function Products({
     customers,
 }: ProductProps) {
     const availableColumns = getAvailableColumns(categories, suppliers, customers);
+    const soldColumns = getSoldColumns();
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -66,7 +68,11 @@ export default function Products({
                         </TabsContent>
 
                         <TabsContent value="sold">
-                            <DataTable columns={availableColumns} data={soldProducts} filters={filters}/>
+                            <DataTable
+                                columns={soldColumns}
+                                data={soldProducts}
+                                filters={filters}
+                            />
                         </TabsContent>
                     </Tabs>
                 </div>

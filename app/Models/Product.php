@@ -7,6 +7,7 @@ use App\Models\Detail;
 use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Supplier;
+use App\Models\Transaction;
 
 class Product extends Model
 {
@@ -41,5 +42,10 @@ class Product extends Model
     public function supplier()
     {
         return $this->belongsTo(Supplier::class);
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany(Transaction::class);
     }
 }

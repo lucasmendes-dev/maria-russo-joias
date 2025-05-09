@@ -6,9 +6,9 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductToOrderController;
-use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TaxController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -33,8 +33,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
 
-    // Sales
-    Route::post('/saleProduct', [SaleController::class, 'store'])->name('sales.store');
+    // Transactions
+    Route::post('/revenueTransaction', [TransactionController::class, 'storeRevenueTransaction'])->name('transactions.revenue');
 
     // Taxes
     Route::get('/taxes', [TaxController::class, 'index'])->name('taxes.index');
