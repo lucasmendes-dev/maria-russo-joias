@@ -19,9 +19,9 @@ class TransactionController extends Controller
     public function storeRevenueTransaction(StoreTransactionRequest $request)
     {
         $data = $this->transactionService->handleCreateData($request->validated());
-        // ainda precisa remover quantidade de produto e se acabar marcar como 'sold'
-        // criar campo de imagem nas transactions tbm ou ver se dá pra acessar direto com o product_id
+
         Transaction::create($data);
+        $this->transactionService->adjustProductStatus($data);
         return redirect()->back()->with('success', 'Produto "' . $data['name'] . '" vendido!');
     }
 

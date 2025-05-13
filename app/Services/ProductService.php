@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Tax;
+use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Collection;
 
 class ProductService 
@@ -12,12 +13,19 @@ class ProductService
     public function __construct(
         private TaxService $taxService,
         private CategoryService $categoryService,
+        private CustomerService $customerService,
     ) {}
+
+    public function getProductByID(int $productID): Product
+    {
+        return Product::findOrFail($productID);
+    }
 
     public function getAllProducts(): Collection
     {
         $products = $this->getAllProductsGroupedByStatus();
         $this->addSellingPriceToAvailableProducts($products);
+        $this->populateSoldProductsInfo($products);
         return $products;
     }
 
@@ -127,5 +135,23 @@ class ProductService
     private function getProductsByPurchaseDateRange(Tax $tax): Collection
     {
         return Product::where('status', 'available')->whereBetween('purchase_date', [$tax->start_date, $tax->end_date])->get();
+    }
+
+    private function populateSoldProductsInfo(Collection &$products): void
+    {
+        $products['sold']->each(function ($product) {
+            $transactions = $this->getTransactionsByProductID($product->id);
+            foreach ($transactions as $transaction) {
+                $product->customer = $this->customerService->getCustomerNameByID($transaction['customer_id']);
+                $product->sold_price = $transaction['price'];
+                $product->payment_method = $transaction['payment_method'];
+                $product->discount = $transaction['discount'];
+            }
+        });
+    }
+
+    private function getTransactionsByProductID(string $productID): array   // ISSO AQUI TEM IR PRA UM REPOSITORY OU AJUSTAR CONFLITO DE SERVICE
+    {
+        return Transaction::where('product_id', $productID)->get()->toArray();
     }
 }

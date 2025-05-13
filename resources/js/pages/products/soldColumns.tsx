@@ -100,7 +100,7 @@ export const getSoldColumns = (): ColumnDef<Product>[] => {
             }
         },
         {
-            accessorKey: "selling_price",
+            accessorKey: "sold_price",
             header: ({ column }) => {
                 return (
                     <Button
@@ -113,10 +113,10 @@ export const getSoldColumns = (): ColumnDef<Product>[] => {
                 )
             },
             cell: ({ row }) => {
-                const sellingPrice = parseFloat(row.getValue("selling_price"));
+                const sellingPrice = parseFloat(row.getValue("sold_price"));
                 const formatted = formatToBRCurrency(sellingPrice);
         
-                return <div className="font-medium">{formatted}</div>
+                return <div className="font-medium ml-7">{formatted}</div>
             }
         },
         {
@@ -132,7 +132,11 @@ export const getSoldColumns = (): ColumnDef<Product>[] => {
                     </Button>
                 )
             },
+            cell: ({ row }) => {
+                return <div className="ml-9 font-medium">{row.getValue("payment_method") || '-'}</div>
+            }
         },
+        
         {
             accessorKey: "discount",
             header: ({ column }) => {
@@ -147,7 +151,7 @@ export const getSoldColumns = (): ColumnDef<Product>[] => {
                 )
             },
             cell: ({ row }) => {
-                return <div className="ml-7 font-medium">{row.getValue("discount")}</div>
+                return <div className="ml-7 font-medium">{row.getValue("discount") || '-'}</div>
             }
         },
         {

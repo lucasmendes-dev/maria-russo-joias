@@ -28,9 +28,13 @@ export function SalesDialog({
     const [customer, setCustomer] = useState('');
     const [discountValue, setDiscountValue] = useState('');
     const [installmentValue, setInstallmentValue] = useState('');
-    const [date, setDate] = useState<Date | undefined>(new Date());
+    const [date, setDate] = useState<Date|undefined>(new Date());
 
     const handleSale = () => {
+        if (!name || !sellingPrice || !quantity || !paymentMethod || !customer) {
+            alert("Os campos com * são obrigatórios!");
+            return;
+        }
         router.post('/revenueTransaction', {
             product_id: productId,
             name,

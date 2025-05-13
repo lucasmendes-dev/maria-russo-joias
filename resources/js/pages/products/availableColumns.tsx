@@ -90,20 +90,20 @@ export const getAvailableColumns = (
             },
         },
         {
-            accessorKey: "quantity",
+            accessorKey: "batch",
             header: ({ column }) => {
                 return (
                     <Button
                         variant="ghost"
                         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                     >
-                        Quantidade
+                        Lote
                         <ArrowUpDown className="ml-2 h-4 w-4" />
                     </Button>
                 )
             },
             cell: ({ row }) => {
-                return <div className="ml-7 font-medium">{row.getValue("quantity")}</div>
+                // return <div className="ml-7 font-medium">{row.getValue("quantity")}</div>
             }
         },
         {
