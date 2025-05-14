@@ -102,6 +102,23 @@ export const getPendingColumns = (): ColumnDef<Product>[] => {
             }
         },
         {
+            accessorKey: "payment_method",
+            header: ({ column }) => {
+                return (
+                    <Button
+                        variant="ghost"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                    >
+                        Forma de Pagamento
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </Button>
+                )
+            },
+            cell: ({ row }) => {
+                return <div className="ml-9 font-medium">{row.getValue("payment_method")}</div>
+            }
+        },
+        {
             accessorKey: "sold_price",
             header: ({ column }) => {
                 return (
@@ -120,24 +137,7 @@ export const getPendingColumns = (): ColumnDef<Product>[] => {
         
                 return <div className="font-medium ml-7">{formatted}</div>
             }
-        },
-        {
-            accessorKey: "payment_method",
-            header: ({ column }) => {
-                return (
-                    <Button
-                        variant="ghost"
-                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                    >
-                        Forma de Pagamento
-                        <ArrowUpDown className="ml-2 h-4 w-4" />
-                    </Button>
-                )
-            },
-            cell: ({ row }) => {
-                return <div className="ml-9 font-medium">{row.getValue("payment_method") || '-'}</div>
-            }
-        },    
+        }, 
         {
             accessorKey: "installments",
             header: ({ column }) => {
@@ -152,7 +152,7 @@ export const getPendingColumns = (): ColumnDef<Product>[] => {
                 )
             },
             cell: ({ row }) => {
-                return <div className="ml-7 font-medium">{row.getValue("installments")}</div>
+                return <div className="ml-7 font-medium">{row.getValue("installments")}x</div>
             }
         },
         {
@@ -169,7 +169,27 @@ export const getPendingColumns = (): ColumnDef<Product>[] => {
                 )
             },
             cell: ({ row }) => {
-                return <div className="ml-7 font-medium">{row.getValue("current_installment")}</div>
+                return <div className="ml-7 font-medium">{row.getValue("current_installment")} de {row.getValue("installments")}</div>
+            }
+        },
+        {
+            accessorKey: "installment_value",
+            header: ({ column }) => {
+                return (
+                    <Button
+                        variant="ghost"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                    >
+                        Total Pago
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </Button>
+                )
+            },
+            cell: ({ row }) => {
+                const installment_value = parseFloat(row.getValue("installment_value"));
+                const formatted = formatToBRCurrency(installment_value);
+
+                return <div className="ml-7 font-medium">{formatted}</div>
             }
         },
         {

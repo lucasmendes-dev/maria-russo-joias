@@ -32,7 +32,7 @@ const availableFilters: string[] = [
     'status',
 ];
 
-const soldFilters: string[] = [
+const pendingAndSoldFilters: string[] = [
     'name',
     'customer',
     'sold_price',
@@ -59,8 +59,9 @@ export default function Products({
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                 <div className="border-sidebar-border/70 dark:border-sidebar-border relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border md:min-h-min">
                     <Tabs defaultValue="available" className="mx-auto mt-3 px-3">
-                        <TabsList className="grid w-full grid-cols-3">
+                        <TabsList className="grid w-full grid-cols-4">
                             <TabsTrigger value="available" className="cursor-pointer hover:bg-[#0A0A0A]">Disponíveis</TabsTrigger>
+                            <TabsTrigger value="reserved" className="cursor-pointer hover:bg-[#0A0A0A]">Reservados</TabsTrigger>
                             <TabsTrigger value="pending" className="cursor-pointer hover:bg-[#0A0A0A]">Pendentes</TabsTrigger>
                             <TabsTrigger value="sold" className="cursor-pointer hover:bg-[#0A0A0A]">Vendidos</TabsTrigger>
                         </TabsList>
@@ -74,15 +75,27 @@ export default function Products({
                             />
                         </TabsContent>
 
+                        <TabsContent value="reserved">
+                            <DataTable
+                                columns={availableColumns}
+                                data={[]}
+                                filters={availableFilters}
+                            />
+                        </TabsContent>
+
                         <TabsContent value="pending">
-                            <DataTable columns={pendingColumns} data={pendingProducts} filters={[]}/>
+                            <DataTable
+                                columns={pendingColumns}
+                                data={pendingProducts}
+                                filters={pendingAndSoldFilters}
+                            />
                         </TabsContent>
 
                         <TabsContent value="sold">
                             <DataTable
                                 columns={soldColumns}
                                 data={soldProducts}
-                                filters={soldFilters}
+                                filters={pendingAndSoldFilters}
                             />
                         </TabsContent>
                     </Tabs>

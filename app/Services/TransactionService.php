@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Debt;
 use App\Models\Tax;
 use App\Models\Transaction;
 use DateTime;
@@ -50,5 +51,17 @@ class TransactionService
         $product->status = $this->isInstallmentsHigherThan1($data['installments']) ? 'pending' : 'sold';
 
         $product->save();
+    }
+
+    public function populateDebtTableifSaleHasInstallments(array $data): void
+    {
+        if ($data['installments'] && $data['installments'] >= 2) {
+            // $data['transaction_id'] = 
+            // $data['current_installment'] = 
+            // $data['installment_value'] = 
+            // $data['date'] = 
+        }
+        dd($data);
+        Debt::create($data);
     }
 }

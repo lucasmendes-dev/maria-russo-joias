@@ -233,32 +233,74 @@ export function SalesForm({
 
                 {installment === "yes" && (
                     <div className="w-full md:w-1/3 px-3 flex">
-                        <Label htmlFor="discount" className="block mt-3">Parcelas:</Label>
+                        <Label htmlFor="installment_value" className="block mt-3">Parcelas:</Label>
                         <Select
-                        onValueChange={(value) => setInstallmentValue(value)}
-                    >
-                        <SelectTrigger className="ml-3">
-                            <SelectValue placeholder="" />
-                        </SelectTrigger>
+                            onValueChange={(value) => setInstallmentValue(value)}
+                        >
+                            <SelectTrigger className="ml-3">
+                                <SelectValue placeholder="" />
+                            </SelectTrigger>
 
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectItem value="1">x1</SelectItem>
-                                <SelectItem value="2">x2</SelectItem>
-                                <SelectItem value="3">x3</SelectItem>
-                                <SelectItem value="4">x4</SelectItem>
-                                <SelectItem value="5">x5</SelectItem>
-                                <SelectItem value="6">x6</SelectItem>
-                                <SelectItem value="7">x7</SelectItem>
-                                <SelectItem value="8">x8</SelectItem>
-                                <SelectItem value="9">x9</SelectItem>
-                                <SelectItem value="10">x10</SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectItem value="1">x1</SelectItem>
+                                    <SelectItem value="2">x2</SelectItem>
+                                    <SelectItem value="3">x3</SelectItem>
+                                    <SelectItem value="4">x4</SelectItem>
+                                    <SelectItem value="5">x5</SelectItem>
+                                    <SelectItem value="6">x6</SelectItem>
+                                    <SelectItem value="7">x7</SelectItem>
+                                    <SelectItem value="8">x8</SelectItem>
+                                    <SelectItem value="9">x9</SelectItem>
+                                    <SelectItem value="10">x10</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
                     </div>
                 )}
             </div>
+
+            {installment === "yes" && (
+                <div className="flex flex-wrap -mx-3 mb-4">
+                    <div className="w-full md:w-1/2 px-3">
+                        <Label htmlFor="first_installment_date" className="block mb-2">Data da Primeira Parcela</Label>
+                        <Popover>
+                            <PopoverTrigger asChild>
+                                <Button
+                                    variant={"outline"}
+                                    className={cn(
+                                        "w-full justify-start text-left font-normal cursor-pointer",
+                                        !date && "text-muted-foreground"
+                                    )}
+                                >
+                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                    {date ? format(date, "PPP", {locale: ptBR}) : <span>Escolha uma Data</span>}
+                                </Button>
+                            </PopoverTrigger>
+
+                            <PopoverContent className="w-auto p-0 pointer-events-auto">
+                                <Calendar
+                                    mode="single"
+                                    selected={date}
+                                    onSelect={(date) => {
+                                        if (date) {
+                                            setDate(date);
+                                        }
+                                    }}
+                                    initialFocus
+                                    defaultMonth={date}
+                                    locale={ptBR}
+                                />
+                            </PopoverContent>
+                        </Popover>
+                    </div>
+
+                    <div className="w-full md:w-1/2 px-3">
+                        <Label htmlFor="first_installment_value" className="block mb-2">Preço da Primeira Parcela</Label>
+                        <Input id="first_installment_value" type="number" onChange={(e) => setSellingPrice(Number(e.target.value))} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required  />
+                    </div>
+                </div>
+            )}
         </form>
     );
 }

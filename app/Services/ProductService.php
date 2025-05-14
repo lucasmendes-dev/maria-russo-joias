@@ -37,9 +37,11 @@ class ProductService
 
     private function addSellingPriceToAvailableProducts(Collection &$products): void
     {
-        $products['available']->each(function ($product) {
-            $product->selling_price = $this->calculateFinalSellingPrice($product);
-        });
+        if (!empty($products['available'])) {
+            $products['available']->each(function ($product) {
+                $product->selling_price = $this->calculateFinalSellingPrice($product);
+            });
+        }
     }
 
     private function calculateFinalSellingPrice(Product $product): float
@@ -140,16 +142,18 @@ class ProductService
 
     private function populateSoldProductsInfo(Collection &$products): void
     {
-        $products['sold']->each(function ($product) {
-            $transactions = $this->getTransactionsByProductID($product->id);
-            foreach ($transactions as $transaction) {
-                $product->customer = $this->customerService->getCustomerNameByID($transaction['customer_id']);
-                $product->sold_price = $transaction['price'];
-                $product->payment_method = $transaction['payment_method'];
-                $product->discount = $transaction['discount'];
-                $product->sold_date = date('d/m/Y', strtotime($transaction['date']));
-            }
-        });
+        if (!empty($products['sold'])) {
+            $products['sold']->each(function ($product) {
+                $transactions = $this->getTransactionsByProductID($product->id);
+                foreach ($transactions as $transaction) {
+                    $product->customer = $this->customerService->getCustomerNameByID($transaction['customer_id']);
+                    $product->sold_price = $transaction['price'];
+                    $product->payment_method = $transaction['payment_method'];
+                    $product->discount = $transaction['discount'];
+                    $product->sold_date = date('d/m/Y', strtotime($transaction['date']));
+                }
+            });
+        }
     }
 
     private function getTransactionsByProductID(string $productID): array   // ISSO AQUI TEM IR PRA UM REPOSITORY OU AJUSTAR CONFLITO DE SERVICE
@@ -159,16 +163,19 @@ class ProductService
 
     private function populatePendingProductsInfo(Collection &$products): void
     {
-        $products['pending']->each(function ($product) {
-            $transactions = $this->getTransactionsByProductID($product->id); //dd($transactions);
-            foreach ($transactions as $transaction) {
-                $product->customer = $this->customerService->getCustomerNameByID($transaction['customer_id']);
-                $product->sold_price = $transaction['price'];
-                $product->payment_method = $transaction['payment_method'];
-                $product->installments = $transaction['installments'];
-                // $product->current_installment = $transaction['current_installment'];
-                // $product->month_to_end = $transaction['month_to_end'];
-            }
-        });
+        if (!empty($products['pending'])) {
+            $products['pending']->each(function ($product) {
+                $transactions = $this->getTransactionsByProductID($product->id);
+                foreach ($transactions as $transaction) {
+                    $product->customer = $this->customerService->getCustomerNameByID($transaction['customer_id']);
+                    $product->sold_price = $transaction['price'];
+                    $product->payment_method = $transaction['payment_method'];
+                    $product->installments = $transaction['installments'];
+                    //$product->current_installment = $transaction['current_installment'];
+                    //$product->installment_value = $transaction['price'] /  $transaction['installments'];
+                    // $product->month_to_end = $transaction['month_to_end'];
+                }
+            });
+        }
     }
 }

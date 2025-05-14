@@ -22,6 +22,7 @@ class TransactionController extends Controller
 
         Transaction::create($data);
         $this->transactionService->adjustProductStatus($data);
+        $this->transactionService->populateDebtTableifSaleHasInstallments($data);
         return redirect()->back()->with('success', 'Produto "' . $data['name'] . '" vendido!');
     }
 

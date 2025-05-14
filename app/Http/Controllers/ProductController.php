@@ -28,9 +28,9 @@ class ProductController extends Controller
         $customers = $this->customerService->getAllCustomersSortedByName();
 
         return Inertia::render('products/index', [
-            'availableProducts' => $products['available'],
-            'pendingProducts' => $products['pending'],
-            'soldProducts' => $products['sold'],
+            'availableProducts' => $products['available'] ?? [],
+            'pendingProducts' => $products['pending'] ?? [],
+            'soldProducts' => $products['sold'] ?? [],
             'categories' => $categories,
             'suppliers' => $suppliers,
             'customers' => $customers,
