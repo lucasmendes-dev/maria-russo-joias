@@ -4,6 +4,7 @@ import { Head } from '@inertiajs/react';
 import { DataTable } from '@/components/data-table';
 import { ProductCreateDialog } from './ProductCreateDialog';
 import { getAvailableColumns} from './availableColumns';
+import { getPendingColumns } from './pendingColumn';
 import {
     Tabs,
     TabsContent,
@@ -19,7 +20,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-const filters: string[] = [
+const availableFilters: string[] = [
     'name',
     'quantity',
     'price',
@@ -29,6 +30,15 @@ const filters: string[] = [
     'purchase_date',
     'supplier_id',
     'status',
+];
+
+const soldFilters: string[] = [
+    'name',
+    'customer',
+    'sold_price',
+    'payment_method',
+    'discount',
+    'sold_date',
 ];
 
 export default function Products({
@@ -41,6 +51,7 @@ export default function Products({
 }: ProductProps) {
     const availableColumns = getAvailableColumns(categories, suppliers, customers);
     const soldColumns = getSoldColumns();
+    const pendingColumns = getPendingColumns();
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -59,19 +70,19 @@ export default function Products({
                                 columns={availableColumns}
                                 data={availableProducts}
                                 createButton={<ProductCreateDialog categories={categories} suppliers={suppliers}/>}
-                                filters={filters}
+                                filters={availableFilters}
                             />
                         </TabsContent>
 
                         <TabsContent value="pending">
-                            <DataTable columns={availableColumns} data={pendingProducts} filters={filters}/>
+                            <DataTable columns={pendingColumns} data={pendingProducts} filters={[]}/>
                         </TabsContent>
 
                         <TabsContent value="sold">
                             <DataTable
                                 columns={soldColumns}
                                 data={soldProducts}
-                                filters={filters}
+                                filters={soldFilters}
                             />
                         </TabsContent>
                     </Tabs>

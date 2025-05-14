@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/alert-dialog";
 
 const handleDelete = (id: string, deleteRoute: string) => {
-    console.log(deleteRoute);
     router.delete(`/${deleteRoute}/${id}`, {
         preserveScroll: true,
     });

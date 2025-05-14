@@ -25,6 +25,7 @@ class ProductService
     {
         $products = $this->getAllProductsGroupedByStatus();
         $this->addSellingPriceToAvailableProducts($products);
+        $this->populatePendingProductsInfo($products);
         $this->populateSoldProductsInfo($products);
         return $products;
     }
@@ -146,6 +147,7 @@ class ProductService
                 $product->sold_price = $transaction['price'];
                 $product->payment_method = $transaction['payment_method'];
                 $product->discount = $transaction['discount'];
+                $product->sold_date = date('d/m/Y', strtotime($transaction['date']));
             }
         });
     }
@@ -153,5 +155,20 @@ class ProductService
     private function getTransactionsByProductID(string $productID): array   // ISSO AQUI TEM IR PRA UM REPOSITORY OU AJUSTAR CONFLITO DE SERVICE
     {
         return Transaction::where('product_id', $productID)->get()->toArray();
+    }
+
+    private function populatePendingProductsInfo(Collection &$products): void
+    {
+        $products['pending']->each(function ($product) {
+            $transactions = $this->getTransactionsByProductID($product->id); //dd($transactions);
+            foreach ($transactions as $transaction) {
+                $product->customer = $this->customerService->getCustomerNameByID($transaction['customer_id']);
+                $product->sold_price = $transaction['price'];
+                $product->payment_method = $transaction['payment_method'];
+                $product->installments = $transaction['installments'];
+                // $product->current_installment = $transaction['current_installment'];
+                // $product->month_to_end = $transaction['month_to_end'];
+            }
+        });
     }
 }

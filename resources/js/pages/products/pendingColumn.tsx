@@ -20,7 +20,7 @@ import {
     HoverCardTrigger
 } from "@/components/ui/hover-card";
 
-export const getSoldColumns = (): ColumnDef<Product>[] => {
+export const getPendingColumns = (): ColumnDef<Product>[] => {
     return [
         {
             id: "select",
@@ -137,40 +137,56 @@ export const getSoldColumns = (): ColumnDef<Product>[] => {
             cell: ({ row }) => {
                 return <div className="ml-9 font-medium">{row.getValue("payment_method") || '-'}</div>
             }
-        },
-        
+        },    
         {
-            accessorKey: "discount",
+            accessorKey: "installments",
             header: ({ column }) => {
                 return (
                     <Button
                         variant="ghost"
                         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                     >
-                        Desconto
+                        Parcelas
                         <ArrowUpDown className="ml-2 h-4 w-4" />
                     </Button>
                 )
             },
             cell: ({ row }) => {
-                return <div className="ml-7 font-medium">{row.getValue("discount") || '-'}</div>
+                return <div className="ml-7 font-medium">{row.getValue("installments")}</div>
             }
         },
         {
-            accessorKey: "sold_date",
+            accessorKey: "current_installment",
             header: ({ column }) => {
                 return (
                     <Button
                         variant="ghost"
                         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                     >
-                        Data de Venda
+                        Parcela Atual
                         <ArrowUpDown className="ml-2 h-4 w-4" />
                     </Button>
                 )
             },
             cell: ({ row }) => {
-                return <div className="ml-7 font-medium">{row.getValue("sold_date") || '-'}</div>
+                return <div className="ml-7 font-medium">{row.getValue("current_installment")}</div>
+            }
+        },
+        {
+            accessorKey: "month_to_end",
+            header: ({ column }) => {
+                return (
+                    <Button
+                        variant="ghost"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                    >
+                        Mês previsto de término
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </Button>
+                )
+            },
+            cell: ({ row }) => {
+                return <div className="ml-7 font-medium">{row.getValue("month_to_end")}</div>
             }
         },
         {
@@ -182,13 +198,13 @@ export const getSoldColumns = (): ColumnDef<Product>[] => {
 
                 return (
                     <div className="flex">
-                        <SoldDialog
+                        {/* <SoldDialog
                             soldProduct={soldProduct}
                             open={isDialogOpen}
                             setOpen={setIsDialogOpen}
                         />
 
-                        <AlertDialogDelete objectName={soldProduct} deleteRoute="products"/>
+                        <AlertDialogDelete objectName={soldProduct} deleteRoute="products"/> */}
                     </div>
                 );
             },

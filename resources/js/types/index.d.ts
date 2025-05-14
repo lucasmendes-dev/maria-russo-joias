@@ -61,7 +61,12 @@ export type Product = {
     supplier_id: string,
     image: string,
     status: string,
-    selling_price,
+    selling_price: number,
+    payment_method: string,
+    customer: string,
+    discount: string
+    installment_value: string
+    sold_date: Date|undefined
 }
 
 export interface ProductFormProps {
@@ -144,6 +149,21 @@ export interface SalesFormProps {
     setDate: (value: Date|undefined) => void;
     customers: Customer[],
     setCustomer: (value: string) => void,
+}
+
+export interface UpdateSoldDialogProps {
+    soldProduct: {
+        id: string,
+        name: string,
+        selling_price: number,
+        payment_method: string,
+        customer: string,
+        discount: string
+        installment_value: string
+        sold_date: Date|undefined
+    },
+    open: boolean;
+    setOpen: (value: boolean) => void;
 }
 
 
