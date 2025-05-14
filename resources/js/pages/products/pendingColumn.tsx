@@ -102,23 +102,6 @@ export const getPendingColumns = (): ColumnDef<Product>[] => {
             }
         },
         {
-            accessorKey: "payment_method",
-            header: ({ column }) => {
-                return (
-                    <Button
-                        variant="ghost"
-                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                    >
-                        Forma de Pagamento
-                        <ArrowUpDown className="ml-2 h-4 w-4" />
-                    </Button>
-                )
-            },
-            cell: ({ row }) => {
-                return <div className="ml-9 font-medium">{row.getValue("payment_method")}</div>
-            }
-        },
-        {
             accessorKey: "sold_price",
             header: ({ column }) => {
                 return (
@@ -173,26 +156,6 @@ export const getPendingColumns = (): ColumnDef<Product>[] => {
             }
         },
         {
-            accessorKey: "installment_value",
-            header: ({ column }) => {
-                return (
-                    <Button
-                        variant="ghost"
-                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                    >
-                        Total Pago
-                        <ArrowUpDown className="ml-2 h-4 w-4" />
-                    </Button>
-                )
-            },
-            cell: ({ row }) => {
-                const installment_value = parseFloat(row.getValue("installment_value"));
-                const formatted = formatToBRCurrency(installment_value);
-
-                return <div className="ml-7 font-medium">{formatted}</div>
-            }
-        },
-        {
             accessorKey: "month_to_end",
             header: ({ column }) => {
                 return (
@@ -200,7 +163,7 @@ export const getPendingColumns = (): ColumnDef<Product>[] => {
                         variant="ghost"
                         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                     >
-                        Mês previsto de término
+                        Mês de término
                         <ArrowUpDown className="ml-2 h-4 w-4" />
                     </Button>
                 )

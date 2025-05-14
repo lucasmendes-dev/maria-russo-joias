@@ -31,6 +31,8 @@ class StoreTransactionRequest extends FormRequest
             'discount' => ['string', 'nullable'],
             'installments' => ['string', 'nullable'],
             'date' => ['required', 'string'],
+            'firstInstallmentDate' => ['string', 'nullable'],
+            'firstInstallmentValue' => ['numeric', 'nullable'],
         ];
     }
 }

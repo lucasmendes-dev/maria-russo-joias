@@ -29,6 +29,8 @@ export function SalesDialog({
     const [discountValue, setDiscountValue] = useState('');
     const [installmentValue, setInstallmentValue] = useState('');
     const [date, setDate] = useState<Date|undefined>(new Date());
+    const [firstInstallmentDate, setFirstInstallmentDate] = useState<Date|undefined>(new Date());
+    const [firstInstallmentValue, setFirstInstallmentValue] = useState<number|null>(null);
 
     const handleSale = () => {
         if (!name || !sellingPrice || !quantity || !paymentMethod || !customer) {
@@ -45,6 +47,8 @@ export function SalesDialog({
             discount: discountValue,
             installments: installmentValue,
             date,
+            firstInstallmentDate,
+            firstInstallmentValue,
         }, {
             preserveScroll: true,
             preserveState: true,
@@ -76,6 +80,8 @@ export function SalesDialog({
                     discountValue={discountValue}
                     installmentValue={installmentValue}
                     date={date}
+                    firstInstallmentDate={firstInstallmentDate}
+                    firstInstallmentValue={firstInstallmentValue}
                     setName={setName}
                     setSellingPrice={setSellingPrice}
                     setQuantity={setQuantity}
@@ -85,6 +91,8 @@ export function SalesDialog({
                     setDiscountValue={setDiscountValue}
                     setInstallmentValue={setInstallmentValue}
                     setDate={setDate}
+                    setFirstInstallmentDate={setFirstInstallmentDate}
+                    setFirstInstallmentValue={setFirstInstallmentValue}
                 />
 
                 <DialogFooter>

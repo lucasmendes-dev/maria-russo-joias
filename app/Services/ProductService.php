@@ -171,7 +171,7 @@ class ProductService
                     $product->sold_price = $transaction['price'];
                     $product->payment_method = $transaction['payment_method'];
                     $product->installments = $transaction['installments'];
-                    //$product->current_installment = $transaction['current_installment'];
+                    $product->current_installment = $transaction['current_installment'];
                     //$product->installment_value = $transaction['price'] /  $transaction['installments'];
                     // $product->month_to_end = $transaction['month_to_end'];
                 }

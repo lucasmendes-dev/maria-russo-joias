@@ -140,15 +140,19 @@ export interface SalesFormProps {
     discountValue: string,
     installmentValue: string,
     date: Date|undefined,
+    firstInstallmentDate: Date|undefined,
+    firstInstallmentValue: number|null,
     setName: (value: string) => void,
     setSellingPrice: (value: number) => void,
     setQuantity: (value: number) => void,
     setPaymentMethod: (value: string) => void,
     setDiscountValue: (value: string) => void,
     setInstallmentValue: (value: string) => void,
-    setDate: (value: Date|undefined) => void;
+    setDate: (value: Date|undefined) => void,
     customers: Customer[],
     setCustomer: (value: string) => void,
+    setFirstInstallmentDate: (value: Date|undefined) => void,
+    setFirstInstallmentValue: (value: number|null) => void,
 }
 
 export interface UpdateSoldDialogProps {

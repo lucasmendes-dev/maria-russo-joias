@@ -120,25 +120,7 @@ export const getSoldColumns = (): ColumnDef<Product>[] => {
         
                 return <div className="font-medium ml-7">{formatted}</div>
             }
-        },
-        {
-            accessorKey: "payment_method",
-            header: ({ column }) => {
-                return (
-                    <Button
-                        variant="ghost"
-                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                    >
-                        Forma de Pagamento
-                        <ArrowUpDown className="ml-2 h-4 w-4" />
-                    </Button>
-                )
-            },
-            cell: ({ row }) => {
-                return <div className="ml-9 font-medium">{row.getValue("payment_method") || '-'}</div>
-            }
-        },
-        
+        },        
         {
             accessorKey: "discount",
             header: ({ column }) => {

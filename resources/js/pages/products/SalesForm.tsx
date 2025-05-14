@@ -30,6 +30,7 @@ export function SalesForm({
     quantity,
     paymentMethod,
     date,
+    firstInstallmentDate,
     setName,
     setSellingPrice,
     setQuantity,
@@ -39,6 +40,8 @@ export function SalesForm({
     setDate,
     customers,
     setCustomer,
+    setFirstInstallmentDate,
+    setFirstInstallmentValue,
 }: SalesFormProps) {
     const [registeredClient, setRegisteredClient] = useState('yes');
     const [discount, setDiscount] = useState('no');
@@ -270,25 +273,25 @@ export function SalesForm({
                                     variant={"outline"}
                                     className={cn(
                                         "w-full justify-start text-left font-normal cursor-pointer",
-                                        !date && "text-muted-foreground"
+                                        !firstInstallmentDate && "text-muted-foreground"
                                     )}
                                 >
                                     <CalendarIcon className="mr-2 h-4 w-4" />
-                                    {date ? format(date, "PPP", {locale: ptBR}) : <span>Escolha uma Data</span>}
+                                    {firstInstallmentDate ? format(firstInstallmentDate, "PPP", {locale: ptBR}) : <span>Escolha uma Data</span>}
                                 </Button>
                             </PopoverTrigger>
 
                             <PopoverContent className="w-auto p-0 pointer-events-auto">
                                 <Calendar
                                     mode="single"
-                                    selected={date}
+                                    selected={firstInstallmentDate}
                                     onSelect={(date) => {
                                         if (date) {
-                                            setDate(date);
+                                            setFirstInstallmentDate(date);
                                         }
                                     }}
                                     initialFocus
-                                    defaultMonth={date}
+                                    defaultMonth={firstInstallmentDate}
                                     locale={ptBR}
                                 />
                             </PopoverContent>
@@ -297,7 +300,7 @@ export function SalesForm({
 
                     <div className="w-full md:w-1/2 px-3">
                         <Label htmlFor="first_installment_value" className="block mb-2">Preço da Primeira Parcela</Label>
-                        <Input id="first_installment_value" type="number" onChange={(e) => setSellingPrice(Number(e.target.value))} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required  />
+                        <Input id="first_installment_value" type="number" onChange={(e) => setFirstInstallmentValue(Number(e.target.value))} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required  />
                     </div>
                 </div>
             )}

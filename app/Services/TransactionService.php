@@ -56,12 +56,23 @@ class TransactionService
     public function populateDebtTableifSaleHasInstallments(array $data): void
     {
         if ($data['installments'] && $data['installments'] >= 2) {
-            // $data['transaction_id'] = 
-            // $data['current_installment'] = 
-            // $data['installment_value'] = 
-            // $data['date'] = 
+            $data['transaction_id'] = $this->getTransactionIdByProductAndCustomer($data['product_id'], $data['customer_id']);
+            $data['installment_value'] = $data['firstInstallmentValue'];
+            $data['date'] = $this->formatDate($data['firstInstallmentDate']);
+            $data['current_installment'] = $this->setFirstCurrentInstallment($data['firstInstallmentDate']);
         }
-        dd($data);
         Debt::create($data);
+    }
+
+    private function setFirstCurrentInstallment(string $date): int
+    {
+        $today = new DateTime("now", new DateTimeZone("UTC"));
+        $date = new DateTime($date, new DateTimeZone("UTC"));
+        return $date > $today ? 0 : 1;
+    }
+
+    private function getTransactionIdByProductAndCustomer($productID, $customerID): int
+    {
+        return Transaction::where('product_id', $productID)->where('customer_id', $customerID)->value('id');
     }
 }
