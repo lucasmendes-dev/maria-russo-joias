@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Debts;
+namespace App\Http\Requests\Reserved;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreDebtRequest extends FormRequest
+class StoreReservedRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,12 @@ class StoreDebtRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => ['string', 'nullable'],
+            'product_id' => ['required', 'numeric'],
+            'customer_id' => ['required', 'string'],
+            'reserved_value' => ['required', 'numeric'],
+            'reserved_date' => ['required', 'string'],
+            'description' => ['string', 'nullable'],
         ];
     }
 }

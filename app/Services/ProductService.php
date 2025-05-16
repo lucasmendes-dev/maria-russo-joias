@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Reserved;
 use App\Models\Tax;
 use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Collection;
@@ -26,6 +27,7 @@ class ProductService
     {
         $products = $this->getAllProductsGroupedByStatus();
         $this->addSellingPriceToAvailableProducts($products);
+        $this->populateReservedProductsInfo($products);
         $this->populatePendingProductsInfo($products);
         $this->populateSoldProductsInfo($products);
         return $products;
@@ -178,6 +180,18 @@ class ProductService
                     //$product->installment_value = $debt['installment_value'];
                     $product->date_to_end = $debt !== null ? $this->debtService->getDateToEndInstallments($debt->installments, $debt->current_installment) : '';
                 }
+            });
+        }
+    }
+
+    private function populateReservedProductsInfo(Collection &$products): void
+    {
+        if (!empty($products['reserved'])) {
+            $products['reserved']->each(function ($product) {
+                $reservedData = Reserved::where('product_id', $product->id)->first();
+                $product->customer = $this->customerService->getCustomerNameByID($reservedData->customer_id);
+                $product->reserved_value = $reservedData->reserved_value;
+                $product->reserved_date = date('d/m/Y', strtotime($reservedData->reserved_date));
             });
         }
     }

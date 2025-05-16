@@ -104,6 +104,7 @@ export interface UpdateProductDialogProps {
 
 export type ProductProps = {
     availableProducts: Product[],
+    reservedProducts: Product[],
     pendingProducts: Product[],
     soldProducts: Product[],
     categories: Category[],
@@ -170,6 +171,26 @@ export interface UpdateSoldDialogProps {
     setOpen: (value: boolean) => void;
 }
 
+////////////////////////////////// Reserved //////////////////////////////////
+export interface UpdateReservedDialogProps {
+    product: Product;
+    reservedOpen: boolean;
+    setReservedOpen: (value: boolean) => void;
+    customers: Customer[],
+}
+
+export interface ReservedFormProps {
+    name: string,
+    price: string,
+    description: string,
+    reserved_date: string,
+    setName: (value: string) => void;
+    setPrice: (value: string) => void;
+    setDescription: (value: string) => void;
+    setReserveDate: (value: string) => void;
+    customers: Customer[],
+    setCustomer: (value: string) => void,
+}
 
 ////////////////////////////////// Taxes //////////////////////////////////
 export type Tax = {

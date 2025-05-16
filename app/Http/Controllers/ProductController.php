@@ -29,6 +29,7 @@ class ProductController extends Controller
 
         return Inertia::render('products/index', [
             'availableProducts' => $products['available'] ?? [],
+            'reservedProducts' => $products['reserved'] ?? [],
             'pendingProducts' => $products['pending'] ?? [],
             'soldProducts' => $products['sold'] ?? [],
             'categories' => $categories,

@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductToOrderController;
+use App\Http\Controllers\ReservedController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TaxController;
 use App\Http\Controllers\TransactionController;
@@ -35,6 +36,9 @@ Route::middleware('auth')->group(function () {
 
     // Transactions
     Route::post('/revenueTransaction', [TransactionController::class, 'storeRevenueTransaction'])->name('transactions.revenue');
+
+    // Reserved
+    Route::post('/reserveProduct', [ReservedController::class, 'storeReservedProduct'])->name('reserveds.reserve');
 
     // Taxes
     Route::get('/taxes', [TaxController::class, 'index'])->name('taxes.index');

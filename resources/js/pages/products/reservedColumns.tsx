@@ -4,13 +4,12 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowUpDown } from "lucide-react";
-import { AlertDialogDelete } from "@/components/AlertDialogDelete";
-import { UpdateDialog } from "./UpdateDialog";
 import { useState } from "react";
-import { SalesDialog } from "./SalesDialog";
-import { Product, Category, Supplier, Customer } from "@/types";
+import { Customer, Product } from "@/types";
 import { formatToBRCurrency } from "@/utils/functions-lib";
+import { AlertDialogDelete } from "@/components/AlertDialogDelete";
 import { ReservedDialog } from "./ReservedDialog";
+import { SalesDialog } from "./SalesDialog";
 import {
     Avatar,
     AvatarFallback,
@@ -22,11 +21,7 @@ import {
     HoverCardTrigger
 } from "@/components/ui/hover-card";
 
-export const getAvailableColumns = (
-    categories: Category[],
-    suppliers: Supplier[],
-    customers: Customer[],
-): ColumnDef<Product>[] => {
+export const getReservedColumns = (customers: Customer[]): ColumnDef<Product>[] => {
     return [
         {
             id: "select",
@@ -91,60 +86,57 @@ export const getAvailableColumns = (
             },
         },
         {
-            accessorKey: "batch",
+            accessorKey: "customer",
             header: ({ column }) => {
                 return (
                     <Button
                         variant="ghost"
                         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                     >
-                        Lote
+                        Cliente
                         <ArrowUpDown className="ml-2 h-4 w-4" />
                     </Button>
                 )
             },
             cell: ({ row }) => {
-                // return <div className="ml-7 font-medium">{row.getValue("quantity")}</div>
+                return <div className="ml-4 font-medium">{row.getValue("customer")}</div>
             }
         },
         {
-            accessorKey: "price",
+            accessorKey: "reserved_value",
             header: ({ column }) => {
                 return (
                     <Button
                         variant="ghost"
                         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                     >
-                        Preço
+                        Preço Reservado
                         <ArrowUpDown className="ml-2 h-4 w-4" />
                     </Button>
                 )
             },
             cell: ({ row }) => {
-                const price = parseFloat(row.getValue("price"));
-                const formatted = formatToBRCurrency(price);
-        
-                return <div className="font-medium">{formatted}</div>
-            }
-        },
-        {
-            accessorKey: "selling_price",
-            header: ({ column }) => {
-                return (
-                    <Button
-                        variant="ghost"
-                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-                    >
-                        Preço de Venda
-                        <ArrowUpDown className="ml-2 h-4 w-4" />
-                    </Button>
-                )
-            },
-            cell: ({ row }) => {
-                const sellingPrice = parseFloat(row.getValue("selling_price"));
+                const sellingPrice = parseFloat(row.getValue("reserved_value"));
                 const formatted = formatToBRCurrency(sellingPrice);
         
-                return <div className="font-medium text-green-400 ml-7">{formatted}</div>
+                return <div className="font-medium ml-7">{formatted}</div>
+            }
+        },        
+        {
+            accessorKey: "reserved_date",
+            header: ({ column }) => {
+                return (
+                    <Button
+                        variant="ghost"
+                        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+                    >
+                        Data da Reserva
+                        <ArrowUpDown className="ml-2 h-4 w-4" />
+                    </Button>
+                )
+            },
+            cell: ({ row }) => {
+                return <div className="ml-7 font-medium">{row.getValue("reserved_date") || '-'}</div>
             }
         },
         {
@@ -154,31 +146,23 @@ export const getAvailableColumns = (
                 const product = row.original;
                 const [isDialogOpen, setIsDialogOpen] = useState(false);
                 const [salesOpen, setSalesOpen] = useState(false);
-                const [reservedOpen, setReservedOpen] = useState(false);
+
                 return (
                     <div className="flex">
-                        <UpdateDialog
+                        <ReservedDialog
                             product={product}
-                            open={isDialogOpen}
-                            setOpen={setIsDialogOpen}
-                            categories={categories}
-                            suppliers={suppliers}
+                            customers={customers}
+                            reservedOpen={isDialogOpen}
+                            setReservedOpen={setIsDialogOpen}
                         />
 
                         <AlertDialogDelete objectName={product} deleteRoute="products"/>
 
-                        <SalesDialog 
+                        <SalesDialog
                             product={product}
                             customers={customers}
                             salesOpen={salesOpen}
                             setSalesOpen={setSalesOpen}
-                        />
-
-                        <ReservedDialog 
-                            product={product}
-                            customers={customers}
-                            reservedOpen={reservedOpen}
-                            setReservedOpen={setReservedOpen}
                         />
                     </div>
                 );

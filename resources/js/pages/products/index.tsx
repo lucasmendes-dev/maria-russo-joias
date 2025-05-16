@@ -5,13 +5,14 @@ import { DataTable } from '@/components/data-table';
 import { ProductCreateDialog } from './ProductCreateDialog';
 import { getAvailableColumns} from './availableColumns';
 import { getPendingColumns } from './pendingColumn';
+import { getSoldColumns } from './soldColumns';
+import { getReservedColumns } from './reservedColumns';
 import {
     Tabs,
     TabsContent,
     TabsList,
     TabsTrigger
 } from "@/components/ui/tabs";
-import { getSoldColumns } from './soldColumns';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -43,6 +44,7 @@ const pendingAndSoldFilters: string[] = [
 
 export default function Products({
     availableProducts,
+    reservedProducts,
     pendingProducts,
     soldProducts,
     categories,
@@ -50,6 +52,7 @@ export default function Products({
     customers,
 }: ProductProps) {
     const availableColumns = getAvailableColumns(categories, suppliers, customers);
+    const reservedColumns= getReservedColumns(customers);
     const soldColumns = getSoldColumns();
     const pendingColumns = getPendingColumns();
 
@@ -77,9 +80,9 @@ export default function Products({
 
                         <TabsContent value="reserved">
                             <DataTable
-                                columns={availableColumns}
-                                data={[]}
-                                filters={availableFilters}
+                                columns={reservedColumns}
+                                data={reservedProducts}
+                                filters={pendingAndSoldFilters}
                             />
                         </TabsContent>
 
