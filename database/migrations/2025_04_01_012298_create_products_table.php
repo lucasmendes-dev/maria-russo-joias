@@ -22,7 +22,7 @@ return new class extends Migration
             $table->date('purchase_date');
             $table->foreignId('supplier_id')->constrained()->onDelete('cascade');
             $table->string('image')->nullable();
-            $table->enum('status', ['available', 'pending', 'sold']);
+            $table->enum('status', ['available', 'reserved', 'pending', 'sold']);
             $table->timestamps();
         });
     }

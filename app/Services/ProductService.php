@@ -14,6 +14,7 @@ class ProductService
         private TaxService $taxService,
         private CategoryService $categoryService,
         private CustomerService $customerService,
+        private DebtService $debtService,
     ) {}
 
     public function getProductByID(int $productID): Product
@@ -171,9 +172,11 @@ class ProductService
                     $product->sold_price = $transaction['price'];
                     $product->payment_method = $transaction['payment_method'];
                     $product->installments = $transaction['installments'];
-                    $product->current_installment = $transaction['current_installment'];
-                    //$product->installment_value = $transaction['price'] /  $transaction['installments'];
-                    // $product->month_to_end = $transaction['month_to_end'];
+
+                    $debt = $this->debtService->getLastInstallmentFromTransaction($transaction['id']);
+                    $product->current_installment = $debt !== null ? $debt->current_installment : '';
+                    //$product->installment_value = $debt['installment_value'];
+                    $product->date_to_end = $debt !== null ? $this->debtService->getDateToEndInstallments($debt->installments, $debt->current_installment) : '';
                 }
             });
         }

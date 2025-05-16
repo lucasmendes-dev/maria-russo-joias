@@ -21,7 +21,7 @@ export function SupplierCreateDialog() {
 
     const handleCreate = () => {
 
-        if (!name || !phone || !local) {
+        if (!name || !local) {
             alert("Todos os campos são obrigatórios!");
             return;
         }

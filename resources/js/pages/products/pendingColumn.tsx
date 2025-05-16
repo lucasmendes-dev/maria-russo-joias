@@ -156,20 +156,20 @@ export const getPendingColumns = (): ColumnDef<Product>[] => {
             }
         },
         {
-            accessorKey: "month_to_end",
+            accessorKey: "date_to_end",
             header: ({ column }) => {
                 return (
                     <Button
                         variant="ghost"
                         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                     >
-                        Mês de término
+                        Data de término
                         <ArrowUpDown className="ml-2 h-4 w-4" />
                     </Button>
                 )
             },
             cell: ({ row }) => {
-                return <div className="ml-7 font-medium">{row.getValue("month_to_end")}</div>
+                return <div className="ml-7 font-medium">{row.getValue("date_to_end")}</div>
             }
         },
         {

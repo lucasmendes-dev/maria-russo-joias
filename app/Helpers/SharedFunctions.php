@@ -1,6 +1,6 @@
 <?php
 
-function cleanPhoneNumber(string $phone): string
+function cleanPhoneNumber(string|null $phone): string
 {
-    return preg_replace('/\D/', '', $phone);
+    return $phone ? preg_replace('/\D/', '', $phone) : '';
 }

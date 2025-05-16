@@ -23,10 +23,10 @@ class StoreSupplierRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string'],
-            'phone' => ['string'],
-            'social_media' => ['string'],
-            'local' => ['string'],
-            'saller_name' => ['required', 'string'],
+            'phone' => ['string', 'nullable'],
+            'social_media' => ['string', 'nullable'],
+            'local' => ['required','string'],
+            'saller_name' => ['string', 'nullable'],
         ];
     }
 }
