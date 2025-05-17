@@ -60,8 +60,8 @@ class TransactionService
             $data['installment_value'] = $data['firstInstallmentValue'];
             $data['date'] = $this->formatDate($data['firstInstallmentDate']);
             $data['current_installment'] = $this->setFirstCurrentInstallment($data['firstInstallmentDate']);
+            Debt::create($data);
         }
-        Debt::create($data);
     }
 
     private function setFirstCurrentInstallment(string $date): int

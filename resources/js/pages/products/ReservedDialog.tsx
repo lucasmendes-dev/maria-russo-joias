@@ -24,7 +24,7 @@ export function ReservedDialog({
     const [productId, setProductId] = useState(product.id);
     const [name, setName] = useState(product.name);
     const [price, setPrice] = useState(product.price);
-    const [reserved_date, setReserveDate] = useState('');
+    const [reserved_date, setReserveDate] = useState(product.reserved_date);
     const [description, setDescription] = useState('');
     const [customer, setCustomer] = useState('');
 

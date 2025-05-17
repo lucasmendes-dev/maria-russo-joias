@@ -66,7 +66,9 @@ export type Product = {
     customer: string,
     discount: string
     installment_value: string
-    sold_date: Date|undefined
+    sold_date: Date|undefined,
+    reserved_value: number,
+    reserved_date: string,
 }
 
 export interface ProductFormProps {
@@ -127,6 +129,8 @@ export interface SalesDialogProps {
         image: string,
         status: string,
         selling_price: number,
+        reserved_value: number,
+        customer: string
     };
     customers: Customer[];
     salesOpen: boolean;
@@ -190,6 +194,28 @@ export interface ReservedFormProps {
     setReserveDate: (value: string) => void;
     customers: Customer[],
     setCustomer: (value: string) => void,
+}
+
+////////////////////////////////// Pending //////////////////////////////////
+export interface PendingDialogProps {
+    product: {
+        id: string,
+        name: string,
+        quantity: string,
+        price: string,
+        category_id: string,
+        description: string,
+        color: string,
+        purchase_date: string,
+        supplier_id: string,
+        image: string,
+        status: string,
+        selling_price: number,
+        reserved_value: number,
+        customer: string
+    };
+    pendingOpen: boolean;
+    setPendingOpen: (value: boolean) => void;
 }
 
 ////////////////////////////////// Taxes //////////////////////////////////

@@ -8,7 +8,7 @@ import { useState } from "react";
 import { Product } from "@/types";
 import { formatToBRCurrency } from "@/utils/functions-lib";
 import { AlertDialogDelete } from "@/components/AlertDialogDelete";
-import { SoldDialog } from "./SoldDialog";
+import { PendingDialog } from "./pendingDialog";
 import {
     Avatar,
     AvatarFallback,
@@ -176,18 +176,18 @@ export const getPendingColumns = (): ColumnDef<Product>[] => {
             header: "Ações",
             id: "actions",
             cell: ({ row }) => {
-                const soldProduct = row.original;
-                const [isDialogOpen, setIsDialogOpen] = useState(false);
+                const pendingProduct = row.original;
+                const [pendingOpen, setPendingOpen] = useState(false);
 
                 return (
                     <div className="flex">
-                        {/* <SoldDialog
-                            soldProduct={soldProduct}
-                            open={isDialogOpen}
-                            setOpen={setIsDialogOpen}
+                        <PendingDialog 
+                            product={pendingProduct}
+                            pendingOpen={pendingOpen}
+                            setPendingOpen={setPendingOpen}
                         />
 
-                        <AlertDialogDelete objectName={soldProduct} deleteRoute="products"/> */}
+                        <AlertDialogDelete objectName={pendingProduct} deleteRoute="products"/>
                     </div>
                 );
             },

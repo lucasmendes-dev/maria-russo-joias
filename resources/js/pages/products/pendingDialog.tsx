@@ -1,8 +1,8 @@
 import { Button } from "@/components/ui/button";
-import { ShoppingBag } from 'lucide-react';
+import { Pencil } from 'lucide-react';
 import { router } from "@inertiajs/react";
 import { useState } from "react";
-import { SalesDialogProps } from "@/types";
+import { PendingDialogProps } from "@/types";
 import { SalesForm } from "./SalesForm";
 import {
     Dialog,
@@ -14,12 +14,11 @@ import {
     DialogDescription
 } from "@/components/ui/dialog";
 
-export function SalesDialog({
+export function PendingDialog({
     product,
-    customers,
-    salesOpen,
-    setSalesOpen
-}: SalesDialogProps) {
+    pendingOpen,
+    setPendingOpen
+}: PendingDialogProps) {
     const [productId] = useState(product.id);
     const [name, setName] = useState(product.name);
     const [sellingPrice, setSellingPrice] = useState(product.selling_price || product.reserved_value);
@@ -32,7 +31,7 @@ export function SalesDialog({
     const [firstInstallmentDate, setFirstInstallmentDate] = useState<Date|undefined>(new Date());
     const [firstInstallmentValue, setFirstInstallmentValue] = useState<number|null>(null);
 
-    const handleSale = () => {
+    const handleUpdate = () => {
         if (!name || !sellingPrice || !quantity || !paymentMethod || !customer) {
             alert("Os campos com * são obrigatórios!");
             return;
@@ -53,50 +52,31 @@ export function SalesDialog({
             preserveScroll: true,
             preserveState: true,
             onSuccess: () => {
-                setSalesOpen(false);
+                setPendingOpen(false);
             }
         });
     }
     return (
-        <Dialog open={salesOpen} onOpenChange={setSalesOpen}>
+        <Dialog open={pendingOpen} onOpenChange={setPendingOpen}>
             <DialogTrigger asChild>
-                <Button className="h-8 w-8 bg-green-400 ml-2 cursor-pointer">
-                    <ShoppingBag />
+                <Button className="h-8 w-8 bg-blue-400 ml-2 cursor-pointer">
+                    <Pencil />
                 </Button>
             </DialogTrigger>
 
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Vender produto: <span className="text-green-400">{ product.name }</span></DialogTitle>
+                    <DialogTitle>Editar produto pendente: <span className="text-blue-400">{ product.name }</span></DialogTitle>
                 </DialogHeader>
 
-                <DialogDescription>Preencha os dados de venda do produto.</DialogDescription>
+                <DialogDescription>Verique os dados do produto.</DialogDescription>
 
-                <SalesForm
-                    name={name}
-                    sellingPrice={sellingPrice}
-                    quantity={quantity}
-                    paymentMethod={paymentMethod}
-                    discountValue={discountValue}
-                    installmentValue={installmentValue}
-                    date={date}
-                    firstInstallmentDate={firstInstallmentDate}
-                    firstInstallmentValue={firstInstallmentValue}
-                    setName={setName}
-                    setSellingPrice={setSellingPrice}
-                    setQuantity={setQuantity}
-                    setPaymentMethod={setPaymentMethod}
-                    customers={customers}
-                    setCustomer={setCustomer}
-                    setDiscountValue={setDiscountValue}
-                    setInstallmentValue={setInstallmentValue}
-                    setDate={setDate}
-                    setFirstInstallmentDate={setFirstInstallmentDate}
-                    setFirstInstallmentValue={setFirstInstallmentValue}
-                />
+                {/* <PendingForm 
+                    criar
+                />*/}
 
                 <DialogFooter>
-                    <Button type="submit" className="cursor-pointer bg-green-400" onClick={handleSale}>Vender Produto</Button>
+                    <Button type="submit" className="cursor-pointer bg-blue-400" onClick={handleUpdate}>Atualizar Produto</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

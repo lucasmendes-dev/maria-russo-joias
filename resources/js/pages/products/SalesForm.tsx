@@ -46,6 +46,7 @@ export function SalesForm({
     const [registeredClient, setRegisteredClient] = useState('yes');
     const [discount, setDiscount] = useState('no');
     const [installment, setInstallment] = useState('no');
+    sellingPrice = Number(sellingPrice.toFixed(2));
 
     return (
         <form className="w-full max-w-lg mt-3">
@@ -62,7 +63,7 @@ export function SalesForm({
 
                 <div className="w-full md:w-1/4 px-3 mb-4 md:mb-0">
                     <Label htmlFor="selling_price" className="block mb-2">Preço (R$) <span className="text-red-400">*</span></Label>
-                    <Input id="selling_price" type="number" value={sellingPrice.toFixed(2)} onChange={(e) => setSellingPrice(Number(e.target.value))} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required  />
+                    <Input id="selling_price" type="number" value={sellingPrice} onChange={(e) => setSellingPrice(Number(e.target.value))} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required  />
                 </div>
             </div>
 

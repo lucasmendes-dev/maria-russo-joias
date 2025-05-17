@@ -149,12 +149,12 @@ export const getReservedColumns = (customers: Customer[]): ColumnDef<Product>[] 
 
                 return (
                     <div className="flex">
-                        <ReservedDialog
+                        {/* <ReservedDialog
                             product={product}
                             customers={customers}
                             reservedOpen={isDialogOpen}
                             setReservedOpen={setIsDialogOpen}
-                        />
+                        /> */}
 
                         <AlertDialogDelete objectName={product} deleteRoute="products"/>
 

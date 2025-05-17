@@ -177,8 +177,8 @@ class ProductService
 
                     $debt = $this->debtService->getLastInstallmentFromTransaction($transaction['id']);
                     $product->current_installment = $debt !== null ? $debt->current_installment : '';
-                    //$product->installment_value = $debt['installment_value'];
                     $product->date_to_end = $debt !== null ? $this->debtService->getDateToEndInstallments($debt->installments, $debt->current_installment) : '';
+                    //$product->installment_value = $debt['installment_value'];
                 }
             });
         }
@@ -188,7 +188,7 @@ class ProductService
     {
         if (!empty($products['reserved'])) {
             $products['reserved']->each(function ($product) {
-                $reservedData = Reserved::where('product_id', $product->id)->first();
+                $reservedData = Reserved::where('product_id', $product->id)->first(); // ajuste de service ou repostory
                 $product->customer = $this->customerService->getCustomerNameByID($reservedData->customer_id);
                 $product->reserved_value = $reservedData->reserved_value;
                 $product->reserved_date = date('d/m/Y', strtotime($reservedData->reserved_date));
