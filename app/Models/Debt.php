@@ -9,7 +9,8 @@ use App\Models\Transaction;
 class Debt extends Model
 {
     protected $fillable = [
-        'transaction_id',
+        'product_id',
+        'customer_id',
         'installments',
         'current_installment',
         'installment_value',

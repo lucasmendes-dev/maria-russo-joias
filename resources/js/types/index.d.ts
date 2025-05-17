@@ -64,11 +64,16 @@ export type Product = {
     selling_price: number,
     payment_method: string,
     customer: string,
-    discount: string
+    customer_id: string,
+    discount: number
     installment_value: string
     sold_date: Date|undefined,
     reserved_value: number,
     reserved_date: string,
+    sold_price: number,
+    installments: number,
+    current_installment: number,
+    date_to_end: string,
 }
 
 export interface ProductFormProps {
@@ -212,10 +217,41 @@ export interface PendingDialogProps {
         status: string,
         selling_price: number,
         reserved_value: number,
-        customer: string
+        customer_id: string,
+        sold_price: number,
+        payment_method: string,
+        discount: number|undefined,
+        installments: number,
+        current_installment: number,
+        date_to_end: string,
     };
+    customers: Customer[],
     pendingOpen: boolean;
     setPendingOpen: (value: boolean) => void;
+}
+
+export interface PendingFormProps {
+    name: string,
+    soldPrice: number,
+    quantity: number,
+    paymentMethod: string,
+    customer: string,
+    discountValue: number|undefined,
+    installments: number,
+    currentInstallment: number,
+    purchaseDate: Date|undefined,
+    dateToEnd: Date|undefined,
+    customers: Customer[],
+    setName: (value: string) => void,
+    setSoldPrice: (value: number) => void,
+    setQuantity: (value: number) => void,
+    setPaymentMethod: (value: string) => void,
+    setCustomer: (value: string) => void,
+    setDiscountValue: (value: number) => void,
+    setInstallments: (value: number) => void,
+    setCurrentInstallment: (value: number) => void,
+    setPurchaseDate: (value: Date|undefined) => void,
+    setDateToEnd: (value: Date|undefined) => void,
 }
 
 ////////////////////////////////// Taxes //////////////////////////////////

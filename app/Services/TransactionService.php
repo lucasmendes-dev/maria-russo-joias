@@ -56,7 +56,6 @@ class TransactionService
     public function populateDebtTableifSaleHasInstallments(array $data): void
     {
         if ($data['installments'] && $data['installments'] >= 2) {
-            $data['transaction_id'] = $this->getTransactionIdByProductAndCustomer($data['product_id'], $data['customer_id']);
             $data['installment_value'] = $data['firstInstallmentValue'];
             $data['date'] = $this->formatDate($data['firstInstallmentDate']);
             $data['current_installment'] = $this->setFirstCurrentInstallment($data['firstInstallmentDate']);

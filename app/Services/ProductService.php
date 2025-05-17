@@ -168,17 +168,19 @@ class ProductService
     {
         if (!empty($products['pending'])) {
             $products['pending']->each(function ($product) {
-                $transactions = $this->getTransactionsByProductID($product->id);
+                $transactions = $this->getTransactionsByProductID($product->id); //dd($transactions);
                 foreach ($transactions as $transaction) {
+                    $product->customer_id = $transaction['customer_id'];
                     $product->customer = $this->customerService->getCustomerNameByID($transaction['customer_id']);
                     $product->sold_price = $transaction['price'];
                     $product->payment_method = $transaction['payment_method'];
                     $product->installments = $transaction['installments'];
+                    $product->discount = $transaction['discount'];
 
-                    $debt = $this->debtService->getLastInstallmentFromTransaction($transaction['id']);
+                    $debt = $this->debtService->getLastInstallmentFromProduct($product->id);
                     $product->current_installment = $debt !== null ? $debt->current_installment : '';
                     $product->date_to_end = $debt !== null ? $this->debtService->getDateToEndInstallments($debt->installments, $debt->current_installment) : '';
-                    //$product->installment_value = $debt['installment_value'];
+                    $product->paid_value = $this->debtService->getPendingProductPaidValue($product->id);
                 }
             });
         }

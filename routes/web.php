@@ -34,6 +34,8 @@ Route::middleware('auth')->group(function () {
     Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
 
+    Route::put('/updatePendingProduct/{id}', [ProductController::class, 'updatePendingProduct'])->name('products.updatePendingProduct');
+
     // Transactions
     Route::post('/revenueTransaction', [TransactionController::class, 'storeRevenueTransaction'])->name('transactions.revenue');
 

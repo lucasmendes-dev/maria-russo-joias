@@ -3,7 +3,7 @@ import { Pencil } from 'lucide-react';
 import { router } from "@inertiajs/react";
 import { useState } from "react";
 import { PendingDialogProps } from "@/types";
-import { SalesForm } from "./SalesForm";
+import { PendingForm } from "./pendingForm";
 import {
     Dialog,
     DialogContent,
@@ -16,38 +16,38 @@ import {
 
 export function PendingDialog({
     product,
+    customers,
     pendingOpen,
     setPendingOpen
 }: PendingDialogProps) {
     const [productId] = useState(product.id);
     const [name, setName] = useState(product.name);
-    const [sellingPrice, setSellingPrice] = useState(product.selling_price || product.reserved_value);
-    const [quantity, setQuantity] = useState(Number(product.quantity));
-    const [paymentMethod, setPaymentMethod] = useState('');
-    const [customer, setCustomer] = useState(product.customer || "");
-    const [discountValue, setDiscountValue] = useState('');
-    const [installmentValue, setInstallmentValue] = useState('');
-    const [date, setDate] = useState<Date|undefined>(new Date());
-    const [firstInstallmentDate, setFirstInstallmentDate] = useState<Date|undefined>(new Date());
-    const [firstInstallmentValue, setFirstInstallmentValue] = useState<number|null>(null);
+    const [soldPrice, setSoldPrice] = useState(product.sold_price);
+    const [quantity, setQuantity] = useState(Number(product.quantity)); // será deletado
+    const [paymentMethod, setPaymentMethod] = useState(product.payment_method);
+    const [customer, setCustomer] = useState(product.customer_id);
+    const [discountValue, setDiscountValue] = useState(product.discount);
+    const [installments, setInstallments] = useState(product.installments);
+    const [currentInstallment, setCurrentInstallment] = useState(product.current_installment);
+    const [purchaseDate, setPurchaseDate] = useState<Date|undefined>(new Date(product.purchase_date));
+    const [dateToEnd, setDateToEnd] = useState<Date|undefined>(new Date(product.date_to_end));
 
     const handleUpdate = () => {
-        if (!name || !sellingPrice || !quantity || !paymentMethod || !customer) {
+        if (!name || !soldPrice || !quantity || !paymentMethod || !customer) {
             alert("Os campos com * são obrigatórios!");
             return;
         }
-        router.post('/revenueTransaction', {
+        router.put(`/updatePendingProduct/${productId}`, { // PAREI AQUI JUNTO COM updatePendingProduct
             product_id: productId,
             name,
-            price: sellingPrice,
+            sold_price: soldPrice,
             quantity,
             payment_method: paymentMethod,
             customer_id: customer,
             discount: discountValue,
-            installments: installmentValue,
-            date,
-            firstInstallmentDate,
-            firstInstallmentValue,
+            installments: installments,
+            current_installment: currentInstallment,
+            purchase_date: purchaseDate,
         }, {
             preserveScroll: true,
             preserveState: true,
@@ -71,12 +71,32 @@ export function PendingDialog({
 
                 <DialogDescription>Verique os dados do produto.</DialogDescription>
 
-                {/* <PendingForm 
-                    criar
-                />*/}
+                <PendingForm
+                    name={name}
+                    soldPrice={soldPrice}
+                    quantity={quantity}
+                    paymentMethod={paymentMethod}
+                    customer={customer}
+                    discountValue={discountValue}
+                    installments={installments}
+                    currentInstallment={currentInstallment}
+                    purchaseDate={purchaseDate}
+                    dateToEnd={dateToEnd}
+                    setName={setName}
+                    setSoldPrice={setSoldPrice}
+                    setQuantity={setQuantity}
+                    setPaymentMethod={setPaymentMethod}
+                    setCustomer={setCustomer}
+                    setDiscountValue={setDiscountValue}
+                    setInstallments={setInstallments}
+                    setCurrentInstallment={setCurrentInstallment}
+                    setPurchaseDate={setPurchaseDate}
+                    setDateToEnd={setDateToEnd}
+                    customers={customers}
+                />
 
                 <DialogFooter>
-                    <Button type="submit" className="cursor-pointer bg-blue-400" onClick={handleUpdate}>Atualizar Produto</Button>
+                    <Button type="submit" className="cursor-pointer bg-blue-400" onClick={handleUpdate}>Atualizar Produto Pendente</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

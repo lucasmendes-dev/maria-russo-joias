@@ -19,7 +19,7 @@ class TransactionController extends Controller
     public function storeRevenueTransaction(StoreTransactionRequest $request)
     {
         $data = $this->transactionService->handleCreateData($request->validated());
-  
+
         Transaction::create($data);
 
         $this->transactionService->adjustProductStatus($data);

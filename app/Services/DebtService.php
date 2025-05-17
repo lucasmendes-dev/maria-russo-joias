@@ -9,10 +9,10 @@ class DebtService
 {
     public function __construct() {}
 
-    public function getLastInstallmentFromTransaction(string $transactionID): Debt | null
+    public function getLastInstallmentFromProduct(string $productID): Debt | null
     {
-        $lastDate = Debt::where('transaction_id', $transactionID)->max('date');
-        return Debt::where('transaction_id', $transactionID)
+        $lastDate = Debt::where('product_id', $productID)->max('date');
+        return Debt::where('product_id', $productID)
                    ->where('date', $lastDate)
                    ->first();
     }
@@ -21,6 +21,12 @@ class DebtService
     {
         $numberOfRemainingMonths = $installments - $currentInstallment;
         $dateToEnd = Carbon::now()->addMonths($numberOfRemainingMonths);
-        return $dateToEnd->format('d/m/Y');
+        return $dateToEnd->format('Y-m-d');
+    }
+
+    public function getPendingProductPaidValue(string $productId)
+    {
+        $productDebts = Debt::where('product_id', $productId)->pluck('installment_value');
+        
     }
 }

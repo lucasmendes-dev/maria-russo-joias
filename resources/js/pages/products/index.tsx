@@ -23,14 +23,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 const availableFilters: string[] = [
     'name',
-    'quantity',
     'price',
-    'category_id',
-    'description',
-    'color',
-    'purchase_date',
-    'supplier_id',
-    'status',
 ];
 
 const pendingAndSoldFilters: string[] = [
@@ -54,7 +47,7 @@ export default function Products({
     const availableColumns = getAvailableColumns(categories, suppliers, customers);
     const reservedColumns= getReservedColumns(customers);
     const soldColumns = getSoldColumns();
-    const pendingColumns = getPendingColumns();
+    const pendingColumns = getPendingColumns(customers);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

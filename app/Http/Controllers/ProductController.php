@@ -9,6 +9,7 @@ use App\Services\CategoryService;
 use App\Services\ProductService;
 use App\Services\SupplierService;
 use App\Services\CustomerService;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ProductController extends Controller
@@ -68,6 +69,11 @@ class ProductController extends Controller
         $product->update($data);
 
         return redirect()->back()->with('success', 'Os dados do produto "' . $product->name . '" foram atualizados!');
+    }
+    
+    public function updatePendingProduct(Request $request, string $id)
+    {
+        dd($request->all());
     }
 
     public function destroy(string $id)

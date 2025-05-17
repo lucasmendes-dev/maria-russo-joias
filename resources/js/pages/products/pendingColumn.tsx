@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowUpDown } from "lucide-react";
 import { useState } from "react";
-import { Product } from "@/types";
+import { Customer, Product } from "@/types";
 import { formatToBRCurrency } from "@/utils/functions-lib";
 import { AlertDialogDelete } from "@/components/AlertDialogDelete";
 import { PendingDialog } from "./pendingDialog";
@@ -20,7 +20,7 @@ import {
     HoverCardTrigger
 } from "@/components/ui/hover-card";
 
-export const getPendingColumns = (): ColumnDef<Product>[] => {
+export const getPendingColumns = (customers: Customer[]): ColumnDef<Product>[] => {
     return [
         {
             id: "select",
@@ -169,7 +169,8 @@ export const getPendingColumns = (): ColumnDef<Product>[] => {
                 )
             },
             cell: ({ row }) => {
-                return <div className="ml-7 font-medium">{row.getValue("date_to_end")}</div>
+                const formattedDate = new Date(row.getValue("date_to_end")).toLocaleDateString("pt-BR");
+                return <div className="ml-7 font-medium">{formattedDate}</div>
             }
         },
         {
@@ -183,6 +184,7 @@ export const getPendingColumns = (): ColumnDef<Product>[] => {
                     <div className="flex">
                         <PendingDialog 
                             product={pendingProduct}
+                            customers={customers}
                             pendingOpen={pendingOpen}
                             setPendingOpen={setPendingOpen}
                         />
