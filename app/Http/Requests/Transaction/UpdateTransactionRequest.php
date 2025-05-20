@@ -22,7 +22,15 @@ class UpdateTransactionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'product_id' => ['required', 'numeric'],
+            'sold_price' => ['required', 'numeric'],
+            'quantity' => ['required', 'numeric'],
+            'payment_method' => ['required', 'string'],
+            'customer_id' => ['required', 'numeric'],
+            'discount' => ['numeric', 'nullable'],
+            'installments' => ['required', 'numeric'],
+            'current_installment' => ['required', 'numeric'],
+            'sold_date' => ['required', 'string'],
         ];
     }
 }

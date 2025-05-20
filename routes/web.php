@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DebtController;
 use App\Http\Controllers\DetailController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductToOrderController;
@@ -34,10 +35,12 @@ Route::middleware('auth')->group(function () {
     Route::put('/products/{id}', [ProductController::class, 'update'])->name('products.update');
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
 
-    Route::put('/updatePendingProduct/{id}', [ProductController::class, 'updatePendingProduct'])->name('products.updatePendingProduct');
+    Route::patch('/cancelReservation/{id}', [ProductController::class, 'cancelReservation'])->name('products.cancelReservation');
+    Route::put('/updateInstallment/{id}', [DebtController::class, 'updateInstallment'])->name('debts.updateInstallment');
 
     // Transactions
     Route::post('/revenueTransaction', [TransactionController::class, 'storeRevenueTransaction'])->name('transactions.revenue');
+    Route::put('/updatePendingProduct/{id}', [TransactionController::class, 'updatePendingProduct'])->name('transactions.updatePendingProduct');
 
     // Reserved
     Route::post('/reserveProduct', [ReservedController::class, 'storeReservedProduct'])->name('reserveds.reserve');

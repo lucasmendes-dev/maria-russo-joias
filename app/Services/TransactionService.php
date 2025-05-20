@@ -17,19 +17,11 @@ class TransactionService
         $data['type'] = 'revenue';
         $data['customer_id'] = (int) $data['customer_id'];
         $data['price'] = round($data['price'], 2);
-        $data['date'] = $this->formatDate($data['date']);
+        $data['date'] = formatDate($data['date']);
         $data['installments'] = (int) $data['installments'] ?? 1;
         $data['machine_fee'] = $this->getMachineFee($data['payment_method'], $data['installments']);
 
         return $data;
-    }
-
-    private function formatDate(string $date): string
-    {
-        $dateUTC = new DateTime($date, new DateTimeZone('UTC'));
-        $dateUTC->setTimezone(new DateTimeZone('America/Sao_Paulo'));
-
-        return $dateUTC->format('Y-m-d');
     }
 
     private function getMachineFee(string $paymentMethod, string|null $installments) : float
@@ -57,7 +49,7 @@ class TransactionService
     {
         if ($data['installments'] && $data['installments'] >= 2) {
             $data['installment_value'] = $data['firstInstallmentValue'];
-            $data['date'] = $this->formatDate($data['firstInstallmentDate']);
+            $data['date'] = formatDate($data['firstInstallmentDate']);
             $data['current_installment'] = $this->setFirstCurrentInstallment($data['firstInstallmentDate']);
             Debt::create($data);
         }
@@ -70,8 +62,8 @@ class TransactionService
         return $date > $today ? 0 : 1;
     }
 
-    private function getTransactionIdByProductAndCustomer($productID, $customerID): int
+    public function getTransactionByProductId(int $productID): Transaction
     {
-        return Transaction::where('product_id', $productID)->where('customer_id', $customerID)->value('id');
+        return Transaction::where('product_id', $productID)->first();
     }
 }

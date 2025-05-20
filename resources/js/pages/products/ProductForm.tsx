@@ -56,24 +56,24 @@ export function ProductForm({
             <div className="flex flex-wrap -mx-3 mb-4">
                 <div className="w-full md:w-2/3 px-3 mb-4 md:mb-0">
                     <Label htmlFor="name" className="block mb-2">Nome <span className="text-red-400">*</span></Label>
-                    <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="appearance-none block w-full rounded py-3 px-4 mb-3" required placeholder="Ex: Maria" />
+                    <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required placeholder="Ex: Maria" />
                 </div>
 
                 <div className="w-full md:w-1/3 px-3 mb-4 md:mb-0">
                     <Label htmlFor="price" className="block mb-2">Preço (R$) <span className="text-red-400">*</span></Label>
-                    <Input id="price" type="number" value={price} onChange={(e) => setPrice(e.target.value)} className="appearance-none block w-full rounded py-3 px-4 mb-3" required placeholder="Ex: R$60.90" />
+                    <Input id="price" type="number" value={price} onChange={(e) => setPrice(e.target.value)} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required placeholder="Ex: R$60.90" />
                 </div>
             </div>
 
             <div className="flex flex-wrap -mx-3 mb-4">
                 <div className="w-full md:w-1/4 px-3">
                     <Label htmlFor="quantity" className="block mb-2">Quantidade <span className="text-red-400">*</span></Label>
-                    <Input id="quantity" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} className="appearance-none block w-full rounded py-3 px-4 mb-3" required placeholder="Ex: Maria" />
+                    <Input id="quantity" type="number" value={quantity} onChange={(e) => setQuantity(e.target.value)} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required placeholder="Ex: Maria" />
                 </div>
 
                 <div className="w-full md:w-1/4 px-3 mb-4 md:mb-0">
                     <Label htmlFor="color" className="block mb-2">Cor</Label>
-                    <Input id="color" type="text" value={color} onChange={(e) => setColor(e.target.value)} className="appearance-none block w-full rounded py-3 px-4 mb-3" required placeholder="Ex: azul" />
+                    <Input id="color" type="text" value={color} onChange={(e) => setColor(e.target.value)} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required placeholder="Ex: azul" />
                 </div>
 
                 <div className="w-full md:w-1/2 px-3">

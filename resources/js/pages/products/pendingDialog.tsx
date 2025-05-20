@@ -29,7 +29,7 @@ export function PendingDialog({
     const [discountValue, setDiscountValue] = useState(product.discount);
     const [installments, setInstallments] = useState(product.installments);
     const [currentInstallment, setCurrentInstallment] = useState(product.current_installment);
-    const [purchaseDate, setPurchaseDate] = useState<Date|undefined>(new Date(product.purchase_date));
+    const [soldDate, setSoldDate] = useState(product.sold_date);
     const [dateToEnd, setDateToEnd] = useState<Date|undefined>(new Date(product.date_to_end));
 
     const handleUpdate = () => {
@@ -39,7 +39,6 @@ export function PendingDialog({
         }
         router.put(`/updatePendingProduct/${productId}`, { // PAREI AQUI JUNTO COM updatePendingProduct
             product_id: productId,
-            name,
             sold_price: soldPrice,
             quantity,
             payment_method: paymentMethod,
@@ -47,7 +46,7 @@ export function PendingDialog({
             discount: discountValue,
             installments: installments,
             current_installment: currentInstallment,
-            purchase_date: purchaseDate,
+            sold_date: soldDate,
         }, {
             preserveScroll: true,
             preserveState: true,
@@ -78,9 +77,7 @@ export function PendingDialog({
                     paymentMethod={paymentMethod}
                     customer={customer}
                     discountValue={discountValue}
-                    installments={installments}
-                    currentInstallment={currentInstallment}
-                    purchaseDate={purchaseDate}
+                    soldDate={soldDate}
                     dateToEnd={dateToEnd}
                     setName={setName}
                     setSoldPrice={setSoldPrice}
@@ -88,9 +85,7 @@ export function PendingDialog({
                     setPaymentMethod={setPaymentMethod}
                     setCustomer={setCustomer}
                     setDiscountValue={setDiscountValue}
-                    setInstallments={setInstallments}
-                    setCurrentInstallment={setCurrentInstallment}
-                    setPurchaseDate={setPurchaseDate}
+                    setSoldDate={setSoldDate}
                     setDateToEnd={setDateToEnd}
                     customers={customers}
                 />

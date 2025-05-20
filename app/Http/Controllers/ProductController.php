@@ -9,7 +9,6 @@ use App\Services\CategoryService;
 use App\Services\ProductService;
 use App\Services\SupplierService;
 use App\Services\CustomerService;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class ProductController extends Controller
@@ -56,7 +55,7 @@ class ProductController extends Controller
 
     public function update(UpdateProductRequest $request, string $id)
     {
-        $product = Product::findOrFail($id);
+        $product = $this->productService->getProductByID($id);
 
         $data = $request->validated();
         unset($data['image']);
@@ -70,15 +69,19 @@ class ProductController extends Controller
 
         return redirect()->back()->with('success', 'Os dados do produto "' . $product->name . '" foram atualizados!');
     }
-    
-    public function updatePendingProduct(Request $request, string $id)
+
+    public function cancelReservation(string $id)
     {
-        dd($request->all());
+        $product = $this->productService->getProductByID($id);
+        $product->status = 'available';
+        $product->save();
+
+        return redirect()->back()->with('success', 'A reserva do produto ' . $product->name . ' foi DESFEITA.');
     }
 
     public function destroy(string $id)
     {
-        $product = Product::findOrFail($id);
+        $product = $this->productService->getProductByID($id);
         $productName = $product->name;
 
         $product->delete();

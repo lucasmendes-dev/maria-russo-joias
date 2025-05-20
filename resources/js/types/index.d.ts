@@ -74,6 +74,8 @@ export type Product = {
     installments: number,
     current_installment: number,
     date_to_end: string,
+    paid_value: number,
+    remaining_value: number,
 }
 
 export interface ProductFormProps {
@@ -219,11 +221,14 @@ export interface PendingDialogProps {
         reserved_value: number,
         customer_id: string,
         sold_price: number,
+        sold_date: Date|undefined,
         payment_method: string,
         discount: number|undefined,
         installments: number,
         current_installment: number,
         date_to_end: string,
+        paid_value: number,
+        remaining_value: number,
     };
     customers: Customer[],
     pendingOpen: boolean;
@@ -237,9 +242,7 @@ export interface PendingFormProps {
     paymentMethod: string,
     customer: string,
     discountValue: number|undefined,
-    installments: number,
-    currentInstallment: number,
-    purchaseDate: Date|undefined,
+    soldDate: Date|undefined,
     dateToEnd: Date|undefined,
     customers: Customer[],
     setName: (value: string) => void,
@@ -248,10 +251,27 @@ export interface PendingFormProps {
     setPaymentMethod: (value: string) => void,
     setCustomer: (value: string) => void,
     setDiscountValue: (value: number) => void,
+    setSoldDate: (value: Date|undefined) => void,
+    setDateToEnd: (value: Date|undefined) => void,
+}
+
+////////////////////////////////// Update Installment //////////////////////////////////
+export interface UpdateInstallmentFormProps {
+    productName: string,
+    soldPrice: number,
+    installments: number,
+    currentInstallment: number,
+    date: Date|undefined,
+    paidValue: number,
+    remainingValue: number,
+    setProductname: (value: string) => void,
     setInstallments: (value: number) => void,
     setCurrentInstallment: (value: number) => void,
-    setPurchaseDate: (value: Date|undefined) => void,
-    setDateToEnd: (value: Date|undefined) => void,
+    setInstallmentValue: (value: number|undefined) => void,
+    setDate: (value: Date|undefined) => void,
+    setPaidValue: (value: number) => void,
+    setRemainingValue: (value: number) => void,
+    setSoldPrice: (value: number) => void,
 }
 
 ////////////////////////////////// Taxes //////////////////////////////////

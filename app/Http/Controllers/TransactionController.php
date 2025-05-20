@@ -33,6 +33,14 @@ class TransactionController extends Controller
         //
     }
 
+    public function updatePendingProduct(UpdateTransactionRequest $request, string $id)
+    {
+        $data = $request->validated();
+        $transaction = $this->transactionService->getTransactionByProductId($data['product_id']);
+        $transaction->type = 'revenue';
+        
+    }
+
     public function destroy(Transaction $transaction)
     {
         //

@@ -23,7 +23,6 @@ class StoreTransactionRequest extends FormRequest
     {
         return [
             'product_id' => ['required', 'numeric'],
-            'name' => ['required', 'string'],
             'price' => ['required', 'numeric'],
             'quantity' => ['required', 'numeric'],
             'payment_method' => ['required', 'string'],

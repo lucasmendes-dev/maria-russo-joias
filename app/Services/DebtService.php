@@ -11,9 +11,9 @@ class DebtService
 
     public function getLastInstallmentFromProduct(string $productID): Debt | null
     {
-        $lastDate = Debt::where('product_id', $productID)->max('date');
+        $lastDate = Debt::where('product_id', $productID)->max('created_at');
         return Debt::where('product_id', $productID)
-                   ->where('date', $lastDate)
+                   ->where('created_at', $lastDate)
                    ->first();
     }
 
@@ -26,7 +26,7 @@ class DebtService
 
     public function getPendingProductPaidValue(string $productId)
     {
-        $productDebts = Debt::where('product_id', $productId)->pluck('installment_value');
-        
+        $productDebts = Debt::where('product_id', $productId)->pluck('installment_value')->toArray();
+        return array_sum($productDebts);
     }
 }

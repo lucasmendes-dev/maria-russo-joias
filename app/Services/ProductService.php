@@ -176,11 +176,13 @@ class ProductService
                     $product->payment_method = $transaction['payment_method'];
                     $product->installments = $transaction['installments'];
                     $product->discount = $transaction['discount'];
+                    $product->sold_date = $transaction['date'];
 
                     $debt = $this->debtService->getLastInstallmentFromProduct($product->id);
                     $product->current_installment = $debt !== null ? $debt->current_installment : '';
                     $product->date_to_end = $debt !== null ? $this->debtService->getDateToEndInstallments($debt->installments, $debt->current_installment) : '';
                     $product->paid_value = $this->debtService->getPendingProductPaidValue($product->id);
+                    $product->remaining_value = $this->getRemainingValueFromPendingProduct($transaction['price'], $product->paid_value);
                 }
             });
         }
@@ -196,5 +198,25 @@ class ProductService
                 $product->reserved_date = date('d/m/Y', strtotime($reservedData->reserved_date));
             });
         }
+    }
+
+    private function getRemainingValueFromPendingProduct(float $totalPrice, float $paidPrice): float
+    {
+        $remainingValue = $totalPrice - $paidPrice;
+        return number_format($remainingValue, 2);
+    }
+
+    public function handleProductStatusAfterUpdateInstallment(array $data): void
+    {
+        if ($this->hasInstallmentEnded($data['current_installment'], $data['installments'])) {
+            $product = $this->getProductByID($data['product_id']);
+            $product->status = 'sold';
+            $product->save();
+        }
+    }
+
+    private function hasInstallmentEnded($currentInstallmet, $installments): bool
+    {
+        return $currentInstallmet === $installments;
     }
 }

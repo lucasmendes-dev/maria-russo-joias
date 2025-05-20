@@ -7,6 +7,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 import { PendingFormProps } from "@/types";
+import { parse } from "date-fns";
 import {
     Popover,
     PopoverContent,
@@ -20,7 +21,6 @@ import {
     SelectTrigger,
     SelectValue
 } from "@/components/ui/select";
-import { parseDateString } from "@/utils/functions-lib";
 
 export function PendingForm({
     name,
@@ -28,9 +28,7 @@ export function PendingForm({
     quantity,
     paymentMethod,
     customer,
-    installments,
-    currentInstallment,
-    purchaseDate,
+    soldDate,
     dateToEnd,
     setName,
     setSoldPrice,
@@ -38,19 +36,19 @@ export function PendingForm({
     setPaymentMethod,
     setCustomer,
     setDiscountValue,
-    setInstallments,
-    setCurrentInstallment,
-    setPurchaseDate,
+    setSoldDate,
     setDateToEnd,
     customers,
 }: PendingFormProps) {
+
+    //const parsedDate = parse(soldDate, "yyyy-MM-dd", new Date());  // VER SOBRE ISSO AQUI
 
     return (
         <form className="w-full max-w-lg mt-3">
             <div className="flex flex-wrap -mx-3 mb-4">
                 <div className="w-full md:w-2/4 px-3 mb-4 md:mb-0">
                     <Label htmlFor="name" className="block mb-2">Nome <span className="text-red-400">*</span></Label>
-                    <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required readOnly/>
+                    <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3 cursor-not-allowed" required readOnly/>
                 </div>
 
                 <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
@@ -96,25 +94,25 @@ export function PendingForm({
                                 variant={"outline"}
                                 className={cn(
                                     "w-full justify-start text-left font-normal cursor-pointer",
-                                    !purchaseDate && "text-muted-foreground"
+                                    !soldDate && "text-muted-foreground"
                                 )}
                             >
                                 <CalendarIcon className="mr-2 h-4 w-4" />
-                                {purchaseDate ? format(purchaseDate, "PPP", {locale: ptBR}) : <span>Escolha uma Data</span>}
+                                {soldDate ? format(soldDate, "PPP", {locale: ptBR}) : <span>Escolha uma Data</span>}
                             </Button>
                         </PopoverTrigger>
 
                         <PopoverContent className="w-auto p-0 pointer-events-auto">
                             <Calendar
                                 mode="single"
-                                selected={purchaseDate}
+                                selected={soldDate}
                                 onSelect={(date) => {
                                     if (date) {
-                                        setPurchaseDate(date);
+                                        setSoldDate(date);
                                     }
                                 }}
                                 initialFocus
-                                defaultMonth={purchaseDate}
+                                defaultMonth={soldDate}
                                 locale={ptBR}
                             />
                         </PopoverContent>
@@ -123,14 +121,24 @@ export function PendingForm({
             </div>
 
             <div className="flex flex-wrap -mx-3 mb-4">
-                <div className="w-full md:w-1/4 px-3">
-                    <Label htmlFor="installments" className="block mb-2">Parcelas <span className="text-red-400">*</span></Label>
-                    <Input id="installments" type="number" value={installments} onChange={(e) => setInstallments(Number(e.target.value))} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" />
-                </div>
+            <div className="w-full md:w-2/4 px-3 mb-4 md:mb-0">
+                    <Label htmlFor="payment_method" className="block mb-2">Forma de Pagamento <span className="text-red-400">*</span></Label>
+                    <Select
+                        value={paymentMethod}
+                        onValueChange={(value) => setPaymentMethod(value)}
+                    >
+                        <SelectTrigger >
+                            <SelectValue placeholder="Escolha uma opção" />
+                        </SelectTrigger>
 
-                <div className="w-full md:w-1/4 px-3 mb-4 md:mb-0">
-                    <Label htmlFor="current_installment" className="block mb-2">Parcela Atual <span className="text-red-400">*</span></Label>
-                    <Input id="current_installment" type="number" value={currentInstallment} onChange={(e) => setCurrentInstallment(Number(e.target.value))} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required  />
+                        <SelectContent>
+                            <SelectGroup>
+                                <SelectItem value="cash">Dinheiro</SelectItem>
+                                <SelectItem value="pix">Pix</SelectItem>
+                                <SelectItem value="credit_card">Cartão de Crédito</SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
                 </div>
 
                 <div className="w-full md:w-1/2 px-3">
@@ -164,40 +172,6 @@ export function PendingForm({
                             />
                         </PopoverContent>
                     </Popover>
-                </div>
-            
-            </div>
-
-            <div className="flex flex-wrap -mx-3 mb-4">
-
-                <div className="w-full md:w-2/4 px-3 mb-4 md:mb-0">
-                    <Label htmlFor="payment_method" className="block mb-2">Forma de Pagamento <span className="text-red-400">*</span></Label>
-                    <Select
-                        value={paymentMethod}
-                        onValueChange={(value) => setPaymentMethod(value)}
-                    >
-                        <SelectTrigger >
-                            <SelectValue placeholder="Escolha uma opção" />
-                        </SelectTrigger>
-
-                        <SelectContent>
-                            <SelectGroup>
-                                <SelectItem value="cash">Dinheiro</SelectItem>
-                                <SelectItem value="pix">Pix</SelectItem>
-                                <SelectItem value="credit_card">Cartão de Crédito</SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                </div>
-
-                <div className="w-full md:w-1/4 px-3 mb-4 md:mb-0">
-                    <Label htmlFor="discount" className="block mb-2">Valor Pago</Label>
-                    <Input id="discount"  className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required/>
-                </div>
-
-                <div className="w-full md:w-1/4 px-3 mb-4 md:mb-0">
-                    <Label htmlFor="discount" className="block mb-2">Valor Restante</Label>
-                    <Input id="discount"  className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required/>
                 </div>
             </div>
         </form>

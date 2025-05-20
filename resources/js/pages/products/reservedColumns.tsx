@@ -8,7 +8,7 @@ import { useState } from "react";
 import { Customer, Product } from "@/types";
 import { formatToBRCurrency } from "@/utils/functions-lib";
 import { AlertDialogDelete } from "@/components/AlertDialogDelete";
-import { ReservedDialog } from "./ReservedDialog";
+import { UndoReservation } from "@/components/UndoReservation";
 import { SalesDialog } from "./SalesDialog";
 import {
     Avatar,
@@ -146,15 +146,13 @@ export const getReservedColumns = (customers: Customer[]): ColumnDef<Product>[] 
                 const product = row.original;
                 const [isDialogOpen, setIsDialogOpen] = useState(false);
                 const [salesOpen, setSalesOpen] = useState(false);
-
+                console.log(product)
                 return (
                     <div className="flex">
-                        {/* <ReservedDialog
-                            product={product}
-                            customers={customers}
-                            reservedOpen={isDialogOpen}
-                            setReservedOpen={setIsDialogOpen}
-                        /> */}
+                        <UndoReservation
+                            productName={product.name}
+                            productId={product.id}
+                        />
 
                         <AlertDialogDelete objectName={product} deleteRoute="products"/>
 

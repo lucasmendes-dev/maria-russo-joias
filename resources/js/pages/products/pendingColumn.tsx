@@ -9,6 +9,7 @@ import { Customer, Product } from "@/types";
 import { formatToBRCurrency } from "@/utils/functions-lib";
 import { AlertDialogDelete } from "@/components/AlertDialogDelete";
 import { PendingDialog } from "./pendingDialog";
+import { UpdateInstallmentDialog } from "./UpdateInstallmentDialog";
 import {
     Avatar,
     AvatarFallback,
@@ -179,6 +180,7 @@ export const getPendingColumns = (customers: Customer[]): ColumnDef<Product>[] =
             cell: ({ row }) => {
                 const pendingProduct = row.original;
                 const [pendingOpen, setPendingOpen] = useState(false);
+                const [updateInstallmentOpen, setUpdateInstallmentOpen] = useState(false);
 
                 return (
                     <div className="flex">
@@ -190,6 +192,13 @@ export const getPendingColumns = (customers: Customer[]): ColumnDef<Product>[] =
                         />
 
                         <AlertDialogDelete objectName={pendingProduct} deleteRoute="products"/>
+
+                        <UpdateInstallmentDialog 
+                            product={pendingProduct}
+                            customers={customers}
+                            pendingOpen={updateInstallmentOpen}
+                            setPendingOpen={setUpdateInstallmentOpen}
+                        />
                     </div>
                 );
             },
