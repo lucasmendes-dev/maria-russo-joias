@@ -7,7 +7,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 import { PendingFormProps } from "@/types";
-import { parse } from "date-fns";
+import { parseSingleDate } from "@/utils/functions-lib";
 import {
     Popover,
     PopoverContent,
@@ -35,13 +35,12 @@ export function PendingForm({
     setQuantity,
     setPaymentMethod,
     setCustomer,
-    setDiscountValue,
     setSoldDate,
     setDateToEnd,
     customers,
 }: PendingFormProps) {
 
-    //const parsedDate = parse(soldDate, "yyyy-MM-dd", new Date());  // VER SOBRE ISSO AQUI
+    const parsedDate = parseSingleDate(soldDate);
 
     return (
         <form className="w-full max-w-lg mt-3">
@@ -94,25 +93,26 @@ export function PendingForm({
                                 variant={"outline"}
                                 className={cn(
                                     "w-full justify-start text-left font-normal cursor-pointer",
-                                    !soldDate && "text-muted-foreground"
+                                    !parsedDate && "text-muted-foreground"
                                 )}
                             >
                                 <CalendarIcon className="mr-2 h-4 w-4" />
-                                {soldDate ? format(soldDate, "PPP", {locale: ptBR}) : <span>Escolha uma Data</span>}
+                                {parsedDate ? format(parsedDate, "PPP", {locale: ptBR}) : <span>Escolha uma Data</span>}
                             </Button>
                         </PopoverTrigger>
 
                         <PopoverContent className="w-auto p-0 pointer-events-auto">
                             <Calendar
                                 mode="single"
-                                selected={soldDate}
+                                selected={parsedDate}
                                 onSelect={(date) => {
                                     if (date) {
-                                        setSoldDate(date);
+                                        const formatted = format(date, "yyyy-MM-dd");
+                                        setSoldDate(formatted);
                                     }
                                 }}
                                 initialFocus
-                                defaultMonth={soldDate}
+                                defaultMonth={parsedDate}
                                 locale={ptBR}
                             />
                         </PopoverContent>

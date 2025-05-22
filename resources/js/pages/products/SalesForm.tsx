@@ -1,15 +1,15 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { cn } from "@/lib/utils";
-import { SalesFormProps } from "@/types";
-import { useState } from "react";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { PageProps, SalesFormProps } from "@/types";
+import { useEffect, useState } from "react";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { usePage } from "@inertiajs/react";
 import {
     Popover,
     PopoverContent,
@@ -27,9 +27,12 @@ import {
 export function SalesForm({
     name,
     sellingPrice,
+    mockPrice,
     quantity,
     paymentMethod,
+    installmentValue,
     date,
+    firstInstallmentValue,
     firstInstallmentDate,
     setName,
     setSellingPrice,
@@ -46,7 +49,20 @@ export function SalesForm({
     const [registeredClient, setRegisteredClient] = useState('yes');
     const [discount, setDiscount] = useState('no');
     const [installment, setInstallment] = useState('no');
-    sellingPrice = Number(sellingPrice.toFixed(2));
+    const [isAdjustedByFee, setIsAdjustedByFee] = useState(false);
+    const MACHINE_FEE_VALUES = usePage<PageProps>().props.MACHINE_FEE_VALUES;
+
+    useEffect(() => {
+        if (paymentMethod === 'credit_card' && Number(installmentValue) > 1) {
+            const feePercent: number = MACHINE_FEE_VALUES[installmentValue] / 100;
+            const adjusted = mockPrice + (mockPrice * feePercent);
+            setSellingPrice(adjusted);
+            setIsAdjustedByFee(true);
+        } else {
+            setSellingPrice(mockPrice);
+            setIsAdjustedByFee(false);
+        }
+    }, [paymentMethod, installmentValue, mockPrice, setSellingPrice, MACHINE_FEE_VALUES])
 
     return (
         <form className="w-full max-w-lg mt-3">
@@ -63,7 +79,16 @@ export function SalesForm({
 
                 <div className="w-full md:w-1/4 px-3 mb-4 md:mb-0">
                     <Label htmlFor="selling_price" className="block mb-2">Preço (R$) <span className="text-red-400">*</span></Label>
-                    <Input id="selling_price" type="number" value={sellingPrice} onChange={(e) => setSellingPrice(Number(e.target.value))} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required  />
+                    <Input
+                        id="selling_price"
+                        type="number"
+                        value={sellingPrice.toFixed(2)}
+                        onChange={(e) => setSellingPrice(Number(e.target.value))} 
+                        className={`appearance-none block w-full rounded-lg py-3 px-4 mb-3 ${
+                            isAdjustedByFee ? 'border-red-400' : ''
+                        }`}
+                        required  
+                    />
                 </div>
             </div>
 
@@ -239,7 +264,7 @@ export function SalesForm({
                     <div className="w-full md:w-1/3 px-3 flex">
                         <Label htmlFor="installment_value" className="block mt-3">Parcelas:</Label>
                         <Select
-                            onValueChange={(value) => setInstallmentValue(value)}
+                            onValueChange={(value) => setInstallmentValue(Number(value))}
                         >
                             <SelectTrigger className="ml-3">
                                 <SelectValue placeholder="" />
@@ -300,8 +325,8 @@ export function SalesForm({
                     </div>
 
                     <div className="w-full md:w-1/2 px-3">
-                        <Label htmlFor="first_installment_value" className="block mb-2">Preço da Primeira Parcela</Label>
-                        <Input id="first_installment_value" type="number" onChange={(e) => setFirstInstallmentValue(Number(e.target.value))} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required  />
+                        <Label htmlFor="first_installment_value" className="block mb-2">Preço da Primeira Parcela (R$)</Label>
+                        <Input id="first_installment_value" type="number" value={Number(firstInstallmentValue)} onChange={(e) => setFirstInstallmentValue(Number(e.target.value))} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required  />
                     </div>
                 </div>
             )}

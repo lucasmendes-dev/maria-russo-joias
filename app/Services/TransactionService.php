@@ -24,6 +24,15 @@ class TransactionService
         return $data;
     }
 
+    public function handleUpdateData(array $data): array
+    {
+        $data['type'] = 'revenue';
+        $data['date'] = formatDate($data['sold_date']);
+        $data['price'] = $data['sold_price'];
+        $data['machine_fee'] = $this->getMachineFee($data['payment_method'], $data['installments']);
+        return $data;
+    }
+
     private function getMachineFee(string $paymentMethod, string|null $installments) : float
     {
         if ($paymentMethod === 'credit_card' && $this->isInstallmentsHigherThan1($installments)) {
@@ -48,7 +57,7 @@ class TransactionService
     public function populateDebtTableifSaleHasInstallments(array $data): void
     {
         if ($data['installments'] && $data['installments'] >= 2) {
-            $data['installment_value'] = $data['firstInstallmentValue'];
+            $data['installment_value'] = $data['firstInstallmentValue'] ?? 0;
             $data['date'] = formatDate($data['firstInstallmentDate']);
             $data['current_installment'] = $this->setFirstCurrentInstallment($data['firstInstallmentDate']);
             Debt::create($data);

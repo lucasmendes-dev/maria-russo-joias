@@ -144,7 +144,6 @@ export const getReservedColumns = (customers: Customer[]): ColumnDef<Product>[] 
             id: "actions",
             cell: ({ row }) => {
                 const product = row.original;
-                const [isDialogOpen, setIsDialogOpen] = useState(false);
                 const [salesOpen, setSalesOpen] = useState(false);
                 console.log(product)
                 return (

@@ -164,13 +164,13 @@ export const getPendingColumns = (customers: Customer[]): ColumnDef<Product>[] =
                         variant="ghost"
                         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                     >
-                        Data de término
+                        Mês de término
                         <ArrowUpDown className="ml-2 h-4 w-4" />
                     </Button>
                 )
             },
             cell: ({ row }) => {
-                const formattedDate = new Date(row.getValue("date_to_end")).toLocaleDateString("pt-BR");
+                const formattedDate = new Date(row.getValue("date_to_end")).toLocaleDateString("pt-BR", {month: "long"});
                 return <div className="ml-7 font-medium">{formattedDate}</div>
             }
         },

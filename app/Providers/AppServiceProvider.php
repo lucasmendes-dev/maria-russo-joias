@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Tax;
 use Illuminate\Support\ServiceProvider;
 use Inertia\Inertia;
 
@@ -27,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
                     'error' => session('error'),
                 ];
             },
+            'MACHINE_FEE_VALUES' => Tax::MACHINE_FEE_VALUES,
         ]);
     }
 }

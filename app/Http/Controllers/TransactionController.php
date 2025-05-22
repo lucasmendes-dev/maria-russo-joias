@@ -20,7 +20,7 @@ class TransactionController extends Controller
     {
         $data = $this->transactionService->handleCreateData($request->validated());
 
-        Transaction::create($data);
+        Transaction::create($data);  // refactor ?
 
         $this->transactionService->adjustProductStatus($data);
         $this->transactionService->populateDebtTableifSaleHasInstallments($data);
@@ -33,12 +33,13 @@ class TransactionController extends Controller
         //
     }
 
-    public function updatePendingProduct(UpdateTransactionRequest $request, string $id)
+    public function updatePendingProduct(UpdateTransactionRequest $request)
     {
-        $data = $request->validated();
+        $data = $this->transactionService->handleUpdateData($request->validated());
         $transaction = $this->transactionService->getTransactionByProductId($data['product_id']);
-        $transaction->type = 'revenue';
+        $transaction->update($data);
         
+        return redirect()->back()->with('success', 'Os dados do produto pendente "' . $data['name'] . '" foram atualizados!');
     }
 
     public function destroy(Transaction $transaction)

@@ -8,6 +8,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { cn } from "@/lib/utils";
 import { ReservedFormProps } from "@/types";
+import { parseSingleDate } from "@/utils/functions-lib";
 import {
     Popover,
     PopoverContent,
@@ -34,12 +35,7 @@ export function ReservedForm({
     customers,
     setCustomer
 }: ReservedFormProps) {
-    const parsedDate = reserved_date
-        ? (() => {
-            const [year, month, day] = reserved_date.split("-");
-            return new Date(Number(year), Number(month) - 1, Number(day));
-        })()
-        : undefined;
+    const parsedDate = parseSingleDate(reserved_date);
 
     return (
         <form className="w-full max-w-lg mt-3">

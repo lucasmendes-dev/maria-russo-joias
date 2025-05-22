@@ -77,3 +77,12 @@ export const parseDateString = (dateString: string | undefined): Date | undefine
     }
     return undefined;
 };
+
+export function parseSingleDate(dateValue: string) {
+    return dateValue
+        ? (() => {
+            const [year, month, day] = dateValue.split("-");
+            return new Date(Number(year), Number(month) - 1, Number(day));
+        })()
+        : undefined;
+};

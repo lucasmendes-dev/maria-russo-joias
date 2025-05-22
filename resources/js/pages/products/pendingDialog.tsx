@@ -39,6 +39,7 @@ export function PendingDialog({
         }
         router.put(`/updatePendingProduct/${productId}`, { // PAREI AQUI JUNTO COM updatePendingProduct
             product_id: productId,
+            name, 
             sold_price: soldPrice,
             quantity,
             payment_method: paymentMethod,

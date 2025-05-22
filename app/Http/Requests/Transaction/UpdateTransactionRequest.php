@@ -23,6 +23,7 @@ class UpdateTransactionRequest extends FormRequest
     {
         return [
             'product_id' => ['required', 'numeric'],
+            'name' => ['string', 'nullable'],
             'sold_price' => ['required', 'numeric'],
             'quantity' => ['required', 'numeric'],
             'payment_method' => ['required', 'string'],

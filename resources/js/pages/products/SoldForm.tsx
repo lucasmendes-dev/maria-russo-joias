@@ -1,6 +1,5 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { CalendarIcon } from "lucide-react";
@@ -238,7 +237,7 @@ export function SoldForm({
                     <div className="w-full md:w-1/3 px-3 flex">
                         <Label htmlFor="discount" className="block mt-3">Parcelas:</Label>
                         <Select
-                        onValueChange={(value) => setInstallmentValue(value)}
+                        onValueChange={(value) => setInstallmentValue(Number(value))}
                     >
                         <SelectTrigger className="ml-3">
                             <SelectValue placeholder="" />

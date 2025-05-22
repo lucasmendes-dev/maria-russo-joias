@@ -23,12 +23,13 @@ class StoreTransactionRequest extends FormRequest
     {
         return [
             'product_id' => ['required', 'numeric'],
+            'name' => ['string', 'nullable'],
             'price' => ['required', 'numeric'],
             'quantity' => ['required', 'numeric'],
             'payment_method' => ['required', 'string'],
             'customer_id' => ['required', 'string'],
             'discount' => ['string', 'nullable'],
-            'installments' => ['string', 'nullable'],
+            'installments' => ['numeric', 'nullable'],
             'date' => ['required', 'string'],
             'firstInstallmentDate' => ['string', 'nullable'],
             'firstInstallmentValue' => ['numeric', 'nullable'],

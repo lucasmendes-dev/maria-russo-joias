@@ -3,7 +3,6 @@
 import { Button } from "@/components/ui/button";
 import { Undo2 } from 'lucide-react';
 import { router } from "@inertiajs/react";
-import { Product } from "@/types";
 import {
     AlertDialog,
     AlertDialogAction,

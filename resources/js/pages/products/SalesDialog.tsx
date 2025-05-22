@@ -23,11 +23,12 @@ export function SalesDialog({
     const [productId] = useState(product.id);
     const [name, setName] = useState(product.name);
     const [sellingPrice, setSellingPrice] = useState(product.selling_price || product.reserved_value);
+    const [mockPrice, setMockPrice] = useState(product.selling_price || product.reserved_value);
     const [quantity, setQuantity] = useState(Number(product.quantity));
     const [paymentMethod, setPaymentMethod] = useState('');
     const [customer, setCustomer] = useState(product.customer || "");
     const [discountValue, setDiscountValue] = useState('');
-    const [installmentValue, setInstallmentValue] = useState('');
+    const [installmentValue, setInstallmentValue] = useState(0);
     const [date, setDate] = useState<Date|undefined>(new Date());
     const [firstInstallmentDate, setFirstInstallmentDate] = useState<Date|undefined>(new Date());
     const [firstInstallmentValue, setFirstInstallmentValue] = useState<number|null>(null);
@@ -75,6 +76,7 @@ export function SalesDialog({
                 <SalesForm
                     name={name}
                     sellingPrice={sellingPrice}
+                    mockPrice={mockPrice}
                     quantity={quantity}
                     paymentMethod={paymentMethod}
                     discountValue={discountValue}
@@ -84,6 +86,7 @@ export function SalesDialog({
                     firstInstallmentValue={firstInstallmentValue}
                     setName={setName}
                     setSellingPrice={setSellingPrice}
+                    setMockPrice={setMockPrice}
                     setQuantity={setQuantity}
                     setPaymentMethod={setPaymentMethod}
                     customers={customers}

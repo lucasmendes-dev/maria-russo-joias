@@ -67,7 +67,7 @@ export type Product = {
     customer_id: string,
     discount: number
     installment_value: string
-    sold_date: Date|undefined,
+    sold_date: string,
     reserved_value: number,
     reserved_date: string,
     sold_price: number,
@@ -147,19 +147,21 @@ export interface SalesDialogProps {
 export interface SalesFormProps {
     name: string,
     sellingPrice: number,
+    mockPrice: number,
     quantity: number,
     paymentMethod: string,
     discountValue: string,
-    installmentValue: string,
+    installmentValue: number,
     date: Date|undefined,
     firstInstallmentDate: Date|undefined,
     firstInstallmentValue: number|null,
     setName: (value: string) => void,
     setSellingPrice: (value: number) => void,
+    setMockPrice: (value: number) => void,
     setQuantity: (value: number) => void,
     setPaymentMethod: (value: string) => void,
     setDiscountValue: (value: string) => void,
-    setInstallmentValue: (value: string) => void,
+    setInstallmentValue: (value: number) => void,
     setDate: (value: Date|undefined) => void,
     customers: Customer[],
     setCustomer: (value: string) => void,
@@ -176,7 +178,7 @@ export interface UpdateSoldDialogProps {
         customer: string,
         discount: string
         installment_value: string
-        sold_date: Date|undefined
+        sold_date: string
     },
     open: boolean;
     setOpen: (value: boolean) => void;
@@ -221,7 +223,7 @@ export interface PendingDialogProps {
         reserved_value: number,
         customer_id: string,
         sold_price: number,
-        sold_date: Date|undefined,
+        sold_date: string,
         payment_method: string,
         discount: number|undefined,
         installments: number,
@@ -242,7 +244,7 @@ export interface PendingFormProps {
     paymentMethod: string,
     customer: string,
     discountValue: number|undefined,
-    soldDate: Date|undefined,
+    soldDate: string,
     dateToEnd: Date|undefined,
     customers: Customer[],
     setName: (value: string) => void,
@@ -251,7 +253,7 @@ export interface PendingFormProps {
     setPaymentMethod: (value: string) => void,
     setCustomer: (value: string) => void,
     setDiscountValue: (value: number) => void,
-    setSoldDate: (value: Date|undefined) => void,
+    setSoldDate: (value: string) => void,
     setDateToEnd: (value: Date|undefined) => void,
 }
 
@@ -409,3 +411,7 @@ export interface UpdateDetailDialogProps {
     open: boolean;
     setOpen: (value: boolean) => void;
 }
+
+export type PageProps = {
+    MACHINE_FEE_VALUES: Record<number, number>;
+};
