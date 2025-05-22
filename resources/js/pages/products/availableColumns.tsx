@@ -29,28 +29,6 @@ export const getAvailableColumns = (
 ): ColumnDef<Product>[] => {
     return [
         {
-            id: "select",
-            header: ({ table }) => (
-            <Checkbox
-                checked={
-                table.getIsAllPageRowsSelected() ||
-                (table.getIsSomePageRowsSelected() && "indeterminate")
-                }
-                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-                aria-label="Selecionar tudo"
-            />
-            ),
-            cell: ({ row }) => (
-            <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Selecionar linha"
-            />
-            ),
-            enableSorting: false,
-            enableHiding: false,
-        },
-        {
             accessorKey: "image",
             header: () => {
                 return (

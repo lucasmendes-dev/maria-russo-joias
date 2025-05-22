@@ -11,7 +11,6 @@ import {
     DialogTitle,
     DialogTrigger,
     DialogFooter,
-    DialogDescription
 } from "@/components/ui/dialog";
 
 export function SoldDialog({
@@ -21,23 +20,22 @@ export function SoldDialog({
 }: UpdateSoldDialogProps) {
     const [productId] = useState(soldProduct.id);
     const [name, setName] = useState(soldProduct.name);
-    const [sellingPrice, setSellingPrice] = useState(soldProduct.selling_price);
+    const [soldPrice, setSoldPrice] = useState(soldProduct.sold_price);
     const [paymentMethod, setPaymentMethod] = useState(soldProduct.payment_method);
     const [customer, setCustomer] = useState(soldProduct.customer);
-    const [discountValue, setDiscountValue] = useState(soldProduct.discount);
-    const [installmentValue, setInstallmentValue] = useState(soldProduct.installment_value);
-    const [date, setDate] = useState<Date|undefined>(soldProduct.sold_date);
-
+    const [discountValue, setDiscountValue] = useState(soldProduct.discount ?? 0);
+    const [date, setDate] = useState(soldProduct.sold_date);
+    const [debts, setDebts] = useState(soldProduct.debts);
+console.log(debts)
     const handleUpdate = () => {
 
         router.put(`/products/${soldProduct.id}`, { // definir ROTA transaction
             productId,
             name,
-            sellingPrice,
+            soldPrice,
             paymentMethod,
             customer,
             discountValue,
-            installmentValue,
             date,
         }, {
             preserveScroll: true,
@@ -56,28 +54,24 @@ export function SoldDialog({
 
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Editar produto: <span className="text-blue-400">{ soldProduct.name }</span></DialogTitle>
+                    <DialogTitle>Editar produto vendido: <span className="text-blue-400">{ soldProduct.name }</span></DialogTitle>
                 </DialogHeader>
 
-                <DialogDescription>Verifique os dados antes de alterá-los.</DialogDescription>
-
-                {/* VER SOBRE ISSO NUM FUTURO KKKKKK */}
-                {/* <SoldForm
+                <SoldForm
                     name={name}
-                    sellingPrice={sellingPrice}
+                    soldPrice={soldPrice}
                     paymentMethod={paymentMethod}
                     discountValue={discountValue}
-                    installmentValue={installmentValue}
                     date={date}
+                    customer={customer}
                     setName={setName}
-                    setSellingPrice={setSellingPrice}
+                    setSoldPrice={setSoldPrice}
                     setPaymentMethod={setPaymentMethod}
-                    //customer={customer}
-                    setCustomer={setCustomer}
                     setDiscountValue={setDiscountValue}
-                    setInstallmentValue={setInstallmentValue}
                     setDate={setDate}
-                /> */}
+                    setCustomer={setCustomer}
+                    debts={debts}
+                />
 
                 <DialogFooter>
                     <Button type="submit" className="cursor-pointer bg-blue-400" onClick={handleUpdate}>Salvar Alterações</Button>

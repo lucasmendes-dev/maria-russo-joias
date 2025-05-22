@@ -23,28 +23,6 @@ import {
 export const getSoldColumns = (): ColumnDef<Product>[] => {
     return [
         {
-            id: "select",
-            header: ({ table }) => (
-            <Checkbox
-                checked={
-                table.getIsAllPageRowsSelected() ||
-                (table.getIsSomePageRowsSelected() && "indeterminate")
-                }
-                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-                aria-label="Selecionar tudo"
-            />
-            ),
-            cell: ({ row }) => (
-            <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Selecionar linha"
-            />
-            ),
-            enableSorting: false,
-            enableHiding: false,
-        },
-        {
             accessorKey: "image",
             header: () => {
                 return (
@@ -152,7 +130,8 @@ export const getSoldColumns = (): ColumnDef<Product>[] => {
                 )
             },
             cell: ({ row }) => {
-                return <div className="ml-7 font-medium">{row.getValue("sold_date") || '-'}</div>
+                const formattedDate = new Date(row.getValue("sold_date") + 'T00:00:00').toLocaleDateString("pt-BR");
+                return <div className="ml-7 font-medium">{formattedDate}</div>
             }
         },
         {

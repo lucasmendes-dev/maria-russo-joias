@@ -76,6 +76,7 @@ export type Product = {
     date_to_end: string,
     paid_value: number,
     remaining_value: number,
+    debts: Array,
 }
 
 export interface ProductFormProps {
@@ -173,15 +174,32 @@ export interface UpdateSoldDialogProps {
     soldProduct: {
         id: string,
         name: string,
-        selling_price: number,
+        sold_price: number,
         payment_method: string,
         customer: string,
-        discount: string
+        discount: number,
         installment_value: string
-        sold_date: string
+        sold_date: string,
+        debts: Array
     },
     open: boolean;
     setOpen: (value: boolean) => void;
+}
+
+export interface SoldFormProps {
+    name: string,
+    soldPrice: number,
+    paymentMethod: string,
+    discountValue: number,
+    date: string,
+    customer: string,
+    debts: Array,
+    setName: (value: string) => void;
+    setSoldPrice: (value: number) => void;
+    setPaymentMethod: (value: string) => void;
+    setDiscountValue: (value: number) => void;
+    setDate: (value: string) => void;
+    setCustomer: (value: string) => void;
 }
 
 ////////////////////////////////// Reserved //////////////////////////////////

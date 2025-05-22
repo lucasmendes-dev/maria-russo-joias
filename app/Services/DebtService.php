@@ -29,4 +29,9 @@ class DebtService
         $productDebts = Debt::where('product_id', $productId)->pluck('installment_value')->toArray();
         return array_sum($productDebts);
     }
+
+    public function getProductDebtsByID(int $productID, int $customerID) // resolver return type aqui e no TS types
+    {
+        return Debt::where('product_id', $productID)->where('customer_id', $customerID)->orderBy('date', 'desc')->get();
+    }
 }

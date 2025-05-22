@@ -153,7 +153,8 @@ class ProductService
                     $product->sold_price = $transaction['price'];
                     $product->payment_method = $transaction['payment_method'];
                     $product->discount = $transaction['discount'];
-                    $product->sold_date = date('d/m/Y', strtotime($transaction['date']));
+                    $product->sold_date = $transaction['date'];
+                    $product->debts = $this->debtService->getProductDebtsByID($product->id, $transaction['customer_id']); //dd($product->debts);
                 }
             });
         }
@@ -168,7 +169,7 @@ class ProductService
     {
         if (!empty($products['pending'])) {
             $products['pending']->each(function ($product) {
-                $transactions = $this->getTransactionsByProductID($product->id); //dd($transactions);
+                $transactions = $this->getTransactionsByProductID($product->id);
                 foreach ($transactions as $transaction) {
                     $product->customer_id = $transaction['customer_id'];
                     $product->customer = $this->customerService->getCustomerNameByID($transaction['customer_id']);
