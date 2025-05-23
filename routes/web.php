@@ -4,7 +4,6 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DebtController;
-use App\Http\Controllers\DetailController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductToOrderController;
 use App\Http\Controllers\ReservedController;
@@ -77,10 +76,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
     Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
-
-    // Details
-    Route::get('/details', [DetailController::class, 'index'])->name('details.index');
-    Route::delete('/details/{id}', [DetailController::class, 'destroy'])->name('details.destroy');
-    Route::put('/details/{id}', [DetailController::class, 'update'])->name('details.update');
-    Route::post('/details', [DetailController::class, 'store'])->name('details.store');
 });

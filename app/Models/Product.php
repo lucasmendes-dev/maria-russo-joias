@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Detail;
 use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Supplier;
@@ -23,11 +22,6 @@ class Product extends Model
         'image',
         'status',
     ];
-
-    public function details()
-    {
-        return $this->belongsToMany(Detail::class);
-    }
 
     public function customers()
     {

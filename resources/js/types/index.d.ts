@@ -344,6 +344,10 @@ export interface UpdateTaxDialogProps {
     categories: Category[];
 }
 
+export type PageProps = {
+    MACHINE_FEE_VALUES: Record<number, number>;
+};
+
 ////////////////////////////////// Customers //////////////////////////////////
 export type Customer = {
     id: string
@@ -416,27 +420,3 @@ export interface UpdateCategoryDialogProps {
     open: boolean;
     setOpen: (value: boolean) => void;
 }
-
-////////////////////////////////// Details //////////////////////////////////
-export type Detail = {
-    id: string
-    name: string
-    description: string
-}
-
-export interface DetailFormProps {
-    name: string;
-    description: string;
-    setName: (value: string) => void;
-    setDescription: (value: string) => void;
-}
-
-export interface UpdateDetailDialogProps {
-    detail: Detail;
-    open: boolean;
-    setOpen: (value: boolean) => void;
-}
-
-export type PageProps = {
-    MACHINE_FEE_VALUES: Record<number, number>;
-};

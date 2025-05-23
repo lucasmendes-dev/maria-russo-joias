@@ -3,7 +3,7 @@ import { NavUser } from '@/components/nav-user';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { Percent, LayoutGrid, Gem, Users, Truck, PackageSearch, Calculator, Tag, Sparkle } from 'lucide-react';
+import { Percent, LayoutGrid, Gem, Users, Truck, PackageSearch, Calculator, Tag, CalendarSearch } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -51,9 +51,9 @@ const otherNavItems: NavItem[] = [
         icon: Tag,
     },
     {
-        title: 'Detalhes',
-        href: route('details.index'),
-        icon: Sparkle,
+        title: 'Lotes',
+        href: '#',
+        icon: CalendarSearch,
     },
 ];
 
