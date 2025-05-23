@@ -48,6 +48,13 @@ export interface DateRangePickerProps {
     setEndDate: (value: string) => void;
 }
 
+export type Debt = {
+    current_installment: number;
+    installments: number;
+    installment_value: number;
+    date: string;
+}
+
 ////////////////////////////////// Products //////////////////////////////////
 export type Product = {
     id: string,
@@ -76,7 +83,7 @@ export type Product = {
     date_to_end: string,
     paid_value: number,
     remaining_value: number,
-    debts: Array,
+    debts: Debt[],
 }
 
 export interface ProductFormProps {
@@ -180,7 +187,7 @@ export interface UpdateSoldDialogProps {
         discount: number,
         installment_value: string
         sold_date: string,
-        debts: Array
+        debts: Debt[],
     },
     open: boolean;
     setOpen: (value: boolean) => void;
@@ -193,7 +200,7 @@ export interface SoldFormProps {
     discountValue: number,
     date: string,
     customer: string,
-    debts: Array,
+    debts: Debt[],
     setName: (value: string) => void;
     setSoldPrice: (value: number) => void;
     setPaymentMethod: (value: string) => void;

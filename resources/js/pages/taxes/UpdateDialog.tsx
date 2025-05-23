@@ -87,7 +87,7 @@ export function UpdateDialog({
                 />
 
                 <DialogFooter>
-                    <Button type="submit" className="cursor-pointer" onClick={handleUpdate}>Salvar Alterações</Button>
+                    <Button type="submit" className="cursor-pointer bg-blue-400" onClick={handleUpdate}>Salvar Alterações</Button>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

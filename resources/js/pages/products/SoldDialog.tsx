@@ -26,7 +26,7 @@ export function SoldDialog({
     const [discountValue, setDiscountValue] = useState(soldProduct.discount ?? 0);
     const [date, setDate] = useState(soldProduct.sold_date);
     const [debts, setDebts] = useState(soldProduct.debts);
-console.log(debts)
+
     const handleUpdate = () => {
 
         router.put(`/products/${soldProduct.id}`, { // definir ROTA transaction

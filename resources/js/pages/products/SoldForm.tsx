@@ -6,8 +6,8 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { cn } from "@/lib/utils";
-import { SoldFormProps } from "@/types";
-import { parseSingleDate } from "@/utils/functions-lib";
+import { Debt, SoldFormProps } from "@/types";
+import { formatToBRCurrency, parseSingleDate } from "@/utils/functions-lib";
 import {
     Popover,
     PopoverContent,
@@ -121,8 +121,34 @@ export function SoldForm({
                 </div>
             </div>
 
-            <div className="flex flex-wrap -mx-3 mb-4">
-                {/* PREENCHER COM ARRAYS DE DEBTS */}
+            <div className="w-full px-3 mb-4">
+                {debts && debts.length > 0 ? (
+                    <div>
+                        <h3 className="text-lg font-semibold mb-2">Parcelas</h3>
+                        <div className="space-y-2">
+                            {debts.map((debt: Debt, index: number) => (
+                                <div
+                                    key={index}
+                                    className="border border-gray-200 rounded-lg p-3 bg-muted"
+                                >
+                                    <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+                                        <p className="text-sm">
+                                            <span className="font-medium text-blue-400">nº:</span> {debt.current_installment} de {debt.installments}
+                                        </p>
+                                        <p className="text-sm">
+                                            <span className="font-medium text-blue-400">Valor:</span> R$ {formatToBRCurrency(debt.installment_value)}
+                                        </p>
+                                        <p className="text-sm">
+                                            <span className="font-medium text-blue-400">Data:</span> {new Date(debt.date + 'T00:00:00').toLocaleDateString("pt-BR")}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                ) : (
+                    <p className="text-sm text-gray-500 italic">Este produto não foi parcelado.</p>
+                )}
             </div>
 
         </form>
