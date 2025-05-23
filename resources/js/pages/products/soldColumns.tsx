@@ -2,7 +2,6 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowUpDown } from "lucide-react";
 import { useState } from "react";
 import { Product } from "@/types";
@@ -113,7 +112,9 @@ export const getSoldColumns = (): ColumnDef<Product>[] => {
                 )
             },
             cell: ({ row }) => {
-                return <div className="ml-7 font-medium">{row.getValue("discount") || '-'}</div>
+                const discountValue = parseFloat(row.getValue("discount"));
+                const formatted = (!isNaN(discountValue) && discountValue > 0) ? formatToBRCurrency(discountValue) : '';
+                return <div className="ml-7 font-medium">{formatted || '-'}</div>
             }
         },
         {

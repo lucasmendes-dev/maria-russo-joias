@@ -26,10 +26,13 @@ class TransactionService
 
     public function handleUpdateData(array $data): array
     {
+        $data['quantity'] = 1; // refactor ? remover
         $data['type'] = 'revenue';
-        $data['date'] = formatDate($data['sold_date']);
-        $data['price'] = $data['sold_price'];
-        $data['machine_fee'] = $this->getMachineFee($data['payment_method'], $data['installments']);
+        $data['date'] = isset($data['sold_date']) ? formatDate($data['sold_date']) : '';
+        $data['price'] = isset($data['sold_price']) ? $data['sold_price'] : '';
+        $data['installments'] = isset($data['installments']) ? $data['installments'] : 0;
+        $data['machine_fee'] = isset($data['payment_method']) && isset($data['installments']) ? $this->getMachineFee($data['payment_method'], $data['installments']) : 0;
+
         return $data;
     }
 

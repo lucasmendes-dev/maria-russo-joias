@@ -27,7 +27,7 @@ export function SalesDialog({
     const [quantity, setQuantity] = useState(Number(product.quantity));
     const [paymentMethod, setPaymentMethod] = useState('');
     const [customer, setCustomer] = useState(product.customer || "");
-    const [discountValue, setDiscountValue] = useState('');
+    const [discountValue, setDiscountValue] = useState(0);
     const [installmentValue, setInstallmentValue] = useState(0);
     const [date, setDate] = useState<Date|undefined>(new Date());
     const [firstInstallmentDate, setFirstInstallmentDate] = useState<Date|undefined>(new Date());

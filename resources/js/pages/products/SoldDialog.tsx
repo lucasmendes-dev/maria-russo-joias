@@ -29,14 +29,13 @@ export function SoldDialog({
 
     const handleUpdate = () => {
 
-        router.put(`/products/${soldProduct.id}`, { // definir ROTA transaction
-            productId,
+        router.put(`/transactions/${productId}`, {
+            product_id: productId,
             name,
-            soldPrice,
-            paymentMethod,
-            customer,
-            discountValue,
-            date,
+            sold_price: soldPrice,
+            discount: discountValue,
+            payment_method: paymentMethod,
+            sold_date: date,
         }, {
             preserveScroll: true,
             preserveState: true,
