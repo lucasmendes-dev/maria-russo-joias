@@ -27,8 +27,8 @@ export function PendingDialog({
     const [paymentMethod, setPaymentMethod] = useState(product.payment_method);
     const [customer, setCustomer] = useState(product.customer_id);
     const [discountValue, setDiscountValue] = useState(product.discount);
-    const [installments, setInstallments] = useState(product.installments);
-    const [currentInstallment, setCurrentInstallment] = useState(product.current_installment);
+    const [installments] = useState(product.installments);
+    const [currentInstallment] = useState(product.current_installment);
     const [soldDate, setSoldDate] = useState(product.sold_date);
     const [dateToEnd, setDateToEnd] = useState<Date|undefined>(new Date(product.date_to_end));
 

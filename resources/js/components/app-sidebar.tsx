@@ -52,7 +52,7 @@ const otherNavItems: NavItem[] = [
     },
     {
         title: 'Lotes',
-        href: '#',
+        href: route('batches.index'),
         icon: CalendarSearch,
     },
 ];

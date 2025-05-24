@@ -420,3 +420,29 @@ export interface UpdateCategoryDialogProps {
     open: boolean;
     setOpen: (value: boolean) => void;
 }
+
+////////////////////////////////// Batches //////////////////////////////////
+export type Batch = {
+    id: string,
+    name: string,
+    color: string,
+    start_date: string,
+    end_date: string,
+}
+
+export interface UpdateBatchDialogProps {
+    batch: Batch;
+    open: boolean;
+    setOpen: (value: boolean) => void;
+}
+
+export interface BatchFormProps {
+    name: string;
+    color: string;
+    startDate: string;
+    endDate: string,
+    setName: (value: string) => void;
+    setColor: (value: string) => void;
+    setStartDate: (value: string) => void;
+    setEndDate: (value: string) => void;
+}

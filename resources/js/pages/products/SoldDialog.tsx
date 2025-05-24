@@ -25,7 +25,7 @@ export function SoldDialog({
     const [customer, setCustomer] = useState(soldProduct.customer);
     const [discountValue, setDiscountValue] = useState(soldProduct.discount ?? 0);
     const [date, setDate] = useState(soldProduct.sold_date);
-    const [debts, setDebts] = useState(soldProduct.debts);
+    const [debts] = useState(soldProduct.debts);
 
     const handleUpdate = () => {
 

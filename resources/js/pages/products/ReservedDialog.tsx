@@ -21,7 +21,7 @@ export function ReservedDialog({
     reservedOpen,
     setReservedOpen,
 }: UpdateReservedDialogProps) {
-    const [productId, setProductId] = useState(product.id);
+    const [productId] = useState(product.id);
     const [name, setName] = useState(product.name);
     const [price, setPrice] = useState(product.price);
     const [reserved_date, setReserveDate] = useState(product.reserved_date);

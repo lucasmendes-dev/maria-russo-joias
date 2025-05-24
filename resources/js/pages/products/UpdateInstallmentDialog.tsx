@@ -23,7 +23,7 @@ export function UpdateInstallmentDialog({
     const [productId] = useState(product.id);
     const [productName, setProductname] = useState(product.name);
     const [soldPrice, setSoldPrice] = useState(product.sold_price);
-    const [customer, setCustomer] = useState(product.customer_id);
+    const [customer] = useState(product.customer_id);
     const [installments, setInstallments] = useState(product.installments);
     const [currentInstallment, setCurrentInstallment] = useState(product.current_installment);
     const [installmentValue, setInstallmentValue] = useState<number|undefined>(undefined);

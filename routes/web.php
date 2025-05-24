@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BatchController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
@@ -76,4 +77,10 @@ Route::middleware('auth')->group(function () {
     Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('categories.destroy');
     Route::put('/categories/{id}', [CategoryController::class, 'update'])->name('categories.update');
     Route::post('/categories', [CategoryController::class, 'store'])->name('categories.store');
+
+    // Batches
+    Route::get('/batches', [BatchController::class, 'index'])->name('batches.index');
+    Route::delete('/batches/{id}', [BatchController::class, 'destroy'])->name('batches.destroy');
+    Route::put('/batches/{id}', [BatchController::class, 'update'])->name('batches.update');
+    Route::post('/batches', [BatchController::class, 'store'])->name('batches.store');
 });

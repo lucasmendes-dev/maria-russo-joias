@@ -68,7 +68,7 @@ export function SalesForm({
             setSellingPrice(Number(adjustedSellingValue.toFixed(2)));
             setIsAdjustedByFee(true);
         }
-    }, [paymentMethod, installmentValue, mockPrice, setSellingPrice, discountValue, MACHINE_FEE_VALUES]);
+    }, [paymentMethod, installmentValue, mockPrice, sellingPrice, setSellingPrice, discountValue, MACHINE_FEE_VALUES]);
 
     return (
         <form className="w-full max-w-lg mt-3">

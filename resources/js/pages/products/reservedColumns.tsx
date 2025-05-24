@@ -2,7 +2,6 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { ArrowUpDown } from "lucide-react";
 import { useState } from "react";
 import { Customer, Product } from "@/types";
@@ -123,7 +122,7 @@ export const getReservedColumns = (customers: Customer[]): ColumnDef<Product>[] 
             cell: ({ row }) => {
                 const product = row.original;
                 const [salesOpen, setSalesOpen] = useState(false);
-                console.log(product)
+
                 return (
                     <div className="flex">
                         <UndoReservation
