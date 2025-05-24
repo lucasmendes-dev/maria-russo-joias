@@ -14,13 +14,17 @@ class BatchController extends Controller
 
     public function index()
     {
-        $batches = Batch::all(); // refactor ?
+        $batches = $this->batchService->getAllBatchesOrderedByDate();
         return Inertia::render('batches/index', ['batches' => $batches]);
     }
 
     public function store(StoreBatchRequest $request)
     {
         $data = $request->validated();
+        $dateConflict = $this->batchService->checkIfBatchDateConflicts($data);
+        if ($dateConflict) {
+            return redirect()->back()->with('error', 'O período de data do lote que você tentou cadastrar já existe. Cadastre lotes com datas diferentes.');
+        }
         Batch::create($data);  // refactor ?
 
         return redirect()->back()->with('success', 'Lote "' . $data['name'] . '" cadastrado!');
@@ -28,7 +32,7 @@ class BatchController extends Controller
 
     public function update(UpdateBatchRequest $request, string $id)
     {
-        $batch = Batch::findOrFail($id); // refactor ?
+        $batch = $this->batchService->getBatchById($id);
         $batch->update($request->validated());
 
         return redirect()->back()->with('success', 'Os dados do lote "' . $batch->name . '" foram atualizados!');
@@ -36,7 +40,7 @@ class BatchController extends Controller
 
     public function destroy(string $id)
     {
-        $batch = Batch::findOrFail($id); // refactor ?
+        $batch = $this->batchService->getBatchById($id);
         $batchName = $batch->name;
 
         $batch->delete();

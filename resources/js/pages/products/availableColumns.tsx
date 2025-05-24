@@ -81,7 +81,12 @@ export const getAvailableColumns = (
                 )
             },
             cell: ({ row }) => {
-                // return <div className="ml-7 font-medium">{row.getValue("quantity")}</div>
+                const batch = row.getValue("batch") as {name: string, color: string};
+                return <div 
+                            className="inline-block px-2 py-1 rounded-full text-white text-sm font-medium"
+                            style={{ backgroundColor: batch.color }}>
+                            {batch.name}
+                        </div>
             }
         },
         {

@@ -16,6 +16,7 @@ class ProductService
         private CategoryService $categoryService,
         private CustomerService $customerService,
         private DebtService $debtService,
+        private BatchService $batchService,
     ) {}
 
     public function getProductByID(int $productID): Product
@@ -26,7 +27,7 @@ class ProductService
     public function getAllProducts(): Collection
     {
         $products = $this->getAllProductsGroupedByStatus();
-        $this->addSellingPriceToAvailableProducts($products);
+        $this->populateAvailableProductsInfo($products);
         $this->populateReservedProductsInfo($products);
         $this->populatePendingProductsInfo($products);
         $this->populateSoldProductsInfo($products);
@@ -38,11 +39,12 @@ class ProductService
         return Product::all()->groupBy('status');
     }
 
-    private function addSellingPriceToAvailableProducts(Collection &$products): void
+    private function populateAvailableProductsInfo(Collection &$products): void
     {
         if (!empty($products['available'])) {
             $products['available']->each(function ($product) {
                 $product->selling_price = $this->calculateFinalSellingPrice($product);
+                $product->batch = $this->batchService->findBatchByPurchaseDate($product->purchase_date);
             });
         }
     }

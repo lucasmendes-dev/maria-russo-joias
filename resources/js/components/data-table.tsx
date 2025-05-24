@@ -29,6 +29,13 @@ export function DataTable<TData, TValue>({ columns, data, createButton, filters 
         flash.success = undefined;
     }
 
+    if (flash.error) {
+        toast.error("Aviso:", {
+            description: flash.error,
+        });
+        flash.error = undefined;
+    }
+
     const table = useReactTable({
         data,
         columns,
