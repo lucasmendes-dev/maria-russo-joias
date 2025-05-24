@@ -30,6 +30,7 @@ export function UpdateInstallmentDialog({
     const [date, setDate] = useState<Date|undefined>(new Date());
     const [paidValue, setPaidValue] = useState(product.paid_value);
     const [remainingValue, setRemainingValue] = useState(product.remaining_value);
+    const [debts] = useState(product.debts);
 
     const handleUpdate = () => {
         if (!productName || !installments || !currentInstallment || !date || !installmentValue) {
@@ -82,6 +83,7 @@ export function UpdateInstallmentDialog({
                     setDate={setDate}
                     setPaidValue={setPaidValue}
                     setRemainingValue={setRemainingValue}
+                    debts={debts}
                 />
 
                 <DialogFooter>

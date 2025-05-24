@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ShoppingBasket } from 'lucide-react';
 import { router } from "@inertiajs/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ReservedForm } from "./ReservedForm";
 import { UpdateReservedDialogProps } from "@/types";
 import {
@@ -14,7 +14,6 @@ import {
     DialogDescription
 } from "@/components/ui/dialog";
 
-
 export function ReservedDialog({
     product,
     customers,
@@ -23,10 +22,14 @@ export function ReservedDialog({
 }: UpdateReservedDialogProps) {
     const [productId] = useState(product.id);
     const [name, setName] = useState(product.name);
-    const [price, setPrice] = useState(product.price);
+    const [price, setPrice] = useState(product.selling_price);
     const [reserved_date, setReserveDate] = useState(product.reserved_date);
     const [description, setDescription] = useState('');
     const [customer, setCustomer] = useState('');
+
+    useEffect(() => {
+        setPrice(Number(price.toFixed(2)));
+    });
 
     const handleReserve = () => {
         router.post(`/reserveProduct`, {

@@ -38,7 +38,7 @@ class BatchService
         return Batch::all(['start_date', 'end_date']);
     }
 
-    public function findBatchByPurchaseDate(string $purchaseDate): Batch
+    public function findBatchByPurchaseDate(string $purchaseDate): Batch | null
     {
         return Batch::select('name', 'color')
             ->where('start_date', '<=', $purchaseDate)

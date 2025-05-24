@@ -6,7 +6,8 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { cn } from "@/lib/utils";
-import { UpdateInstallmentFormProps } from "@/types";
+import { Debt, UpdateInstallmentFormProps } from "@/types";
+import { formatToBRCurrency } from "@/utils/functions-lib";
 import {
     Popover,
     PopoverContent,
@@ -29,6 +30,7 @@ export function UpdateInstallmentForm({
     setDate,
     setPaidValue,
     setRemainingValue,
+    debts,
 }: UpdateInstallmentFormProps) {
 
     return (
@@ -105,6 +107,37 @@ export function UpdateInstallmentForm({
                     <Label htmlFor="remainingValue" className="block mb-2">Valor Restante (R$)</Label>
                     <Input id="remainingValue" value={remainingValue} onChange={(e) => setRemainingValue(Number(e.target.value))} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3 cursor-not-allowed" required readOnly/>
                 </div>
+            </div>
+
+            
+            <div className="w-full px-3 mb-4">
+                {debts && debts.length > 0 ? (
+                    <div>
+                        <h3 className="text-lg font-semibold mb-2">Parcelas</h3>
+                        <div className="space-y-2">
+                            {debts.map((debt: Debt, index: number) => (
+                                <div
+                                    key={index}
+                                    className="border border-gray-200 rounded-lg p-3 bg-muted"
+                                >
+                                    <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+                                        <p className="text-sm">
+                                            <span className="font-medium text-purple-400">nº:</span> {debt.current_installment} de {debt.installments}
+                                        </p>
+                                        <p className="text-sm">
+                                            <span className="font-medium text-purple-400">Valor:</span> R$ {formatToBRCurrency(debt.installment_value)}
+                                        </p>
+                                        <p className="text-sm">
+                                            <span className="font-medium text-purple-400">Data:</span> {new Date(debt.date + 'T00:00:00').toLocaleDateString("pt-BR")}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                ) : (
+                    <p className="text-sm text-gray-500 italic">Houve um erro, as parcelas não foram renderizadas</p>
+                )}
             </div>
             
         </form>

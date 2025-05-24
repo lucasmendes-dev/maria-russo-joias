@@ -82,10 +82,16 @@ export const getAvailableColumns = (
             },
             cell: ({ row }) => {
                 const batch = row.getValue("batch") as {name: string, color: string};
-                return <div 
-                            className="inline-block px-2 py-1 rounded-full text-white text-sm font-medium"
-                            style={{ backgroundColor: batch.color }}>
-                            {batch.name}
+                return <div>
+                            {batch != null ? (
+                                <div
+                                    className="inline-block px-2 py-1 rounded-full text-white text-sm font-medium"
+                                    style={{ backgroundColor: batch.color }}>
+                                    {batch.name}
+                                </div>
+                            ) : (
+                                <p className="text-sm text-gray-500 italic">Lote não cadastrado.</p>
+                            )}
                         </div>
             }
         },

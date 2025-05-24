@@ -68,12 +68,16 @@ export const columns: ColumnDef<Category>[] = [
             const [isDialogOpen, setIsDialogOpen] = useState(false);
             return (
                 <div>
-                    <UpdateDialog
-                        category={category}
-                        open={isDialogOpen}
-                        setOpen={setIsDialogOpen}
-                    />
-                    <AlertDialogDelete objectName={category} deleteRoute="categories"/>
+                    {category.name != "Todos" && (
+                        <>
+                            <UpdateDialog
+                                category={category}
+                                open={isDialogOpen}
+                                setOpen={setIsDialogOpen}
+                            />
+                            <AlertDialogDelete objectName={category} deleteRoute="categories"/>
+                        </>
+                    )}
                 </div>
             );
         },

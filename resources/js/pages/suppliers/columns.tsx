@@ -46,6 +46,9 @@ export const columns: ColumnDef<Supplier>[] = [
                 </Button>
             )
         },
+        cell: ({ row }) => {
+            return <div className="ml-3 font-medium">{row.getValue("name")}</div>
+        }
     },
     {
         accessorKey: "phone",
@@ -91,6 +94,9 @@ export const columns: ColumnDef<Supplier>[] = [
                 </Button>
             )
         },
+        cell: ({ row }) => {
+            return <div className="ml-3 font-medium">{row.getValue("saller_name")}</div>
+        }
     },
     {
         accessorKey: "local",

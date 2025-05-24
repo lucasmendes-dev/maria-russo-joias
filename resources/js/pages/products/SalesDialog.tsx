@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ShoppingBag } from 'lucide-react';
 import { router } from "@inertiajs/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SalesDialogProps } from "@/types";
 import { SalesForm } from "./SalesForm";
 import {
@@ -32,6 +32,10 @@ export function SalesDialog({
     const [date, setDate] = useState<Date|undefined>(new Date());
     const [firstInstallmentDate, setFirstInstallmentDate] = useState<Date|undefined>(new Date());
     const [firstInstallmentValue, setFirstInstallmentValue] = useState<number|null>(null);
+
+    useEffect(() => {
+        setSellingPrice(Number(sellingPrice.toFixed(2)));
+    });
 
     const handleSale = () => {
         if (!name || !sellingPrice || !quantity || !paymentMethod || !customer) {

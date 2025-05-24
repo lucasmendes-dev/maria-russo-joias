@@ -14,7 +14,7 @@ class CategorySeeder extends Seeder
     {
         DB::table('categories')->insert([
             'name' => 'Todos',
-            'description' => 'Taxa aplicada para todos os produtos.',
+            'description' => 'Categoria que engloba todos os produtos.',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

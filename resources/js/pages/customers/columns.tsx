@@ -46,6 +46,9 @@ export const columns: ColumnDef<Customer>[] = [
                 </Button>
             )
         },
+        cell: ({ row }) => {
+            return <div className="ml-3 font-medium">{row.getValue("name")}</div>
+        }
     },
     {
         accessorKey: "phone",
@@ -72,11 +75,14 @@ export const columns: ColumnDef<Customer>[] = [
                     variant="ghost"
                     onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
                 >
-                    Local
+                    Local / Referência
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             )
         },
+        cell: ({ row }) => {
+            return <div className="ml-3 font-medium">{row.getValue("local")}</div>
+        }
     },
     {
         header: "Ações",

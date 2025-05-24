@@ -46,7 +46,7 @@ export function CustomerForm({
             </div>
 
             <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="local" className="text-right">Local <span className="text-red-400">*</span></Label>
+                <Label htmlFor="local" className="text-right">Local / Referência <span className="text-red-400">*</span></Label>
                 <Input id="local" value={local} onChange={(e) => setLocal(e.target.value)} className="col-span-3" required placeholder="Ex: Ouro Preto"/>
             </div>
             <p className="text-sm text-gray-600 flex justify-end">

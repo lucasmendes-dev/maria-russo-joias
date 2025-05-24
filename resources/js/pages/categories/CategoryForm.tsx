@@ -13,7 +13,7 @@ export function CategoryForm({
         <div className="grid gap-4 py-4">
             <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="name" className="text-right">Nome <span className="text-red-400">*</span></Label>
-                <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="col-span-3" required placeholder="Ex: Colar" />
+                <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="col-span-3" required placeholder="Ex: Colares" />
             </div>
 
             <div className="grid grid-cols-4 items-center gap-4">

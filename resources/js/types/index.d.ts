@@ -219,11 +219,11 @@ export interface UpdateReservedDialogProps {
 
 export interface ReservedFormProps {
     name: string,
-    price: string,
+    price: number,
     description: string,
     reserved_date: string,
     setName: (value: string) => void;
-    setPrice: (value: string) => void;
+    setPrice: (value: number) => void;
     setDescription: (value: string) => void;
     setReserveDate: (value: string) => void;
     customers: Customer[],
@@ -256,6 +256,7 @@ export interface PendingDialogProps {
         date_to_end: string,
         paid_value: number,
         remaining_value: number,
+        debts: Debt[],
     };
     customers: Customer[],
     pendingOpen: boolean;
@@ -291,6 +292,7 @@ export interface UpdateInstallmentFormProps {
     date: Date|undefined,
     paidValue: number,
     remainingValue: number,
+    debts: Debt[],
     setProductname: (value: string) => void,
     setInstallments: (value: number) => void,
     setCurrentInstallment: (value: number) => void,

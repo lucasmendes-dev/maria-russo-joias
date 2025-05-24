@@ -19,7 +19,6 @@ import {
     SelectContent,
     SelectGroup,
     SelectItem,
-    SelectLabel,
     SelectTrigger,
     SelectValue
 } from "@/components/ui/select";
@@ -120,7 +119,6 @@ export function ProductForm({
 
                         <SelectContent>
                             <SelectGroup>
-                                <SelectLabel>Selecione um Fornecedor</SelectLabel>
                                 {suppliers.map((supplier) => (
                                     <SelectItem key={supplier.id} value={String(supplier.id)}>
                                         {supplier.name}
@@ -143,7 +141,6 @@ export function ProductForm({
 
                         <SelectContent>
                             <SelectGroup>
-                                <SelectLabel>Selecione uma Categoria</SelectLabel>
                                 {categories.filter((category) => category.name !== "Todos")
                                 .map((category) => (
                                     <SelectItem key={category.id} value={String(category.id)}>

@@ -156,7 +156,7 @@ class ProductService
                     $product->payment_method = $transaction['payment_method'];
                     $product->discount = $transaction['discount'];
                     $product->sold_date = $transaction['date'];
-                    $product->debts = $this->debtService->getProductDebtsByID($product->id, $transaction['customer_id']); //dd($product->debts);
+                    $product->debts = $this->debtService->getProductDebtsByID($product->id, $transaction['customer_id']);
                 }
             });
         }
@@ -186,6 +186,7 @@ class ProductService
                     $product->date_to_end = $debt !== null ? $this->debtService->getDateToEndInstallments($debt->installments, $debt->current_installment) : '';
                     $product->paid_value = $this->debtService->getPendingProductPaidValue($product->id);
                     $product->remaining_value = $this->getRemainingValueFromPendingProduct($transaction['price'], $product->paid_value);
+                    $product->debts = $this->debtService->getProductDebtsByID($product->id, $transaction['customer_id']);
                 }
             });
         }
