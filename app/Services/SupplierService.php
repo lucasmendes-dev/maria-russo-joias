@@ -10,6 +10,6 @@ class SupplierService
 
     public function getIdAndNameFromAllSuppliers()
     {
-        return Supplier::all(['id', 'name']);
+        return Supplier::select(['id', 'name'])->orderBy('name', 'asc')->get();
     }
 }

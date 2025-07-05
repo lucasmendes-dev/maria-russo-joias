@@ -51,7 +51,7 @@ export function ProductForm({
             <div className="flex flex-wrap -mx-3 mb-4">
                 <div className="w-full md:w-2/3 px-3 mb-4 md:mb-0">
                     <Label htmlFor="name" className="block mb-2">Nome <span className="text-red-400">*</span></Label>
-                    <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required placeholder="Ex: Maria" />
+                    <Input id="name" value={name} onChange={(e) => setName(e.target.value)} className="appearance-none block w-full rounded-lg py-3 px-4 mb-3" required placeholder="Ex: Anel Solitário Curvado" />
                 </div>
 
                 <div className="w-full md:w-1/3 px-3 mb-4 md:mb-0">

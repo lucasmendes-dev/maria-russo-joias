@@ -40,13 +40,7 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request)
     {
-        $data = $request->validated();
-        $data['status'] = 'available'; // implementar service para resolver isso aqui
-
-        if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images/products');
-            $data['image'] = str_replace('images/' , '', $imagePath);
-        }
+        $data = $this->productService->handleCreateData($request);
 
         Product::create($data);
 

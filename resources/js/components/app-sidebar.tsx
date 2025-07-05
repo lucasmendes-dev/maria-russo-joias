@@ -23,11 +23,6 @@ const mainNavItems: NavItem[] = [
         icon: Percent,
     },
     {
-        title: 'Produtos por Encomenda',
-        href: route('products-to-order.index'),
-        icon: PackageSearch,
-    },
-    {
         title: 'Simulação',
         href: '#',
         icon: Calculator,

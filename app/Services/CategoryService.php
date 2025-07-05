@@ -11,7 +11,7 @@ class CategoryService
 
     public function getIdAndNameFromAllCategories(): Collection
     {
-        return Category::all(['id', 'name']);
+        return Category::select(['id', 'name'])->orderBy('name', 'asc')->get();
     }
 
     public function getCategoryName(string $categoryId): string

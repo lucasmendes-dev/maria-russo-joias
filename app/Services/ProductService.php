@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Http\Requests\Product\StoreProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Reserved;
@@ -36,7 +37,7 @@ class ProductService
 
     private function getAllProductsGroupedByStatus(): Collection
     {
-        return Product::all()->groupBy('status');
+        return Product::orderBy('name', 'asc')->get()->groupBy('status');
     }
 
     private function populateAvailableProductsInfo(Collection &$products): void
@@ -222,5 +223,20 @@ class ProductService
     private function hasInstallmentEnded($currentInstallmet, $installments): bool
     {
         return $currentInstallmet === $installments;
+    }
+
+    public function handleCreateData(StoreProductRequest $request): array
+    {
+        $data = $request->validated();
+        $data['status'] = 'available';
+        
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('images/products');
+            $data['image'] = str_replace('images/' , '', $imagePath);
+        } else {
+            $data['image'] = 'placeholder.jpg';
+        }
+        
+        return $data;
     }
 }

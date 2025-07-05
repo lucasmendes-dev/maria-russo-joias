@@ -24,6 +24,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 const availableFilters: string[] = [
     'name',
     'price',
+    'batch',
 ];
 
 const pendingAndSoldFilters: string[] = [
