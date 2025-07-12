@@ -205,7 +205,7 @@ class ProductService
         }
     }
 
-    private function getRemainingValueFromPendingProduct(float $totalPrice, float $paidPrice): float
+    private function getRemainingValueFromPendingProduct(float $totalPrice, float $paidPrice): float | string
     {
         $remainingValue = $totalPrice - $paidPrice;
         return number_format($remainingValue, 2);
