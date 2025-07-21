@@ -234,7 +234,7 @@ class ProductService
             $imagePath = $request->file('image')->store('images/products');
             $data['image'] = str_replace('images/' , '', $imagePath);
         } else {
-            $data['image'] = 'placeholder.jpg';
+            $data['image'] = 'images/default_product_avatar.jpg';
         }
         
         return $data;

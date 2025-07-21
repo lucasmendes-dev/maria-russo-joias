@@ -35,7 +35,7 @@
 
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
-        <link rel="shortcut icon" href="/storage/images/logo_01.jpeg" type="image/x-icon">
+        <link rel="shortcut icon" href="/images/logo_01.jpeg" type="image/x-icon">
 
         @routes
         @viteReactRefresh
