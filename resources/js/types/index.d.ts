@@ -448,3 +448,24 @@ export interface BatchFormProps {
     setStartDate: (value: string) => void;
     setEndDate: (value: string) => void;
 }
+
+////////////////////////////////// Dashboard //////////////////////////////////
+export type Headbox = {
+    totalProfit: number,
+    valueToReceive: number,
+    jewelryInventoryValue: number,
+    totalJewelrySold: number,
+}
+
+export type GraphData = {
+    month: string,
+    totalProductsSold: number,
+    costsValue: number,
+    revenueValue: number,
+    monthProfit: number,
+}
+
+export interface DashboardProps {
+    headBoxesData: Headbox,
+    graphData: GraphData[],
+}

@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Supplier;
 use App\Models\Transaction;
+use Illuminate\Database\Eloquent\Collection;
 
 class Product extends Model
 {
@@ -41,5 +42,37 @@ class Product extends Model
     public function transactions()
     {
         return $this->hasMany(Transaction::class);
+    }
+
+    public static function getProductCostsByMonth(): Collection
+    {
+        return self::selectRaw('
+            DATE_FORMAT(purchase_date, "%Y-%m") as month_key,
+            DATE_FORMAT(purchase_date, "%m") as month_number,
+            SUM(price) as total_price
+        ')
+        ->groupByRaw('DATE_FORMAT(purchase_date, "%Y-%m"), DATE_FORMAT(purchase_date, "%m")')
+        ->orderBy('month_key')
+        ->get();
+    }
+
+    public static function getTotalJewelrySold(): int
+    {
+        return self::where('status', 'sold')->count();
+    }
+
+    public static function getPendingProducts(): Collection
+    {
+        return self::where('status', 'pending')->get();
+    }
+
+    public static function getTotalProductCosts(): float
+    {
+        return self::selectRaw('SUM(price) as price')->where('status', 'sold')->value('price');
+    }
+
+    public static function getJewelryInventoryValue(): float
+    {
+        return self::selectRaw('SUM(price) as price')->where('status', 'available')->value('price');
     }
 }

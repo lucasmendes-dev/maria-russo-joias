@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Models\Category;
+use App\Models\Debt;
 use App\Models\Product;
 use App\Models\Reserved;
 use App\Models\Tax;
@@ -12,6 +13,8 @@ use Illuminate\Database\Eloquent\Collection;
 
 class ProductService 
 {
+    private float $totalRemainingValueFromPendingProducts = 0;
+
     public function __construct(
         private TaxService $taxService,
         private CategoryService $categoryService,
@@ -238,5 +241,23 @@ class ProductService
         }
         
         return $data;
+    }
+
+    public function getPendingProductsTotalRemainingValue()
+    {
+        $pendingProducts = Product::getPendingProducts();
+        
+        $totalPendingValue = 0;
+        foreach ($pendingProducts as $product) {
+            $totalPendingValue += $this->sumPendingValueByProduct($product->id);
+        }
+        return $totalPendingValue;
+    }
+
+    private function sumPendingValueByProduct(string $productId): float
+    {
+        $paidValue = array_sum(Debt::getInstallmentValueByID($productId));
+        $transactionPrice = Transaction::getTransactionPriceByID($productId);
+        return $transactionPrice - $paidValue;
     }
 }
