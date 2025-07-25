@@ -27,7 +27,7 @@ class DebtService
 
     public function getPendingProductPaidValue(string $productId)
     {
-        $productDebts = Debt::where('product_id', $productId)->pluck('installment_value')->toArray();
+        $productDebts = Debt::getInstallmentValueByID($productId);
         return array_sum($productDebts);
     }
 

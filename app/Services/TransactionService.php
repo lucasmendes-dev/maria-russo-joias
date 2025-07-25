@@ -2,7 +2,9 @@
 
 namespace App\Services;
 
+use App\Models\Customer;
 use App\Models\Debt;
+use App\Models\Product;
 use App\Models\Tax;
 use App\Models\Transaction;
 use DateTime;
@@ -12,7 +14,7 @@ class TransactionService
 {
     public function __construct(private ProductService $productService) {}
 
-    public function handleCreateData(array $data): array
+    public function handleRevenueCreateData(array $data): array
     {
         $data['type'] = 'revenue';
         $data['customer_id'] = (int) $data['customer_id'];
@@ -33,6 +35,16 @@ class TransactionService
         $data['installments'] = isset($data['installments']) ? $data['installments'] : 0;
         $data['machine_fee'] = isset($data['payment_method']) && isset($data['installments']) ? $this->getMachineFee($data['payment_method'], $data['installments']) : 0;
 
+        return $data;
+    }
+
+    public function handleStoreData(array $data): array
+    {
+        $data['customer_id'] = Customer::where('id', 45)->exists() ? 45 : 1;
+        $data['product_id'] = Product::where('id', 45)->exists() ? 45 : 1;
+        $data['quantity'] = 1; // refactor ? remover
+        $data['payment_method'] = 'pix';
+        $data['installments'] = 0;
         return $data;
     }
 

@@ -21,4 +21,9 @@ class Debt extends Model
     {
         return $this->hasMany(Transaction::class);
     }
+
+    public static function getInstallmentValueByID(string $productId): array
+    {
+        return Debt::where('product_id', $productId)->pluck('installment_value')->toArray();
+    }
 }

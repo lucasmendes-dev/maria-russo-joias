@@ -61,6 +61,7 @@
         "react-day-picker": "^8.10.1",
         "react-dom": "^19.0.0",
         "react-hot-toast": "^2.5.2",
+        "recharts": "^2.15.4",
         "sonner": "^2.0.3",
         "tailwind-merge": "^3.0.1",
         "tailwindcss": "^4.0.0",
@@ -72,5 +73,8 @@
         "@rollup/rollup-linux-x64-gnu": "4.9.5",
         "@tailwindcss/oxide-linux-x64-gnu": "^4.0.1",
         "lightningcss-linux-x64-gnu": "^1.29.1"
+    },
+    "overrides": {
+        "form-data": "^4.0.4"
     }
 }

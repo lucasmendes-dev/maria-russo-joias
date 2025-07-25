@@ -13,4 +13,9 @@ class Reserved extends Model
         'reserved_value',
         'description',
     ];
+
+    public static function getReservedProductsSumValue(): float
+    {
+        return self::sum('reserved_value');
+    }
 }

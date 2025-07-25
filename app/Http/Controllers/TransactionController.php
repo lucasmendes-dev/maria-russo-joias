@@ -7,6 +7,7 @@ use App\Http\Requests\Transaction\UpdateSoldProductRequest;
 use App\Http\Requests\Transaction\UpdateTransactionRequest;
 use App\Models\Transaction;
 use App\Services\TransactionService;
+use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
@@ -17,9 +18,17 @@ class TransactionController extends Controller
         //
     }
 
+    public function store(Request $request)
+    {
+        $data = $this->transactionService->handleStoreData($request->all());
+
+        Transaction::create($data);
+        return redirect()->back()->with('success', 'Transação "' . $data['description'] . '" cadastrada!');
+    }
+
     public function storeRevenueTransaction(StoreTransactionRequest $request)
     {
-        $data = $this->transactionService->handleCreateData($request->validated());
+        $data = $this->transactionService->handleRevenueCreateData($request->validated());
 
         Transaction::create($data);  // refactor ?
 

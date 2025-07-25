@@ -9,6 +9,7 @@ use App\Services\CategoryService;
 use App\Services\ProductService;
 use App\Services\SupplierService;
 use App\Services\CustomerService;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
 class ProductController extends Controller
@@ -77,6 +78,11 @@ class ProductController extends Controller
     {
         $product = $this->productService->getProductByID($id);
         $productName = $product->name;
+
+        $imagePath = 'images/' . $product->image;
+        if ($product->image && Storage::disk('public')->exists($imagePath)) {
+            Storage::disk('public')->delete($imagePath);
+        }
 
         $product->delete();
 

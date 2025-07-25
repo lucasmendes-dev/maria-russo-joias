@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Models\Category;
+use App\Models\Customer;
+use App\Models\Debt;
 use App\Models\Product;
 use App\Models\Reserved;
 use App\Models\Tax;
@@ -152,7 +154,7 @@ class ProductService
             $products['sold']->each(function ($product) {
                 $transactions = $this->getTransactionsByProductID($product->id);
                 foreach ($transactions as $transaction) {
-                    $product->customer = $this->customerService->getCustomerNameByID($transaction['customer_id']);
+                    $product->customer = Customer::getCustomerNameByID($transaction['customer_id']);
                     $product->sold_price = $transaction['price'];
                     $product->payment_method = $transaction['payment_method'];
                     $product->discount = $transaction['discount'];
@@ -175,7 +177,7 @@ class ProductService
                 $transactions = $this->getTransactionsByProductID($product->id);
                 foreach ($transactions as $transaction) {
                     $product->customer_id = $transaction['customer_id'];
-                    $product->customer = $this->customerService->getCustomerNameByID($transaction['customer_id']);
+                    $product->customer = Customer::getCustomerNameByID($transaction['customer_id']);
                     $product->sold_price = $transaction['price'];
                     $product->payment_method = $transaction['payment_method'];
                     $product->installments = $transaction['installments'];
@@ -198,7 +200,7 @@ class ProductService
         if (!empty($products['reserved'])) {
             $products['reserved']->each(function ($product) {
                 $reservedData = Reserved::where('product_id', $product->id)->first(); // ajuste de service ou repostory
-                $product->customer = $this->customerService->getCustomerNameByID($reservedData->customer_id);
+                $product->customer = Customer::getCustomerNameByID($reservedData->customer_id);
                 $product->reserved_value = $reservedData->reserved_value;
                 $product->reserved_date = date('d/m/Y', strtotime($reservedData->reserved_date));
             });
@@ -238,5 +240,23 @@ class ProductService
         }
         
         return $data;
+    }
+
+    public function getPendingProductsTotalRemainingValue()
+    {
+        $pendingProducts = Product::getPendingProducts();
+        
+        $totalPendingValue = 0;
+        foreach ($pendingProducts as $product) {
+            $totalPendingValue += $this->sumPendingValueByProduct($product->id);
+        }
+        return $totalPendingValue;
+    }
+
+    private function sumPendingValueByProduct(string $productId): float
+    {
+        $paidValue = array_sum(Debt::getInstallmentValueByID($productId));
+        $transactionPrice = Transaction::getTransactionPriceByID($productId);
+        return $transactionPrice - $paidValue;
     }
 }
