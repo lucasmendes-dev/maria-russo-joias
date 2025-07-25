@@ -13,9 +13,4 @@ class CustomerService
     {
         return Customer::select('id', 'name')->orderBy('name', 'asc')->get();
     }
-
-    public function getCustomerNameByID(string $customerID): string
-    {
-        return Customer::where('id', $customerID)->value('name');
-    }
 }

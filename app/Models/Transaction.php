@@ -20,6 +20,7 @@ class Transaction extends Model
         'installments',
         'machine_fee',
         'date',
+        'description',
     ];
 
     public function product()

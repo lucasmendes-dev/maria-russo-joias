@@ -15,7 +15,7 @@ import { ChartConfig,
 } from "@/components/ui/chart";
 import { GraphData } from "@/types";
 
-export function CashFlowChart({graphData}: {graphData: GraphData[]}) { console.log(graphData)
+export function CashFlowChart({graphData}: {graphData: GraphData[]}) {
     const chartConfig = {
         revenueValue: {
             label: "Receita (R$)",

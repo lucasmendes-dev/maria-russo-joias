@@ -75,4 +75,9 @@ class Product extends Model
     {
         return self::selectRaw('SUM(price) as price')->where('status', 'available')->value('price');
     }
+
+    public static function getProductNameByID(string $productID): string
+    {
+        return self::where('id', $productID)->value('name');
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaction;
 use App\Services\DashboardService;
 use Inertia\Inertia;
 
@@ -15,11 +16,12 @@ class DashboardController extends Controller
 
         $headBoxesData = $data['headBoxesData'];
         $graphData = $data['graphData'];
-        // $dataTable = $data['dataTable'];
-
+        $transactions = $data['transactions'];
+        //$transactions = Transaction::orderBy('date', 'desc')->get();
         return Inertia::render('dashboard/index', [
             'headBoxesData' => $headBoxesData,
-            'graphData' => $graphData
+            'graphData' => $graphData,
+            'transactions' => $transactions,
         ]);
     }
 }

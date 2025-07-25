@@ -17,10 +17,12 @@ class DashboardService
     {
         $headBoxesData = $this->getHeadBoxesData();
         $graphData = $this->getGraphData();
+        $transactions = $this->getTransactionData();
 
         return [
             'headBoxesData' => $headBoxesData,
-            'graphData' => $graphData
+            'graphData' => $graphData,
+            'transactions' => $transactions,
         ];
     }
 
@@ -100,5 +102,18 @@ class DashboardService
             $graphData[$key]['monthProfit'] = $data['revenueValue'] - $data['costsValue'];
         }
         return $graphData;
+    }
+
+    private function getTransactionData()
+    {
+        $transactions = Transaction::orderBy('date', 'desc')->get();
+
+        $transactions->each(function ($transaction) {
+            $type = $transaction->type;
+            $transaction->product = $type === 'revenue' ? Product::getProductNameByID($transaction->product_id) : $transaction->description;
+            $transaction->customer = Customer::getCustomerNameByID($transaction->customer_id);
+        });
+
+        return $transactions;
     }
 }

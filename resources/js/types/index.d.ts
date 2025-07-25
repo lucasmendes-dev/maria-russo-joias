@@ -465,7 +465,27 @@ export type GraphData = {
     monthProfit: number,
 }
 
+export type Transaction = {
+    id,
+    type: string,
+    customer_id: number,
+    product_id: number,
+    price: number,
+    date: string,
+    customer: string,
+    product: string,
+}
+
 export interface DashboardProps {
     headBoxesData: Headbox,
     graphData: GraphData[],
+    transactions: Transaction[],
+}
+
+export interface DashboardFormProps {
+    date: string,
+    setType: (value: string) => void,
+    setDescription: (value: string) => void,
+    setPrice: (value: string) => void,
+    setDate: (value: string) => void,
 }

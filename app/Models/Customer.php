@@ -26,4 +26,9 @@ class Customer extends Model
     {
         return $this->hasMany(Transaction::class);
     }
+
+    public static function getCustomerNameByID(string $customerID): string
+    {
+        return Customer::where('id', $customerID)->value('name');
+    }
 }

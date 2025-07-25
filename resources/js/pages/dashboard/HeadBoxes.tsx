@@ -13,6 +13,7 @@ export function HeadBoxes({headBoxesData} : {headBoxesData: Headbox}) {
     
     const totalProfit = formatNumberToBR(headBoxesData.totalProfit);
     const valueToReceive = formatNumberToBR(headBoxesData.valueToReceive);
+    const jewelryInventoryValue = formatNumberToBR(headBoxesData.jewelryInventoryValue);
 
     return (
         <div className="grid auto-rows-min gap-4 md:grid-cols-4">
@@ -39,7 +40,7 @@ export function HeadBoxes({headBoxesData} : {headBoxesData: Headbox}) {
                     Saldo em Joias (R$)
                 </div>
                 <div className="text-4xl font-bold text-yellow-600 dark:text-purple-400">
-                    {headBoxesData.jewelryInventoryValue ?? 0}
+                    {jewelryInventoryValue ?? 0}
                 </div>
             </div>
 
