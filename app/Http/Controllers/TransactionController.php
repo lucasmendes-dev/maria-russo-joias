@@ -41,7 +41,7 @@ class TransactionController extends Controller
     public function updatePendingProduct(UpdateTransactionRequest $request)
     {
         $data = $this->transactionService->handleUpdateData($request->validated());
-        $transaction = $this->transactionService->getTransactionByProductId($data['product_id']);
+        $transaction = Transaction::getTransactionByProductId($data['product_id']);
         $transaction->update($data);
         
         return redirect()->back()->with('success', 'Os dados do produto pendente "' . $data['name'] . '" foram atualizados!');
@@ -50,7 +50,7 @@ class TransactionController extends Controller
     public function updateSoldProduct(UpdateSoldProductRequest $request)
     {
         $data = $this->transactionService->handleUpdateData($request->validated());
-        $transaction = $this->transactionService->getTransactionByProductId($data['product_id']);
+        $transaction = Transaction::getTransactionByProductId($data['product_id']);
         $transaction->update($data);
 
         return redirect()->back()->with('success', 'Os dados do produto vendido "' . $data['name'] . '" foram atualizados!');

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Product;
 use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Collection;
 
 class Customer extends Model
 {
@@ -29,6 +30,11 @@ class Customer extends Model
 
     public static function getCustomerNameByID(string $customerID): string
     {
-        return Customer::where('id', $customerID)->value('name');
+        return self::where('id', $customerID)->value('name');
+    }
+
+    public static function getAllCustomersSortedByName(): Collection
+    {
+        return self::select('id', 'name')->orderBy('name', 'asc')->get();
     }
 }

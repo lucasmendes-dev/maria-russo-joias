@@ -80,4 +80,19 @@ class Product extends Model
     {
         return self::where('id', $productID)->value('name');
     }
+
+    public static function getAllProductsGroupedByStatus(): Collection
+    {
+        return self::orderBy('name', 'asc')->get()->groupBy('status');
+    }
+
+    public static function getAvailableProducts(): Collection
+    {
+        return self::where('status', 'available')->get();
+    }
+
+    public static function getProductsByPurchaseDateRange(Tax $tax): Collection
+    {
+        return self::where('status', 'available')->whereBetween('purchase_date', [$tax->start_date, $tax->end_date])->get();
+    }
 }

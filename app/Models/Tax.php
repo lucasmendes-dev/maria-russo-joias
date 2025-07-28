@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Category;
 
@@ -35,5 +36,10 @@ class Tax extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public static function getAllActivatedTaxes(): Collection
+    {
+        return self::where('tax_activated', 1)->get();
     }
 }
