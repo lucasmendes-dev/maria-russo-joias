@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { ArrowDown, ArrowUp, ArrowUpDown } from "lucide-react";
 import { Transaction } from "@/types";
 import { formatToBRCurrency } from "@/utils/functions-lib";
-import { AlertDialogDelete } from "@/components/AlertDialogDelete";
 
 export const columns: ColumnDef<Transaction>[] = [
     {

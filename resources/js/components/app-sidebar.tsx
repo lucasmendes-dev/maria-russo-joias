@@ -24,7 +24,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'Simulação',
-        href: '#',
+        href: route('simulation.index'),
         icon: Calculator,
     },
 ];
