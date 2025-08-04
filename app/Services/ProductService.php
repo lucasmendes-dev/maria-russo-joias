@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Http\Requests\Product\StoreProductRequest;
+use App\Models\Batch;
 use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Debt;
@@ -22,14 +23,9 @@ class ProductService
         private BatchService $batchService,
     ) {}
 
-    public function getProductByID(int $productID): Product
-    {
-        return Product::findOrFail($productID);
-    }
-
     public function getAllProducts(): Collection
     {
-        $products = $this->getAllProductsGroupedByStatus();
+        $products = Product::getAllProductsGroupedByStatus();
         $this->populateAvailableProductsInfo($products);
         $this->populateReservedProductsInfo($products);
         $this->populatePendingProductsInfo($products);
@@ -37,24 +33,19 @@ class ProductService
         return $products;
     }
 
-    private function getAllProductsGroupedByStatus(): Collection
-    {
-        return Product::orderBy('name', 'asc')->get()->groupBy('status');
-    }
-
     private function populateAvailableProductsInfo(Collection &$products): void
     {
         if (!empty($products['available'])) {
             $products['available']->each(function ($product) {
                 $product->selling_price = $this->calculateFinalSellingPrice($product);
-                $product->batch = $this->batchService->findBatchByPurchaseDate($product->purchase_date);
+                $product->batch = Batch::findBatchByPurchaseDate($product->purchase_date);
             });
         }
     }
 
     private function calculateFinalSellingPrice(Product $product): float
     {
-        $activatedTaxes = $this->taxService->getAllActivatedTaxes();
+        $activatedTaxes = Tax::getAllActivatedTaxes();
         if ($activatedTaxes) {
             $taxValue = 0;
             foreach ($activatedTaxes as $activatedTax) {
@@ -71,7 +62,7 @@ class ProductService
 
     private function isTaxAppliedForAllProducts(Tax $tax): bool
     {
-        $categoryName = $this->categoryService->getCategoryName($tax->category_id);
+        $categoryName = Category::getCategoryName($tax->category_id);
         return $categoryName === Category::ALL_CATEGORIES_STRING_VALUE;
     }
 
@@ -130,7 +121,7 @@ class ProductService
 
     private function getSplitNumber(Tax $tax): int
     {
-        $products = $this->doesTaxHaveATimePeriod($tax) ? $this->getProductsByPurchaseDateRange($tax) : $this->getAvailableProducts();
+        $products = $this->doesTaxHaveATimePeriod($tax) ? Product::getProductsByPurchaseDateRange($tax) : Product::getAvailableProducts();
         $splitNumber = 0;
         foreach ($products as $product) {
             $splitNumber += $product->quantity * 1;
@@ -138,43 +129,28 @@ class ProductService
         return $splitNumber;
     }
 
-    private function getAvailableProducts(): Collection
-    {
-        return Product::where('status', 'available')->get();
-    }
-
-    private function getProductsByPurchaseDateRange(Tax $tax): Collection
-    {
-        return Product::where('status', 'available')->whereBetween('purchase_date', [$tax->start_date, $tax->end_date])->get();
-    }
-
     private function populateSoldProductsInfo(Collection &$products): void
     {
         if (!empty($products['sold'])) {
             $products['sold']->each(function ($product) {
-                $transactions = $this->getTransactionsByProductID($product->id);
+                $transactions = Transaction::getTransactionsByProductID($product->id);
                 foreach ($transactions as $transaction) {
                     $product->customer = Customer::getCustomerNameByID($transaction['customer_id']);
                     $product->sold_price = $transaction['price'];
                     $product->payment_method = $transaction['payment_method'];
                     $product->discount = $transaction['discount'];
                     $product->sold_date = $transaction['date'];
-                    $product->debts = $this->debtService->getProductDebtsByID($product->id, $transaction['customer_id']);
+                    $product->debts = Debt::getProductDebtsByID($product->id, $transaction['customer_id']);
                 }
             });
         }
-    }
-
-    private function getTransactionsByProductID(string $productID): array   // ISSO AQUI TEM IR PRA UM REPOSITORY OU AJUSTAR CONFLITO DE SERVICE
-    {
-        return Transaction::where('product_id', $productID)->get()->toArray();
     }
 
     private function populatePendingProductsInfo(Collection &$products): void
     {
         if (!empty($products['pending'])) {
             $products['pending']->each(function ($product) {
-                $transactions = $this->getTransactionsByProductID($product->id);
+                $transactions = Transaction::getTransactionsByProductID($product->id);
                 foreach ($transactions as $transaction) {
                     $product->customer_id = $transaction['customer_id'];
                     $product->customer = Customer::getCustomerNameByID($transaction['customer_id']);
@@ -184,12 +160,12 @@ class ProductService
                     $product->discount = $transaction['discount'];
                     $product->sold_date = $transaction['date'];
 
-                    $debt = $this->debtService->getLastInstallmentFromProduct($product->id);
+                    $debt = Debt::getLastInstallmentFromProduct($product->id);
                     $product->current_installment = $debt !== null ? $debt->current_installment : '';
                     $product->date_to_end = $debt !== null ? $this->debtService->getDateToEndInstallments($debt->installments, $debt->current_installment) : '';
                     $product->paid_value = $this->debtService->getPendingProductPaidValue($product->id);
                     $product->remaining_value = $this->getRemainingValueFromPendingProduct($transaction['price'], $product->paid_value);
-                    $product->debts = $this->debtService->getProductDebtsByID($product->id, $transaction['customer_id']);
+                    $product->debts = Debt::getProductDebtsByID($product->id, $transaction['customer_id']);
                 }
             });
         }
@@ -216,7 +192,7 @@ class ProductService
     public function handleProductStatusAfterUpdateInstallment(array $data): void
     {
         if ($this->hasInstallmentEnded($data['current_installment'], $data['installments'])) {
-            $product = $this->getProductByID($data['product_id']);
+            $product = Product::findOrFail($data['product_id']);
             $product->status = 'sold';
             $product->save();
         }

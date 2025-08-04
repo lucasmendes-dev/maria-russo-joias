@@ -2,7 +2,6 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Switch } from "@/components/ui/switch";
 import { ArrowUpDown } from "lucide-react";
 import { AlertDialogDelete } from "@/components/AlertDialogDelete";
@@ -13,28 +12,6 @@ import { sendTaxActivatedPatchRequest } from "@/utils/functions-lib";
 
 export const getColumns = (categories: Category[]): ColumnDef<Tax>[] => {
     return [
-        {
-            id: "select",
-            header: ({ table }) => (
-            <Checkbox
-                checked={
-                table.getIsAllPageRowsSelected() ||
-                (table.getIsSomePageRowsSelected() && "indeterminate")
-                }
-                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-                aria-label="Selecionar tudo"
-            />
-            ),
-            cell: ({ row }) => (
-            <Checkbox
-                checked={row.getIsSelected()}
-                onCheckedChange={(value) => row.toggleSelected(!!value)}
-                aria-label="Selecionar linha"
-            />
-            ),
-            enableSorting: false,
-            enableHiding: false,
-        },
         {
             accessorKey: "name",
             header: ({ column }) => {

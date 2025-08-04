@@ -29,7 +29,7 @@ export function ReservedDialog({
 
     useEffect(() => {
         setPrice(Number(price.toFixed(2)));
-    });
+    }, [price, setPrice]);
 
     const handleReserve = () => {
         router.post(`/reserveProduct`, {

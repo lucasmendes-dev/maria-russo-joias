@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DebtController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReservedController;
+use App\Http\Controllers\SimulationController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TaxController;
 use App\Http\Controllers\TransactionController;
@@ -55,8 +56,8 @@ Route::middleware('auth')->group(function () {
     Route::post('/taxes', [TaxController::class, 'store'])->name('taxes.store');
     Route::patch('/updateActivatedStatus/{id}', [TaxController::class, 'updateActivatedStatus'])->name('taxes.updateActivatedStatus');
 
-    // Simulation ??
-    //Route::get('/simulation', [SimulationController::class, 'index'])->name('simulation.index');
+    // Simulation
+    Route::get('/simulation', [SimulationController::class, 'index'])->name('simulation.index');
 
     // Customers
     Route::get('/customers', [CustomerController::class, 'index'])->name('customers.index');

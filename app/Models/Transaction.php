@@ -72,4 +72,14 @@ class Transaction extends Model
     {
         return self::selectRaw('SUM(price) as price')->where('type', 'cost')->value('price') ?? 0;
     }
+
+    public static function getTransactionByProductId(int $productID): self
+    {
+        return self::where('product_id', $productID)->first();
+    }
+
+    public static function getTransactionsByProductID(string $productID): array
+    {
+        return self::where('product_id', $productID)->get()->toArray();
+    }
 }

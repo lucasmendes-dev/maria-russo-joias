@@ -17,7 +17,7 @@ class DashboardController extends Controller
         $headBoxesData = $data['headBoxesData'];
         $graphData = $data['graphData'];
         $transactions = $data['transactions'];
-        //$transactions = Transaction::orderBy('date', 'desc')->get();
+
         return Inertia::render('dashboard/index', [
             'headBoxesData' => $headBoxesData,
             'graphData' => $graphData,

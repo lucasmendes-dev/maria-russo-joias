@@ -11,28 +11,6 @@ import { Category } from "@/types";
 
 export const columns: ColumnDef<Category>[] = [
     {
-        id: "select",
-        header: ({ table }) => (
-          <Checkbox
-            checked={
-              table.getIsAllPageRowsSelected() ||
-              (table.getIsSomePageRowsSelected() && "indeterminate")
-            }
-            onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-            aria-label="Selecionar tudo"
-          />
-        ),
-        cell: ({ row }) => (
-          <Checkbox
-            checked={row.getIsSelected()}
-            onCheckedChange={(value) => row.toggleSelected(!!value)}
-            aria-label="Selecionar linha"
-          />
-        ),
-        enableSorting: false,
-        enableHiding: false,
-    },
-    {
         accessorKey: "name",
         header: ({ column }) => {
             return (
@@ -45,6 +23,9 @@ export const columns: ColumnDef<Category>[] = [
                 </Button>
             )
         },
+        cell: ({ row }) => {
+            return <div className="ml-3 font-medium">{row.getValue("name")}</div>
+        }
     },
     {
         accessorKey: "description",

@@ -35,7 +35,7 @@ export function SalesDialog({
 
     useEffect(() => {
         setSellingPrice(Number(sellingPrice.toFixed(2)));
-    });
+    }, [sellingPrice, setSellingPrice]);
 
     const handleSale = () => {
         if (!name || !sellingPrice || !quantity || !paymentMethod || !customer) {

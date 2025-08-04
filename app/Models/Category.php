@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Tax;
 
@@ -22,5 +23,15 @@ class Category extends Model
     public function taxes()
     {
         return $this->hasMany(Tax::class);
+    }
+
+    public static function getIdAndNameFromAllCategories(): Collection
+    {
+        return self::select(['id', 'name'])->orderBy('name', 'asc')->get();
+    }
+
+    public static function getCategoryName(string $categoryId): string
+    {
+        return self::where('id', $categoryId)->value('name');
     }
 }

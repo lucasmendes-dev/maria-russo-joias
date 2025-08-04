@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Http\Requests\Product\UpdateProductRequest;
+use App\Models\Category;
+use App\Models\Customer;
 use App\Models\Product;
+use App\Models\Supplier;
 use App\Services\CategoryService;
 use App\Services\ProductService;
 use App\Services\SupplierService;
@@ -24,9 +27,9 @@ class ProductController extends Controller
     public function index()
     {
         $products = $this->productService->getAllProducts();
-        $categories = $this->categoryService->getIdAndNameFromAllCategories();
-        $suppliers = $this->supplierService->getIdAndNameFromAllSuppliers();
-        $customers = $this->customerService->getAllCustomersSortedByName();
+        $categories = Category::getIdAndNameFromAllCategories();
+        $suppliers = Supplier::getIdAndNameFromAllSuppliers();
+        $customers = Customer::getAllCustomersSortedByName();
 
         return Inertia::render('products/index', [
             'availableProducts' => $products['available'] ?? [],
@@ -50,7 +53,7 @@ class ProductController extends Controller
 
     public function update(UpdateProductRequest $request, string $id)
     {
-        $product = $this->productService->getProductByID($id);
+        $product = Product::findOrFail($id);
 
         $data = $request->validated();
         unset($data['image']);
@@ -67,7 +70,7 @@ class ProductController extends Controller
 
     public function cancelReservation(string $id)
     {
-        $product = $this->productService->getProductByID($id);
+        $product = Product::findOrFail($id);
         $product->status = 'available';
         $product->save();
 
@@ -76,7 +79,7 @@ class ProductController extends Controller
 
     public function destroy(string $id)
     {
-        $product = $this->productService->getProductByID($id);
+        $product = Product::findOrFail($id);
         $productName = $product->name;
 
         $imagePath = 'images/' . $product->image;
