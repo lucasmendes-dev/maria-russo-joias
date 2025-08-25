@@ -18,6 +18,7 @@ import {
     HoverCardContent,
     HoverCardTrigger
 } from "@/components/ui/hover-card";
+import { UndoComponent } from "@/components/UndoComponent";
 
 export const getSoldColumns = (): ColumnDef<Product>[] => {
     return [
@@ -144,6 +145,12 @@ export const getSoldColumns = (): ColumnDef<Product>[] => {
 
                 return (
                     <div className="flex">
+                        <UndoComponent
+                            productName={soldProduct.name}
+                            productId={soldProduct.id}
+                            alreadySold={true}
+                        />
+
                         <SoldDialog
                             soldProduct={soldProduct}
                             open={isDialogOpen}

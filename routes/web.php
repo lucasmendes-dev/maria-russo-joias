@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/products', [ProductController::class, 'store'])->name('products.store');
 
     Route::patch('/cancelReservation/{id}', [ProductController::class, 'cancelReservation'])->name('products.cancelReservation');
+    Route::patch('/undoSale/{id}', [ProductController::class, 'undoSale'])->name('products.undoSale');
     Route::put('/updateInstallment/{id}', [DebtController::class, 'updateInstallment'])->name('debts.updateInstallment');
 
     // Transactions

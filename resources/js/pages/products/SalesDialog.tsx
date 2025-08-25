@@ -34,7 +34,9 @@ export function SalesDialog({
     const [firstInstallmentValue, setFirstInstallmentValue] = useState<number|null>(null);
 
     useEffect(() => {
-        setSellingPrice(Number(sellingPrice.toFixed(2)));
+        if (sellingPrice != undefined) {
+            setSellingPrice(Number(sellingPrice.toFixed(2)));
+        }
     }, [sellingPrice, setSellingPrice]);
 
     const handleSale = () => {

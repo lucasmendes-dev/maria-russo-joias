@@ -25,7 +25,7 @@ export default function Dashboard({
     headBoxesData,
     graphData,
     transactions,
-}: DashboardProps) {console.log(transactions)
+}: DashboardProps) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Página Inicial" />

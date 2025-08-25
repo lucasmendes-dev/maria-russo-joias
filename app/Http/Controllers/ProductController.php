@@ -8,6 +8,7 @@ use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Product;
 use App\Models\Supplier;
+use App\Models\Transaction;
 use App\Services\CategoryService;
 use App\Services\ProductService;
 use App\Services\SupplierService;
@@ -75,6 +76,18 @@ class ProductController extends Controller
         $product->save();
 
         return redirect()->back()->with('success', 'A reserva do produto ' . $product->name . ' foi DESFEITA.');
+    }
+
+    public function undoSale(string $id)
+    {
+        $product = Product::findOrFail($id);
+        $product->status = 'available';
+        $product->save();
+
+        $transaction = Transaction::getTransactionByProductId($id);
+        $transaction->delete();
+
+        return redirect()->back()->with('success', 'A venda do produto ' . $product->name . ' foi DESFEITA.');
     }
 
     public function destroy(string $id)

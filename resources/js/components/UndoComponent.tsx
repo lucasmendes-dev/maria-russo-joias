@@ -21,7 +21,27 @@ const handleReservation = (id: string) => {
     });
 }
 
-export function UndoReservation({productName, productId}: {productName: string, productId: string}) {
+const handleUndoSale = (id: string) => {
+    router.patch(`/undoSale/${id}`, {
+        preserveScroll: true,
+    });
+}
+
+export function UndoComponent({
+    productName,
+    productId,
+    alreadySold
+}: {
+    productName: string,
+    productId: string,
+    alreadySold: boolean
+}) {
+    let productString: string = 'reserva';
+
+    if (alreadySold) {
+        productString = 'venda';
+    }
+
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild >
@@ -34,12 +54,17 @@ export function UndoReservation({productName, productId}: {productName: string, 
                 <AlertDialogHeader>
                     <AlertDialogTitle>Você tem certeza?</AlertDialogTitle>
                     <AlertDialogDescription>
-                        Esta ação irá DESFAZER a reserva do produto: <strong className="text-gray-400">"{productName}</strong>".
+                        Esta ação irá DESFAZER a {productString} do produto: <strong className="text-gray-400">"{productName}</strong>".
                     </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel className="cursor-pointer">Cancelar</AlertDialogCancel>
-                    <AlertDialogAction className="bg-gray-400 cursor-pointer" onClick={() => handleReservation(productId)}>Desfazer</AlertDialogAction>
+                    <AlertDialogAction
+                        className="bg-gray-400 cursor-pointer"
+                        onClick={() => alreadySold ? handleUndoSale(productId) : handleReservation(productId)}
+                    >
+                        Desfazer
+                    </AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

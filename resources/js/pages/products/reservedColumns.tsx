@@ -7,7 +7,7 @@ import { useState } from "react";
 import { Customer, Product } from "@/types";
 import { formatToBRCurrency } from "@/utils/functions-lib";
 import { AlertDialogDelete } from "@/components/AlertDialogDelete";
-import { UndoReservation } from "@/components/UndoReservation";
+import { UndoComponent } from "@/components/UndoComponent";
 import { SalesDialog } from "./SalesDialog";
 import {
     Avatar,
@@ -125,9 +125,10 @@ export const getReservedColumns = (customers: Customer[]): ColumnDef<Product>[] 
 
                 return (
                     <div className="flex">
-                        <UndoReservation
+                        <UndoComponent
                             productName={product.name}
                             productId={product.id}
+                            alreadySold={false}
                         />
 
                         <AlertDialogDelete objectName={product} deleteRoute="products"/>

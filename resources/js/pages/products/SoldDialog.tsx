@@ -46,7 +46,7 @@ export function SoldDialog({
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button className="h-8 w-8 bg-blue-400 cursor-pointer">
+                <Button className="h-8 w-8 bg-blue-400 cursor-pointer ml-2">
                     <Pencil />
                 </Button>
             </DialogTrigger>
