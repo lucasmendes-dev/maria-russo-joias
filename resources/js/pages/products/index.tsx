@@ -2,17 +2,18 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem, ProductProps } from '@/types';
 import { Head } from '@inertiajs/react';
 import { DataTable } from '@/components/data-table';
-import { ProductCreateDialog } from './ProductCreateDialog';
-import { getAvailableColumns} from './availableColumns';
-import { getPendingColumns } from './pendingColumn';
-import { getSoldColumns } from './soldColumns';
-import { getReservedColumns } from './reservedColumns';
+import { ProductCreateDialog } from './available/ProductCreateDialog';
+import { getAvailableColumns} from './available/availableColumns';
+import { getPendingColumns } from './pending/pendingColumn';
+import { getSoldColumns } from './sold/soldColumns';
+import { getReservedColumns } from './reserved/reservedColumns';
 import {
     Tabs,
     TabsContent,
     TabsList,
     TabsTrigger
 } from "@/components/ui/tabs";
+import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -45,6 +46,8 @@ export default function Products({
     suppliers,
     customers,
 }: ProductProps) {
+    const [selectedProducts, setSelectedAvailable] = useState<any[]>([]);
+
     const availableColumns = getAvailableColumns(categories, suppliers, customers);
     const reservedColumns= getReservedColumns(customers);
     const soldColumns = getSoldColumns();
@@ -69,6 +72,9 @@ export default function Products({
                                 data={availableProducts}
                                 createButton={<ProductCreateDialog categories={categories} suppliers={suppliers}/>}
                                 filters={availableFilters}
+                                onSelectionChange={setSelectedAvailable} 
+                                products={selectedProducts}
+                                customers={customers}
                             />
                         </TabsContent>
 

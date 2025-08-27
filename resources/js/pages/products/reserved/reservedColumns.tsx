@@ -8,7 +8,7 @@ import { Customer, Product } from "@/types";
 import { formatToBRCurrency } from "@/utils/functions-lib";
 import { AlertDialogDelete } from "@/components/AlertDialogDelete";
 import { UndoComponent } from "@/components/UndoComponent";
-import { SalesDialog } from "./SalesDialog";
+import { SalesDialog } from "../available/SalesDialog";
 import {
     Avatar,
     AvatarFallback,

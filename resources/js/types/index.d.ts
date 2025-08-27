@@ -489,3 +489,16 @@ export interface DashboardFormProps {
     setPrice: (value: string) => void,
     setDate: (value: string) => void,
 }
+
+////////////////////////////////// Batch Sale //////////////////////////////////
+export interface BatchSaleDialogProps {
+    products?: Product[],
+    customers?: Customer[],
+    batchSaleOpen: boolean;
+    setBatchSaleOpen: (value: boolean) => void;
+}
+
+export interface BatchSaleFormProps {
+    products?: Product[],
+    customers?: Customer[],
+}

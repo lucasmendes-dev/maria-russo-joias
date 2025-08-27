@@ -1,21 +1,34 @@
 "use client"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ColumnDef, SortingState, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, useReactTable, getSortedRowModel } from "@tanstack/react-table";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { DataTablePagination } from "./data-table-pagination";
 import { Input } from "@/components/ui/input";
 import { usePage } from "@inertiajs/react";
 import { Toaster, toast } from "sonner";
+import { BatchSaleDialog } from "@/pages/products/available/BatchSaleDialog";
+import { Customer, Product } from "@/types";
 
 interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[],
     data: TData[],
     createButton?: React.ReactNode,
     filters: string[];
+    onSelectionChange?: (selected: TData[]) => void;
+    products?: Product[];
+    customers?: Customer[];
 }
 
-export function DataTable<TData, TValue>({ columns, data, createButton, filters }: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({
+    columns,
+    data,
+    createButton,
+    filters,
+    onSelectionChange,
+    products,
+    customers,
+}: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([]);
     const [rowSelection, setRowSelection] = useState({});
     const [globalFilter, setGlobalFilter] = useState("");
@@ -44,8 +57,9 @@ export function DataTable<TData, TValue>({ columns, data, createButton, filters 
         onSortingChange: setSorting,
         getSortedRowModel: getSortedRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
-        onRowSelectionChange: setRowSelection,
         onGlobalFilterChange: setGlobalFilter,
+        enableRowSelection: true,
+        onRowSelectionChange: setRowSelection,
         globalFilterFn: (row, columnId, filterValue) => {
             return filters?.some((filterKey) => {
                 const cellValue = row.getValue(filterKey);
@@ -62,6 +76,13 @@ export function DataTable<TData, TValue>({ columns, data, createButton, filters 
         },
     });
 
+    useEffect(() => {
+        const selected = table.getSelectedRowModel().rows.map(row => row.original);
+        onSelectionChange?.(selected);
+      }, [rowSelection, table, onSelectionChange]);
+
+    const [batchSaleOpen, setBatchSaleOpen] = useState(false);
+
     return (
         <div className="px-4">
             <div className="flex items-center justify-between py-4 ">
@@ -74,7 +95,17 @@ export function DataTable<TData, TValue>({ columns, data, createButton, filters 
                     className="max-w-sm"
                 />
 
-                {createButton && createButton}
+                <div>
+                    {createButton && 
+                        <BatchSaleDialog
+                            products={products}
+                            customers={customers}
+                            batchSaleOpen={batchSaleOpen}
+                            setBatchSaleOpen={setBatchSaleOpen}
+                    />}
+
+                    {createButton && createButton}
+                </div>
             </div>
 
             <Toaster richColors/>

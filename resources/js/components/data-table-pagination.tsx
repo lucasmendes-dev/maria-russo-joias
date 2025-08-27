@@ -2,6 +2,7 @@ import { Table } from "@tanstack/react-table";
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
+import { useState } from "react";
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>
@@ -11,7 +12,8 @@ export function DataTablePagination<TData>({table}: DataTablePaginationProps<TDa
     return (
         <div className="flex items-center justify-end px-2 mt-5 mb-5">
             <div className="flex-1 text-sm text-muted-foreground">
-                Total: {table.getFilteredRowModel().rows.length}
+                {table.getFilteredSelectedRowModel().rows.length} de{" "}
+                {table.getFilteredRowModel().rows.length} itens selecionados.
             </div>
 
             <div className="flex items-center space-x-6 lg:space-x-8">

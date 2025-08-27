@@ -9,7 +9,8 @@ import { useState } from "react";
 import { SalesDialog } from "./SalesDialog";
 import { Product, Category, Supplier, Customer } from "@/types";
 import { formatToBRCurrency } from "@/utils/functions-lib";
-import { ReservedDialog } from "./ReservedDialog";
+import { ReservedDialog } from "../reserved/ReservedDialog";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
     Avatar,
     AvatarFallback,
@@ -27,6 +28,29 @@ export const getAvailableColumns = (
     customers: Customer[],
 ): ColumnDef<Product>[] => {
     return [
+        {
+            id: "select",
+            header: ({ table }) => (
+            <Checkbox
+                checked={
+                table.getIsAllPageRowsSelected() ||
+                (table.getIsSomePageRowsSelected() && "indeterminate")
+                }
+                onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+                aria-label="Selecionar tudo"
+            />
+            ),
+            cell: ({ row }) => (
+            <Checkbox
+                className="cursor-pointer"
+                checked={row.getIsSelected()}
+                onCheckedChange={(value) => row.toggleSelected(!!value)}
+                aria-label="Selecionar linha"
+            />
+            ),
+            enableSorting: false,
+            enableHiding: false,
+        },
         {
             accessorKey: "image",
             header: () => {
@@ -147,6 +171,7 @@ export const getAvailableColumns = (
                 const [isDialogOpen, setIsDialogOpen] = useState(false);
                 const [salesOpen, setSalesOpen] = useState(false);
                 const [reservedOpen, setReservedOpen] = useState(false);
+
                 return (
                     <div className="flex">
                         <UpdateDialog
