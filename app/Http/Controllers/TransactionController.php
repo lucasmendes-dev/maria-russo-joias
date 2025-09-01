@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Product\BatchSaleRequest;
 use App\Http\Requests\Transaction\StoreTransactionRequest;
 use App\Http\Requests\Transaction\UpdateSoldProductRequest;
 use App\Http\Requests\Transaction\UpdateTransactionRequest;
@@ -30,7 +31,7 @@ class TransactionController extends Controller
     {
         $data = $this->transactionService->handleRevenueCreateData($request->validated());
 
-        Transaction::create($data);  // refactor ?
+        Transaction::create($data);
 
         $this->transactionService->adjustProductStatus($data);
         $this->transactionService->populateDebtTableifSaleHasInstallments($data);
@@ -59,5 +60,17 @@ class TransactionController extends Controller
     public function destroy(Transaction $transaction)
     {
         //
+    }
+
+    public function batchSale(BatchSaleRequest $request)
+    {
+        $data = $request->validated();
+        if ($request->installmentValue < 2) {
+            $this->transactionService->handleCashSale($data);
+        } else {
+            $this->transactionService->handleInstallmentSale($data);
+        }
+
+        return redirect()->back()->with('success', 'Produtos vendidos com sucesso!');
     }
 }

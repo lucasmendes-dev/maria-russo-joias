@@ -37,7 +37,7 @@ class ProductService
     {
         if (!empty($products['available'])) {
             $products['available']->each(function ($product) {
-                $product->selling_price = $this->calculateFinalSellingPrice($product);
+                $product->selling_price = round($this->calculateFinalSellingPrice($product));
                 $product->batch = Batch::findBatchByPurchaseDate($product->purchase_date);
             });
         }

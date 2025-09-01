@@ -96,7 +96,7 @@ export function DataTable<TData, TValue>({
                 />
 
                 <div>
-                    {createButton && 
+                    {(createButton && products) && 
                         <BatchSaleDialog
                             products={products}
                             customers={customers}

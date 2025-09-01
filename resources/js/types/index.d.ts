@@ -501,4 +501,11 @@ export interface BatchSaleDialogProps {
 export interface BatchSaleFormProps {
     products?: Product[],
     customers?: Customer[],
+    batchPrice: number,
+    date: string,
+    setDate: (value: string) => void,
+    setBatchPrice: (value: number) => void,
+    setCustomer: (value: string) => void,
+    setInstallmentValue: (value: number) => void,
+    setPaymentMethod: (value: string) => void,
 }

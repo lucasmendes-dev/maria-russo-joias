@@ -19,10 +19,25 @@ export function BatchSaleDialog({
     batchSaleOpen,
     setBatchSaleOpen,
 }: BatchSaleDialogProps) {
+    const [customer, setCustomer] = useState("");
+    const [batchPrice, setBatchPrice] = useState(0);
+    const [date, setDate] = useState("");
+    const [paymentMethod, setPaymentMethod] = useState("");
+    const [installmentValue, setInstallmentValue] = useState(0);
 
-    const handleReserve = () => {
-        router.post(`/reserveProduct`, {
-            //name: name,
+    const handleBatchSale = () => {
+        if (!customer || !batchPrice || !date || !paymentMethod) {
+            alert("Os campos com * são obrigatórios!");
+            return;
+        }
+
+        router.post(`batchSale`, {
+            customer,
+            batchPrice,
+            date,
+            paymentMethod,
+            installmentValue,
+            products,
         }, {
             preserveScroll: true,
             preserveState: true,
@@ -49,10 +64,17 @@ export function BatchSaleDialog({
                         <BatchSaleForm 
                             products={products}
                             customers={customers}
+                            batchPrice={batchPrice}
+                            setBatchPrice={setBatchPrice}
+                            date={date}
+                            setDate={setDate}
+                            setCustomer={setCustomer}
+                            setInstallmentValue={setInstallmentValue}
+                            setPaymentMethod={setPaymentMethod}
                         />
 
                         <DialogFooter>
-                            <Button type="submit" className="cursor-pointer bg-purple-400" onClick={handleReserve}>Confirmar Venda</Button>
+                            <Button type="submit" className="cursor-pointer bg-purple-400" onClick={handleBatchSale}>Confirmar Venda</Button>
                         </DialogFooter>
                     </>
                     :

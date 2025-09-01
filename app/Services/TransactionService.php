@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Debt;
 use App\Models\Product;
 use App\Models\Tax;
+use App\Models\Transaction;
 use DateTime;
 use DateTimeZone;
 
@@ -83,5 +84,33 @@ class TransactionService
         $today = new DateTime("now", new DateTimeZone("UTC"));
         $date = new DateTime($date, new DateTimeZone("UTC"));
         return $date > $today ? 0 : 1;
+    }
+
+    public function handleCashSale(array $data): void
+    {
+        foreach ($data['products'] as $product) {
+            $productValues = [
+                'product_id' => $product['id'],
+                'installments' => $data['installmentValue']
+            ];
+            $this->adjustProductStatus($productValues);
+
+            $transactionData = [];
+            $transactionData['type'] = 'revenue';
+            $transactionData['customer_id'] = $data['customer'];
+            $transactionData['product_id'] = $product['id'];
+            $transactionData['quantity'] = 1;
+            $transactionData['price'] = $product['selling_price'];
+            $transactionData['payment_method'] = $data['paymentMethod'];
+            $transactionData['installments'] = $data['installmentValue'];
+            $transactionData['date'] = $data['date'];
+
+            Transaction::create($transactionData);
+        }
+    }
+
+    public function handleInstallmentSale(array $data)
+    {
+        // continuar daqui
     }
 }

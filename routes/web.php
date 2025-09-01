@@ -44,7 +44,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/updatePendingProduct/{id}', [TransactionController::class, 'updatePendingProduct'])->name('transactions.updatePendingProduct');
     Route::put('/transactions/{id}', [TransactionController::class, 'updateSoldProduct'])->name('transactions.updateSoldProduct');
     Route::post('/transactions', [TransactionController::class, 'store'])->name('transactions.store');
-
+    Route::post('/batchSale', [TransactionController::class, 'batchSale'])->name('products.batchSale');
 
     // Reserved
     Route::post('/reserveProduct', [ReservedController::class, 'storeReservedProduct'])->name('reserveds.reserve');
