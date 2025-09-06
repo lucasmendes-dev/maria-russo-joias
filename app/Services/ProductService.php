@@ -169,6 +169,45 @@ class ProductService
                 }
             });
         }
+
+        // TEM QUE MELHORAR O WHERE, PQ SE NÃO PODE BUSCAR TRANSACTION Q JÁ FOI PAGA E NÃO ESTÁ MAIS PENDENTE - (checar na tabela batch sale????)
+        $batchTransaction = Transaction::getBatchTransactions();
+
+        if (!empty($batchTransaction)) {
+            foreach ($batchTransaction as $transaction) {
+                $batchTransactionData = $this->getBatchSaleData($transaction);
+                $products['pending']->push($batchTransactionData);
+            }
+        }
+    }
+
+    private function getBatchSaleData(Transaction $transaction): array
+    {
+        if ($transaction) {
+            $batchTransactionData = [];
+            $batchTransactionData['name'] = 'Venda Conjunta';
+            $batchTransactionData['customer_id'] = $transaction->customer_id;
+            $batchTransactionData['customer'] = Customer::getCustomerNameByID($transaction->customer_id);
+            $batchTransactionData['sold_price'] = $transaction->price;
+            $batchTransactionData['payment_method'] = $transaction->payment_method;
+            $batchTransactionData['installments'] = $transaction->installments;
+            $batchTransactionData['discount'] = $transaction->discount;
+            $batchTransactionData['sold_date'] = $transaction->date;
+
+            $debt = Debt::getInstallmentByTransactionID($transaction->id);
+            $batchTransactionData['current_installment'] = $debt !== null ? $debt->current_installment : '';
+            $batchTransactionData['date_to_end'] = $debt !== null ? $this->debtService->getDateToEndInstallments($debt->installments, $debt->current_installment) : '';
+            $batchTransactionData['paid_value'] = $this->debtService->getPendingProductPaidValue($transaction->id, true);
+            $batchTransactionData['remaining_value'] = $this->getRemainingValueFromPendingProduct($transaction->price, $batchTransactionData['paid_value']);
+            $batchTransactionData['debts'] = Debt::getProductDebtsByID($transaction->id, $transaction->customer_id, true);
+
+            return $batchTransactionData;
+
+            // FALTA AGORA FAZER O UPDATE DE PARCELAS, VAI PRECISAR MEXER NO FRONT TBM, ASSIM COMO NO BACKEND
+            // FALTA TAMBÉM MOSTRAR OS PRODUTOS VENDIDOS NA ABA DE PENDENTE
+        }
+        return [];
+        
     }
 
     private function populateReservedProductsInfo(Collection &$products): void

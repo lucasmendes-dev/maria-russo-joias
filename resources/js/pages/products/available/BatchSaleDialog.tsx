@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { router } from "@inertiajs/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BatchSaleForm } from "./BatchSaleForm";
 import { BatchSaleDialogProps } from "@/types";
 import {

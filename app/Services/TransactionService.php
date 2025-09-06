@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\BatchSale;
 use App\Models\Customer;
 use App\Models\Debt;
 use App\Models\Product;
@@ -111,6 +112,45 @@ class TransactionService
 
     public function handleInstallmentSale(array $data)
     {
-        // continuar daqui
+        $storedTransactionID = $this->storeBatchTransactionData($data);
+        
+        $batchSaleData = [];
+        foreach ($data['products'] as $product) {
+            $batchSaleData['transaction_id'] = $storedTransactionID;
+            $batchSaleData['customer_id'] = $data['customer'];
+            $batchSaleData['product_id'] = $product['id'];
+            BatchSale::create($batchSaleData);
+
+            $productObj = Product::findOrFail($product['id']);
+            $productObj->status = null;
+            $productObj->save();
+        }
+
+        //adicionar valores na Debt, remover product como obrigatório
+        $debtData = [];
+        $debtData['customer_id'] = $data['customer'];
+        $debtData['installments'] = $data['installmentValue'];
+        $debtData['current_installment'] = 0;
+        $debtData['installment_value'] = 0;
+        $debtData['date'] = $data['date'];
+        $debtData['transaction_id'] = $storedTransactionID;
+        Debt::create($debtData);
+    }
+
+    private function storeBatchTransactionData(array $data): int
+    {
+        $transactionData = [];
+        $transactionData['type'] = 'revenue';
+        $transactionData['customer_id'] = $data['customer'];
+        $transactionData['product_id'] = null;
+        $transactionData['quantity'] = 1;
+        $transactionData['price'] = $data['batchPrice'];
+        $transactionData['payment_method'] = $data['paymentMethod'];
+        $transactionData['installments'] = $data['installmentValue'];
+        $transactionData['date'] = $data['date'];
+        $transactionData['batch_sale'] = 1;
+
+        $transaction = Transaction::create($transactionData);
+        return $transaction->id;
     }
 }

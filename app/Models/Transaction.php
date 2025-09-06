@@ -21,6 +21,7 @@ class Transaction extends Model
         'machine_fee',
         'date',
         'description',
+        'batch_sale',
     ];
 
     public function product()
@@ -81,5 +82,10 @@ class Transaction extends Model
     public static function getTransactionsByProductID(string $productID): array
     {
         return self::where('product_id', $productID)->get()->toArray();
+    }
+
+    public static function getBatchTransactions(): Collection
+    {
+        return self::where('batch_sale', 1)->get();
     }
 }

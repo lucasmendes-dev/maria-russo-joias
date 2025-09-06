@@ -16,9 +16,12 @@ class DebtService
         return $dateToEnd->format('Y-m-d');
     }
 
-    public function getPendingProductPaidValue(string $productId)
+    public function getPendingProductPaidValue(string $id, bool $transaction = false)
     {
-        $productDebts = Debt::getInstallmentValueByID($productId);
+        $productDebts = Debt::getInstallmentValueByID($id);
+        if ($transaction) {
+            $productDebts = Debt::getInstallmentValueByTransactionID($id);
+        }
         return array_sum($productDebts);
     }
 }

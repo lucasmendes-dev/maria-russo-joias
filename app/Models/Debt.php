@@ -15,6 +15,7 @@ class Debt extends Model
         'current_installment',
         'installment_value',
         'date',
+        'transaction_id',
     ];
 
     public function transactions()
@@ -35,11 +36,22 @@ class Debt extends Model
             ->first();
     }
 
-    public static function getProductDebtsByID(int $productID, int $customerID): Collection
+    public static function getProductDebtsByID(int $id, int $customerID, bool $transaction = false): Collection
     {
-        return self::where('product_id', $productID)
+        $searchColumn = $transaction ? 'transaction_id' : 'product_id';
+        return self::where($searchColumn, $id)
             ->where('customer_id', $customerID)
             ->orderBy('date', 'desc')
             ->get();
+    }
+
+    public static function getInstallmentByTransactionID(string $transactionID): self
+    {
+        return self::where('transaction_id', $transactionID)->first();
+    }
+
+    public static function getInstallmentValueByTransactionID(string $transactionID): array
+    {
+        return self::where('transaction_id', $transactionID)->pluck('installment_value')->toArray();
     }
 }
