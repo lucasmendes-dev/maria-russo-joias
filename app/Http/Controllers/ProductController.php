@@ -85,7 +85,9 @@ class ProductController extends Controller
         $product->save();
 
         $transaction = Transaction::getTransactionByProductId($id);
-        $transaction->delete();
+        if ($transaction) {
+            $transaction->delete();
+        }
 
         return redirect()->back()->with('success', 'A venda do produto ' . $product->name . ' foi DESFEITA.');
     }

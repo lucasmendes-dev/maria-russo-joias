@@ -11,4 +11,14 @@ class BatchSale extends Model
         'customer_id',
         'product_id',
     ];
+
+    public static function getPendingBatchProducts(int $customerID, int $transactionID): array
+    {
+        return self::where('customer_id', $customerID)->where('transaction_id', $transactionID)->pluck('product_id')->toArray();
+    }
+
+    public static function getBatchTransactionID(int $productID)
+    {
+        return self::where('product_id', $productID)->value('transaction_id');
+    }
 }

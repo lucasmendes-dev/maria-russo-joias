@@ -28,10 +28,11 @@ class Debt extends Model
         return self::where('product_id', $productId)->pluck('installment_value')->toArray();
     }
 
-    public static function getLastInstallmentFromProduct(string $productID): self | null
+    public static function getLastInstallmentFromProduct(string $id, bool $transaction = false): self | null
     {
-        $lastDate = self::where('product_id', $productID)->max('created_at');
-        return self::where('product_id', $productID)
+        $searchColumn = $transaction ? 'transaction_id' : 'product_id';
+        $lastDate = self::where($searchColumn, $id)->max('created_at');
+        return self::where($searchColumn, $id)
             ->where('created_at', $lastDate)
             ->first();
     }
@@ -47,7 +48,7 @@ class Debt extends Model
 
     public static function getInstallmentByTransactionID(string $transactionID): self
     {
-        return self::where('transaction_id', $transactionID)->first();
+        return self::where('transaction_id', $transactionID)->orderBy('created_at', 'desc')->first();
     }
 
     public static function getInstallmentValueByTransactionID(string $transactionID): array

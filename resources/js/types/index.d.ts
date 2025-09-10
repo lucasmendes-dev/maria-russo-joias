@@ -53,6 +53,7 @@ export type Debt = {
     installments: number;
     installment_value: number;
     date: string;
+    transaction_id: number;
 }
 
 ////////////////////////////////// Products //////////////////////////////////
@@ -257,6 +258,7 @@ export interface PendingDialogProps {
         paid_value: number,
         remaining_value: number,
         debts: Debt[],
+        batch_sold_products?: Product[],
     };
     customers: Customer[],
     pendingOpen: boolean;
@@ -293,6 +295,7 @@ export interface UpdateInstallmentFormProps {
     paidValue: number,
     remainingValue: number,
     debts: Debt[],
+    batch_sold_products?: Product[],
     setProductname: (value: string) => void,
     setInstallments: (value: number) => void,
     setCurrentInstallment: (value: number) => void,

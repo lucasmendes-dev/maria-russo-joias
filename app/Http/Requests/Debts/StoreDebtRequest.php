@@ -22,12 +22,13 @@ class StoreDebtRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_id' => ['required', 'numeric'],
+            'product_id' => ['nullable', 'numeric'],
             'customer_id' => ['required', 'numeric'],
             'installments' => ['required', 'numeric'],
             'current_installment' => ['required', 'numeric'],
             'installment_value' => ['required', 'numeric'],
             'date' => ['required', 'string'],
+            'transaction_id' => ['nullable', 'numeric'],
         ];
     }
 }

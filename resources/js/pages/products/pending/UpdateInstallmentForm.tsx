@@ -6,7 +6,7 @@ import { CalendarIcon } from "lucide-react";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { cn } from "@/lib/utils";
-import { Debt, UpdateInstallmentFormProps } from "@/types";
+import { Debt, Product, UpdateInstallmentFormProps } from "@/types";
 import { formatToBRCurrency } from "@/utils/functions-lib";
 import {
     Popover,
@@ -31,10 +31,29 @@ export function UpdateInstallmentForm({
     setPaidValue,
     setRemainingValue,
     debts,
+    batch_sold_products,
 }: UpdateInstallmentFormProps) {
 
     return (
         <form className="w-full max-w-lg mt-3">
+            <div className="space-y-2 mb-4">
+                {batch_sold_products && batch_sold_products.map((product: Product, index: number) => (
+                    <div
+                        key={index}
+                        className="border border-gray-200 rounded-lg p-3 bg-muted"
+                    >
+                        <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+                            <p className="text-sm">
+                                <span className="font-medium text-purple-400">Produto:</span> {product.name}
+                            </p>
+                            <p className="text-sm">
+                                <span className="font-medium text-purple-400">Preço:</span> {formatToBRCurrency(product.selling_price)}
+                            </p>
+                        </div>
+                    </div>
+                ))}
+            </div>
+
             <div className="flex flex-wrap -mx-3 mb-4">
                 <div className="w-full md:w-2/4 px-3 mb-4 md:mb-0">
                     <Label htmlFor="name" className="block mb-2">Produto <span className="text-red-400">*</span></Label>

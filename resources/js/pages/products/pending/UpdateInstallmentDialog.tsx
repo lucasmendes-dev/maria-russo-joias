@@ -31,6 +31,7 @@ export function UpdateInstallmentDialog({
     const [paidValue, setPaidValue] = useState(product.paid_value);
     const [remainingValue, setRemainingValue] = useState(product.remaining_value);
     const [debts] = useState(product.debts);
+    const [productsSold] = useState(product.batch_sold_products);
 
     const handleUpdate = () => {
         if (!productName || !installments || !currentInstallment || !date || !installmentValue) {
@@ -44,6 +45,7 @@ export function UpdateInstallmentDialog({
             current_installment: currentInstallment,
             installment_value: installmentValue,
             date,
+            transaction_id: debts[0].transaction_id,
         }, {
             preserveScroll: true,
             preserveState: true,
@@ -60,7 +62,7 @@ export function UpdateInstallmentDialog({
                 </Button>
             </DialogTrigger>
 
-            <DialogContent>
+            <DialogContent className="max-h-[80vh] min-w-[61vh] overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>Atualizar Parcela: <span className="text-purple-400">{ product.name }</span></DialogTitle>
                 </DialogHeader>
@@ -84,6 +86,7 @@ export function UpdateInstallmentDialog({
                     setPaidValue={setPaidValue}
                     setRemainingValue={setRemainingValue}
                     debts={debts}
+                    batch_sold_products={productsSold}
                 />
 
                 <DialogFooter>

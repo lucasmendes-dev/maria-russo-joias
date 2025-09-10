@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Http\Requests\Product\StoreProductRequest;
 use App\Models\Batch;
+use App\Models\BatchSale;
 use App\Models\Category;
 use App\Models\Customer;
 use App\Models\Debt;
@@ -134,6 +135,12 @@ class ProductService
         if (!empty($products['sold'])) {
             $products['sold']->each(function ($product) {
                 $transactions = Transaction::getTransactionsByProductID($product->id);
+
+                $batchTransactionID = BatchSale::getBatchTransactionID($product->id);
+                if($batchTransactionID) {
+                    $batchTransaction = Transaction::findOrFail($batchTransactionID);
+                    $transactions[] = $batchTransaction;
+                }
                 foreach ($transactions as $transaction) {
                     $product->customer = Customer::getCustomerNameByID($transaction['customer_id']);
                     $product->sold_price = $transaction['price'];
@@ -160,7 +167,8 @@ class ProductService
                     $product->discount = $transaction['discount'];
                     $product->sold_date = $transaction['date'];
 
-                    $debt = Debt::getLastInstallmentFromProduct($product->id);
+                    $itemID = $transaction['product_id'] !== null ? $product->id : $transaction['transaction_id'];
+                    $debt = Debt::getLastInstallmentFromProduct($itemID);
                     $product->current_installment = $debt !== null ? $debt->current_installment : '';
                     $product->date_to_end = $debt !== null ? $this->debtService->getDateToEndInstallments($debt->installments, $debt->current_installment) : '';
                     $product->paid_value = $this->debtService->getPendingProductPaidValue($product->id);
@@ -170,12 +178,14 @@ class ProductService
             });
         }
 
-        // TEM QUE MELHORAR O WHERE, PQ SE NÃO PODE BUSCAR TRANSACTION Q JÁ FOI PAGA E NÃO ESTÁ MAIS PENDENTE - (checar na tabela batch sale????)
-        $batchTransaction = Transaction::getBatchTransactions();
+        $batchTransaction = Transaction::getPedingBatchTransactions();
 
         if (!empty($batchTransaction)) {
             foreach ($batchTransaction as $transaction) {
                 $batchTransactionData = $this->getBatchSaleData($transaction);
+                if (!isset($products['pending'])) {
+                    $products['pending'] = collect([]);
+                }
                 $products['pending']->push($batchTransactionData);
             }
         }
@@ -185,6 +195,7 @@ class ProductService
     {
         if ($transaction) {
             $batchTransactionData = [];
+            $batchTransactionData['image'] = 'images/boxes.png';
             $batchTransactionData['name'] = 'Venda Conjunta';
             $batchTransactionData['customer_id'] = $transaction->customer_id;
             $batchTransactionData['customer'] = Customer::getCustomerNameByID($transaction->customer_id);
@@ -200,11 +211,9 @@ class ProductService
             $batchTransactionData['paid_value'] = $this->debtService->getPendingProductPaidValue($transaction->id, true);
             $batchTransactionData['remaining_value'] = $this->getRemainingValueFromPendingProduct($transaction->price, $batchTransactionData['paid_value']);
             $batchTransactionData['debts'] = Debt::getProductDebtsByID($transaction->id, $transaction->customer_id, true);
+            $batchTransactionData['batch_sold_products'] = $this->getBatchSoldProducts($transaction->customer_id, $transaction->id);
 
             return $batchTransactionData;
-
-            // FALTA AGORA FAZER O UPDATE DE PARCELAS, VAI PRECISAR MEXER NO FRONT TBM, ASSIM COMO NO BACKEND
-            // FALTA TAMBÉM MOSTRAR OS PRODUTOS VENDIDOS NA ABA DE PENDENTE
         }
         return [];
         
@@ -231,9 +240,18 @@ class ProductService
     public function handleProductStatusAfterUpdateInstallment(array $data): void
     {
         if ($this->hasInstallmentEnded($data['current_installment'], $data['installments'])) {
-            $product = Product::findOrFail($data['product_id']);
-            $product->status = 'sold';
-            $product->save();
+            if (isset($data['product_id'])) {
+                $product = Product::findOrFail($data['product_id']);
+                $product->status = 'sold';
+                $product->save();
+            } else {
+                $productIDs = BatchSale::getPendingBatchProducts($data['customer_id'], $data['transaction_id']);
+                foreach ($productIDs as $id) {
+                    $product = Product::findOrFail($id);
+                    $product->status = 'sold';
+                    $product->save();
+                }
+            }
         }
     }
 
@@ -273,5 +291,16 @@ class ProductService
         $paidValue = array_sum(Debt::getInstallmentValueByID($productId));
         $transactionPrice = Transaction::getTransactionPriceByID($productId);
         return $transactionPrice - $paidValue;
+    }
+
+    private function getBatchSoldProducts(int $customerID, int $transactionID): Collection
+    {
+        $productIDs = BatchSale::getPendingBatchProducts($customerID, $transactionID);
+
+        $products = Product::getMultipleProductsByID($productIDs);
+        $products->each(function ($product) {
+            $product->selling_price = round($this->calculateFinalSellingPrice($product));
+        });
+        return $products;
     }
 }

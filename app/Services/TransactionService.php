@@ -112,8 +112,10 @@ class TransactionService
 
     public function handleInstallmentSale(array $data)
     {
+        // step 1: store transaction
         $storedTransactionID = $this->storeBatchTransactionData($data);
         
+        // step 2: store products for same customer
         $batchSaleData = [];
         foreach ($data['products'] as $product) {
             $batchSaleData['transaction_id'] = $storedTransactionID;
@@ -126,7 +128,7 @@ class TransactionService
             $productObj->save();
         }
 
-        //adicionar valores na Debt, remover product como obrigatório
+        // step 3: store debt
         $debtData = [];
         $debtData['customer_id'] = $data['customer'];
         $debtData['installments'] = $data['installmentValue'];

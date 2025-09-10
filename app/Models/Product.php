@@ -95,4 +95,9 @@ class Product extends Model
     {
         return self::where('status', 'available')->whereBetween('purchase_date', [$tax->start_date, $tax->end_date])->get();
     }
+
+    public static function getMultipleProductsByID(array $productIDs): Collection
+    {
+        return self::whereIn('id', $productIDs)->get();
+    }
 }

@@ -37,7 +37,7 @@ export function PendingDialog({
             alert("Os campos com * são obrigatórios!");
             return;
         }
-        router.put(`/updatePendingProduct/${productId}`, { // PAREI AQUI JUNTO COM updatePendingProduct
+        router.put(`/updatePendingProduct/${productId}`, {
             product_id: productId,
             name, 
             sold_price: soldPrice,

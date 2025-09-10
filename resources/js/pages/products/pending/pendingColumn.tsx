@@ -29,24 +29,28 @@ export const getPendingColumns = (customers: Customer[]): ColumnDef<Product>[] =
                     <span className="ml-4">-</span>
                 )
             },
-            cell: ({ row }) => (
-                <HoverCard>
-                    <HoverCardTrigger>
-                        <Avatar>
-                            <AvatarImage src={`/storage/images/${row.getValue("image")}`} className="w-10 h-10 rounded-full"/>
-                        </Avatar>
-                    </HoverCardTrigger>
-
-                    <HoverCardContent className="w-90">
-                        <div className="flex justify-between space-x-4">
+            cell: ({ row }) => {
+                const image: string = row.getValue("image");
+                const imageUrl = image.startsWith("images/boxes") ? `/${image}` : `/storage/images/${image}`;
+                return (               
+                    <HoverCard>
+                        <HoverCardTrigger>
                             <Avatar>
-                                <AvatarImage src={`/storage/images/${row.getValue("image")}`} className="rounded-lg" />
-                                <AvatarFallback>VC</AvatarFallback>
+                                <AvatarImage src={imageUrl} className="w-10 h-10 rounded-full"/>
                             </Avatar>
-                        </div>
-                    </HoverCardContent>
-                </HoverCard>
-            ),
+                        </HoverCardTrigger>
+
+                        <HoverCardContent className="w-90">
+                            <div className="flex justify-between space-x-4">
+                                <Avatar>
+                                    <AvatarImage src={`/storage/images/${row.getValue("image")}`} className="rounded-lg" />
+                                    <AvatarFallback>VC</AvatarFallback>
+                                </Avatar>
+                            </div>
+                        </HoverCardContent>
+                    </HoverCard>
+                );
+            }
         },
         {
             accessorKey: "name",
@@ -158,7 +162,7 @@ export const getPendingColumns = (customers: Customer[]): ColumnDef<Product>[] =
                 const pendingProduct = row.original;
                 const [pendingOpen, setPendingOpen] = useState(false);
                 const [updateInstallmentOpen, setUpdateInstallmentOpen] = useState(false);
-
+console.log(pendingProduct)
                 return (
                     <div className="flex">
                         <PendingDialog 
