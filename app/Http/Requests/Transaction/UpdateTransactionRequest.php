@@ -22,7 +22,7 @@ class UpdateTransactionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_id' => ['required', 'numeric'],
+            'product_id' => ['nullable', 'numeric'],
             'name' => ['string', 'nullable'],
             'sold_price' => ['required', 'numeric'],
             'quantity' => ['required', 'numeric'],
@@ -32,6 +32,7 @@ class UpdateTransactionRequest extends FormRequest
             'installments' => ['required', 'numeric'],
             'current_installment' => ['required', 'numeric'],
             'sold_date' => ['required', 'string'],
+            'batch_sold_products' => ['nullable', 'array'],
         ];
     }
 }

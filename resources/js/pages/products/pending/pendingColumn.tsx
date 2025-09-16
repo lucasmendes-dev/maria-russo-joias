@@ -19,6 +19,7 @@ import {
     HoverCardContent,
     HoverCardTrigger
 } from "@/components/ui/hover-card";
+import { UndoBatch } from "@/components/UndoBatch";
 
 export const getPendingColumns = (customers: Customer[]): ColumnDef<Product>[] => {
     return [
@@ -162,7 +163,7 @@ export const getPendingColumns = (customers: Customer[]): ColumnDef<Product>[] =
                 const pendingProduct = row.original;
                 const [pendingOpen, setPendingOpen] = useState(false);
                 const [updateInstallmentOpen, setUpdateInstallmentOpen] = useState(false);
-console.log(pendingProduct)
+
                 return (
                     <div className="flex">
                         <PendingDialog 
@@ -172,7 +173,12 @@ console.log(pendingProduct)
                             setPendingOpen={setPendingOpen}
                         />
 
-                        <AlertDialogDelete objectName={pendingProduct} deleteRoute="products"/>
+                        {pendingProduct.batch_sold_products
+                            ?
+                                <UndoBatch products={pendingProduct} /> 
+                            :
+                                <AlertDialogDelete objectName={pendingProduct} deleteRoute="products"/>
+                        }
 
                         <UpdateInstallmentDialog 
                             product={pendingProduct}

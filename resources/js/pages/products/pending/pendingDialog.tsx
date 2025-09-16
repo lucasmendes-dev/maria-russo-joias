@@ -32,6 +32,10 @@ export function PendingDialog({
     const [soldDate, setSoldDate] = useState(product.sold_date);
     const [dateToEnd, setDateToEnd] = useState<Date|undefined>(new Date(product.date_to_end));
 
+    const batchSoldProductsIDs = product.batch_sold_products?.map((product) => {
+        return product.id;
+    });
+
     const handleUpdate = () => {
         if (!name || !soldPrice || !quantity || !paymentMethod || !customer) {
             alert("Os campos com * são obrigatórios!");
@@ -48,6 +52,7 @@ export function PendingDialog({
             installments: installments,
             current_installment: currentInstallment,
             sold_date: soldDate,
+            batch_sold_products: batchSoldProductsIDs,
         }, {
             preserveScroll: true,
             preserveState: true,

@@ -13,6 +13,7 @@ use App\Services\CategoryService;
 use App\Services\ProductService;
 use App\Services\SupplierService;
 use App\Services\CustomerService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -90,6 +91,20 @@ class ProductController extends Controller
         }
 
         return redirect()->back()->with('success', 'A venda do produto ' . $product->name . ' foi DESFEITA.');
+    }
+
+    public function undoBatchSale(Request $request)
+    {
+        $products = $request->all();
+
+        foreach ($products as $product) {
+            $productObj = Product::FindOrFail($product['id']);
+            $productObj->status = 'available';
+            $productObj->save();
+        }
+
+        // Deletar transaction -> aqui tem q fazer a lógica pra conseguir o ID da transaction
+        // Deletar itens da Batch Sale, produto por produto
     }
 
     public function destroy(string $id)

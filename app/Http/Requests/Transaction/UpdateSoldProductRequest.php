@@ -22,12 +22,13 @@ class UpdateSoldProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_id' => ['required', 'numeric'],
+            'product_id' => ['nullable', 'numeric'],
             'name' => ['string', 'nullable'],
             'sold_price' => ['required', 'numeric'],
             'payment_method' => ['required', 'string'],
             'discount' => ['numeric', 'nullable'],
             'sold_date' => ['required', 'string'],
+            'batch_sold_products' => ['nullable', 'array'],
         ];
     }
 }

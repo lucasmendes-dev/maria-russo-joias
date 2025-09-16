@@ -6,6 +6,7 @@ use App\Http\Requests\Product\BatchSaleRequest;
 use App\Http\Requests\Transaction\StoreTransactionRequest;
 use App\Http\Requests\Transaction\UpdateSoldProductRequest;
 use App\Http\Requests\Transaction\UpdateTransactionRequest;
+use App\Models\BatchSale;
 use App\Models\Transaction;
 use App\Services\TransactionService;
 use Illuminate\Http\Request;
@@ -42,7 +43,14 @@ class TransactionController extends Controller
     public function updatePendingProduct(UpdateTransactionRequest $request)
     {
         $data = $this->transactionService->handleUpdateData($request->validated());
-        $transaction = Transaction::getTransactionByProductId($data['product_id']);
+
+        if (isset($data['product_id'])) {
+            $transaction = Transaction::getTransactionByProductId($data['product_id']);
+        } else {
+            $id = BatchSale::getBatchTransactionID($data['batch_sold_products'][0]);
+            $transaction = Transaction::findOrFail($id);
+        }
+
         $transaction->update($data);
         
         return redirect()->back()->with('success', 'Os dados do produto pendente "' . $data['name'] . '" foram atualizados!');

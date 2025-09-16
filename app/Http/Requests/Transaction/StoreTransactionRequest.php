@@ -22,7 +22,7 @@ class StoreTransactionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'product_id' => ['required', 'numeric'],
+            'product_id' => ['nullable', 'numeric'],
             'name' => ['string', 'nullable'],
             'price' => ['required', 'numeric'],
             'quantity' => ['required', 'numeric'],
@@ -33,6 +33,7 @@ class StoreTransactionRequest extends FormRequest
             'date' => ['required', 'string'],
             'firstInstallmentDate' => ['string', 'nullable'],
             'firstInstallmentValue' => ['numeric', 'nullable'],
+            'batch_sold_products' => ['nullable', 'array'],
         ];
     }
 }
