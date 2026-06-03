@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Tax;
 
 class Category extends Model
 {
+    use HasFactory;
+
     public const ALL_CATEGORIES_STRING_VALUE = 'Todos';
 
     protected $fillable = [

@@ -133,6 +133,13 @@ class ProductService
     {
         if (!empty($products['sold'])) {
             $products['sold']->each(function ($product) {
+                $product->customer = '';
+                $product->sold_price = 0.00;
+                $product->payment_method = '';
+                $product->discount = 0.00;
+                $product->sold_date = '';
+                $product->debts = collect();
+
                 $transactions = Transaction::getTransactionsByProductID($product->id);
                 foreach ($transactions as $transaction) {
                     $product->customer = Customer::getCustomerNameByID($transaction['customer_id']);
@@ -150,6 +157,19 @@ class ProductService
     {
         if (!empty($products['pending'])) {
             $products['pending']->each(function ($product) {
+                $product->customer_id = '';
+                $product->customer = '';
+                $product->sold_price = 0.00;
+                $product->payment_method = '';
+                $product->installments = 0;
+                $product->discount = 0.00;
+                $product->sold_date = '';
+                $product->current_installment = '';
+                $product->date_to_end = '';
+                $product->paid_value = 0.00;
+                $product->remaining_value = 0.00;
+                $product->debts = collect();
+
                 $transactions = Transaction::getTransactionsByProductID($product->id);
                 foreach ($transactions as $transaction) {
                     $product->customer_id = $transaction['customer_id'];
@@ -176,9 +196,15 @@ class ProductService
         if (!empty($products['reserved'])) {
             $products['reserved']->each(function ($product) {
                 $reservedData = Reserved::where('product_id', $product->id)->first(); // ajuste de service ou repostory
-                $product->customer = Customer::getCustomerNameByID($reservedData->customer_id);
-                $product->reserved_value = $reservedData->reserved_value;
-                $product->reserved_date = date('d/m/Y', strtotime($reservedData->reserved_date));
+                if ($reservedData) {
+                    $product->customer = Customer::getCustomerNameByID($reservedData->customer_id);
+                    $product->reserved_value = $reservedData->reserved_value;
+                    $product->reserved_date = date('d/m/Y', strtotime($reservedData->reserved_date));
+                } else {
+                    $product->customer = '';
+                    $product->reserved_value = 0.00;
+                    $product->reserved_date = '';
+                }
             });
         }
     }
