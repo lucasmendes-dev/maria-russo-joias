@@ -25,7 +25,7 @@ export default function Dashboard({
     headBoxesData,
     graphData,
     transactions,
-}: DashboardProps) {console.log(transactions)
+}: DashboardProps) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Página Inicial" />
@@ -38,7 +38,7 @@ export default function Dashboard({
                 </div>
 
                 <div className="border-sidebar-border/70 dark:border-sidebar-border relative flex-1 overflow-hidden rounded-xl border">
-                    <DataTable columns={columns} data={transactions} createButton={<DashboardCreateDialog />} filters={filters}/>
+                    <DataTable columns={columns} data={transactions} createButton={<DashboardCreateDialog />} filters={filters} />
                 </div>
             </div>
 
