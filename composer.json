@@ -10,9 +10,9 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "inertiajs/inertia-laravel": "^2.0",
-        "laravel/framework": "^12.0",
-        "laravel/tinker": "^2.10.1",
+        "inertiajs/inertia-laravel": "^3.1.0",
+        "laravel/framework": "^13.13.0",
+        "laravel/tinker": "^3.0.2",
         "tightenco/ziggy": "^2.4"
     },
     "require-dev": {
@@ -22,8 +22,8 @@
         "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
-        "pestphp/pest": "^3.8",
-        "pestphp/pest-plugin-laravel": "^3.1"
+        "pestphp/pest": "^4.7.2",
+        "pestphp/pest-plugin-laravel": "^4.1.0"
     },
     "autoload": {
         "psr-4": {
@@ -34,7 +34,6 @@
         "files": [
             "app/Helpers/SharedFunctions.php"
         ]
-        
     },
     "autoload-dev": {
         "psr-4": {
