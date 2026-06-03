@@ -6,9 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Product;
 use App\Models\Customer;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 
 class Transaction extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'type',
         'customer_id',
@@ -35,6 +39,18 @@ class Transaction extends Model
 
     public static function getRevenueValueByMonth(): Collection
     {
+        if (\Illuminate\Support\Facades\DB::connection()->getDriverName() === 'sqlite') {
+            return self::selectRaw('
+                strftime("%Y-%m", date) as month_key,
+                strftime("%m", date) as month_number,
+                SUM(price) as total_price
+            ')
+            ->where('type', 'revenue')
+            ->groupByRaw('strftime("%Y-%m", date), strftime("%m", date)')
+            ->orderBy('month_key')
+            ->get();
+        }
+
         return self::selectRaw('
             DATE_FORMAT(date, "%Y-%m") as month_key,
             DATE_FORMAT(date, "%m") as month_number,
@@ -48,6 +64,17 @@ class Transaction extends Model
 
     public static function getTotalProductsSoldByMonth(): Collection
     {
+        if (DB::connection()->getDriverName() === 'sqlite') {
+            return self::selectRaw('
+                strftime("%Y-%m", date) as month_key,
+                strftime("%m", date) as month_number,
+                COUNT(*) as sold_products
+            ')
+            ->groupByRaw('strftime("%Y-%m", date), strftime("%m", date)')
+            ->orderBy('month_key')
+            ->get();
+        }
+
         return self::selectRaw('
             DATE_FORMAT(date, "%Y-%m") as month_key,
             DATE_FORMAT(date, "%m") as month_number,

@@ -8,9 +8,13 @@ use App\Models\Customer;
 use App\Models\Supplier;
 use App\Models\Transaction;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\DB;
 
 class Product extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'name',
         'quantity',
@@ -46,6 +50,17 @@ class Product extends Model
 
     public static function getProductCostsByMonth(): Collection
     {
+        if (DB::connection()->getDriverName() === 'sqlite') {
+            return self::selectRaw('
+                strftime("%Y-%m", purchase_date) as month_key,
+                strftime("%m", purchase_date) as month_number,
+                SUM(price) as total_price
+            ')
+            ->groupByRaw('strftime("%Y-%m", purchase_date), strftime("%m", purchase_date)')
+            ->orderBy('month_key')
+            ->get();
+        }
+
         return self::selectRaw('
             DATE_FORMAT(purchase_date, "%Y-%m") as month_key,
             DATE_FORMAT(purchase_date, "%m") as month_number,

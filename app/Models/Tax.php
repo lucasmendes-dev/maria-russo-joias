@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use App\Models\Category;
 
 class Tax extends Model
 {
+    use HasFactory;
+
     public const MACHINE_FEE_VALUES = [
         // 1 => 4.9,
         2 => 6.4,
